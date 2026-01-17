@@ -1,0 +1,18 @@
+{
+    "Amazon": {
+        "AssetProcessor": {
+            "Settings": {
+                "ScanFolder Hermes/Assets": {
+                    "watch": "@GEMROOT:Hermes@/Assets",
+                    "recursive": 1,
+                    "order": 101
+                },
+                "ScanFolder Hermes/Registry": {
+                    "watch": "@GEMROOT:Hermes@/Registry",
+                    "recursive": 1,
+                    "order": 102
+                }
+            }
+        }
+    }
+}

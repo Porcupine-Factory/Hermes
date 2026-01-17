@@ -1,0 +1,11 @@
+{
+    "repo_name":"Hermes",
+    "origin":"Porcupine Factory",
+    "repo_uri": "https://gitlab.com/porcupine-factory/Hermes.git",
+    "summary": "The Hermes Gem allows for easy to use communication between server and clients.",
+    "additional_info": "Provides the ability to transmit things such as character name, NPC aggro state, and more.",
+    "last_updated": "09/30/2026 08:00pm",
+    "gems": [
+        "https://gitlab.com/porcupine-factory/Hermes/-/raw/games/FirstGame"
+    ]
+}

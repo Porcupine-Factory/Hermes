@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<Component
+    Name="NetworkExample"
+    Namespace="Hermes"
+    OverrideComponent="false"
+    OverrideController="true"
+    OverrideInclude="Multiplayer/NetworkExample.h"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <ComponentRelation Constraint="Required" HasController="false" Name="ExampleComponent" Namespace="Hermes" Include="Clients/ExampleComponent.h" />
+
+    <NetworkProperty Type="bool" Name="EnableNetworkExample"
+                     Init="true" ReplicateFrom="Authority"
+                     ReplicateTo="Client" IsRewindable="false"
+                     IsPredictable="false" IsPublic="true"
+                     Container="Object" ExposeToEditor="false"
+                     ExposeToScript="true" GenerateEventBindings="true"
+                     Description="Determines whether NetworkExample is enabled or disabled."/>
+    <NetworkProperty Type="AZ::u32" Name="ExampTemporaryVar"
+                     Init="0" ReplicateFrom="Authority"
+                     ReplicateTo="Client" Container="Object"
+                     IsPublic="true" IsRewindable="true"
+                     IsPredictable="true" ExposeToEditor="false"
+                     ExposeToScript="true" GenerateEventBindings="true"
+                     Description="ENTER A DESCRIPTION"/>
+
+    <RemoteProcedure Name="SendExampTemporaryVarRPC" InvokeFrom="Server" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="ExampTemporaryVar RPC">
+        <Param Type="AZ::u32" Name="exampTemporaryVar"/>
+    </RemoteProcedure>
+
+</Component>

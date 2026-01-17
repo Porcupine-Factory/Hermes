@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<Component
+    Name="NetworkHermes"
+    Namespace="Hermes"
+    OverrideComponent="false"
+    OverrideController="true"
+    OverrideInclude="Multiplayer/NetworkHermes.h"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <ComponentRelation Constraint="Required" HasController="false" Name="HermesComponent" Namespace="Hermes" Include="Clients/HermesComponent.h" />
+
+    <NetworkProperty Type="bool" Name="EnableNetworkHermes"
+                     Init="true" ReplicateFrom="Authority"
+                     ReplicateTo="Client" IsRewindable="false"
+                     IsPredictable="false" IsPublic="true"
+                     Container="Object" ExposeToEditor="false"
+                     ExposeToScript="true" GenerateEventBindings="true"
+                     Description="Determines whether NetworkHermes is enabled or disabled."/>
+    <NetworkProperty Type="AZ::u32" Name="Number"
+                     Init="0" ReplicateFrom="Authority"
+                     ReplicateTo="Client" Container="Object"
+                     IsPublic="true" IsRewindable="true"
+                     IsPredictable="true" ExposeToEditor="false"
+                     ExposeToScript="true" GenerateEventBindings="true"
+                     Description="The amount of number"/>
+
+    <RemoteProcedure Name="SendNumberDelta" InvokeFrom="Server" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Number changed RPC">
+        <Param Type="AZ::s64" Name="deltaNumber"/>
+    </RemoteProcedure>
+
+</Component>
