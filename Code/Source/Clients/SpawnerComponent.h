@@ -39,7 +39,7 @@ namespace Hermes
         static void GetIncompatibleServices(AZ::ComponentDescriptor::DependencyArrayType& incompatible);
 
         // SpawnerComponentRequestBus
-        bool SpawnPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform) override;
+        bool SpawnPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform, const bool& makeChild = false) override;
         bool DepawnPrefabTicketId(const uint32_t& prefabTicketId) override;
         uint32_t GetLastSpawnedTicketId() override;
         void SetLastSpawnedTicketId(const uint32_t& new_lastSpawnedTicketId) override;

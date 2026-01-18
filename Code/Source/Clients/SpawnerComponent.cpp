@@ -199,7 +199,7 @@ namespace Hermes
     }
 
     // Request Bus getter and setter methods for use in scripts
-    bool SpawnerComponent::SpawnPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform)
+    bool SpawnerComponent::SpawnPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform, const bool& makeChild)
     {
         AZ::Data::AssetId prefabAssetId;
         if (!prefabName.empty())
@@ -268,15 +268,26 @@ namespace Hermes
                     // Create a callback for SpawnAllEntities that will set the transform of the root entity to
                     // the correct translation, rotation, and scale for the spawned instance.
                     auto preSpawnCB =
-                        [transform](
+                        [this, transform, makeChild](
                             [[maybe_unused]] AzFramework::EntitySpawnTicket::Id ticketId, AzFramework::SpawnableEntityContainerView view)
                     {
                         AZ::Entity* rootEntity = *view.begin();
 
                         AzFramework::TransformComponent* entityTransform = rootEntity->FindComponent<AzFramework::TransformComponent>();
 
+                        AzFramework::TransformComponentConfiguration transformConfig;
+                        // Make the parent of the spawned prefab the entity with the spawner component if instructed
+                        if (makeChild)
+                        {
+                            transformConfig.m_parentId = GetEntityId();
+                            transformConfig.m_localTransform = transform;
+                        }
+                        else
+                            transformConfig.m_worldTransform = transform;
+                        entityTransform->SetConfiguration(transformConfig);
+
                         if (entityTransform)
-                            entityTransform->SetWorldTM(transform);
+                            entityTransform->SetConfiguration(transformConfig);
                     };
 
                     m_spawnTickets.emplace(ticket);

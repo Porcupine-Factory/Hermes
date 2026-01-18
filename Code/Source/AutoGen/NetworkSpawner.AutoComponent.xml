@@ -33,6 +33,7 @@
     <RemoteProcedure Name="SpawnPrefabName" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Spawn a prefab given by a autonomous client">
         <Param Type="AZStd::string" Name="PrefabName"/>
         <Param Type="AZ::Transform" Name="Transform"/>
+        <Param Type="bool" Name="MakeChild"/>
     </RemoteProcedure>
     <RemoteProcedure Name="DepawnPrefabTicketId" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Despawn the prefab associated with a ticketId given by a autonomous client">
         <Param Type="uint32_t" Name="PrefabTicketId"/>

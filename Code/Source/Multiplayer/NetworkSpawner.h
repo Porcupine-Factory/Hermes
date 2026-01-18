@@ -43,7 +43,10 @@ namespace Hermes
         void SetEnabled(const bool& new_enabled) override;
 
         void HandleSpawnPrefabName(
-            AzNetworking::IConnection* invokingConnection, const AZStd::string& prefabName, const AZ::Transform& transform) override;
+            AzNetworking::IConnection* invokingConnection,
+            const AZStd::string& prefabName,
+            const AZ::Transform& transform,
+            const bool& makeChild = false) override;
         void HandleDepawnPrefabTicketId(AzNetworking::IConnection* invokingConnection, const uint32_t& prefabTicketId) override;
 
     private:

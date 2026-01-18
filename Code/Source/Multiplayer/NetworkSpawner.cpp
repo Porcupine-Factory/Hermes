@@ -91,9 +91,12 @@ namespace Hermes
     }
 
     void NetworkSpawnerController::HandleSpawnPrefabName(
-        [[maybe_unused]] AzNetworking::IConnection* invokingConnection, const AZStd::string& prefabName, const AZ::Transform& transform)
+        [[maybe_unused]] AzNetworking::IConnection* invokingConnection,
+        const AZStd::string& prefabName,
+        const AZ::Transform& transform,
+        const bool& makeChild)
     {
-        if (!m_spawnerObject->SpawnPrefabName(prefabName, transform))
+        if (!m_spawnerObject->SpawnPrefabName(prefabName, transform, makeChild))
             AZ_Error("NetworkSpawnerController", false, "Spawning the specified prefab failed.");
     }
 
