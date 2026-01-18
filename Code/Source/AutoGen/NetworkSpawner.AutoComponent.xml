@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<Component
+    Name="NetworkSpawner"
+    Namespace="Hermes"
+    OverrideComponent="false"
+    OverrideController="true"
+    OverrideInclude="Multiplayer/NetworkSpawner.h"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <NetworkProperty Type="bool" Name="EnableNetworkSpawner"
+                     Init="true" ReplicateFrom="Authority"
+                     ReplicateTo="Client" IsRewindable="false"
+                     IsPredictable="false" IsPublic="true"
+                     Container="Object" ExposeToEditor="false"
+                     ExposeToScript="true" GenerateEventBindings="true"
+                     Description="Determines whether NetworkSpawner is enabled or disabled."/>
+
+    <RemoteProcedure Name="SpawnPrefabName" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Spawn a prefab given by a autonomous client">
+        <Param Type="AZStd::string" Name="PrefabName"/>
+        <Param Type="AZ::Transform" Name="Transform"/>
+    </RemoteProcedure>
+
+</Component>

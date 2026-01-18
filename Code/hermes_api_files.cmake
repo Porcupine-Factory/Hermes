@@ -4,4 +4,6 @@ set(FILES
     Include/Hermes/HermesComponentBus.h
     Include/Hermes/NetworkHermesBus.h
     Include/Hermes/NetworkHermesControllerBus.h
+    Include/Hermes/SpawnerComponentBus.h
+    Include/Hermes/SpawnerBus.h
 )

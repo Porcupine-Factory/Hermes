@@ -23,6 +23,7 @@ namespace Hermes
             {
                 HermesSystemComponent::CreateDescriptor(),
                 HermesComponent::CreateDescriptor(),
+                SpawnerComponent::CreateDescriptor(),
             });
 
         //< Register multiplayer components

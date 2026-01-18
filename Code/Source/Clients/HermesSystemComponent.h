@@ -6,6 +6,9 @@
 #include <Hermes/HermesBus.h>
 #include <Hermes/NetworkHermesBus.h>
 #include <Hermes/NetworkHermesControllerBus.h>
+#include <Hermes/NetworkSpawnerBus.h>
+#include <Hermes/NetworkSpawnerControllerBus.h>
+#include <Hermes/SpawnerBus.h>
 
 namespace Hermes
 {
@@ -13,6 +16,8 @@ namespace Hermes
         : public AZ::Component
         , protected HermesRequestBus::Handler
         , protected NetworkHermesRequestBus::Handler
+        , protected SpawnerRequestBus::Handler
+        , protected NetworkSpawnerRequestBus::Handler
         , public AZ::TickBus::Handler
     {
     public:

@@ -30,6 +30,11 @@ namespace Hermes
                     ->ClassElement(AZ::Edit::ClassElements::EditorData, "")
                     ->Attribute(AZ::Edit::Attributes::AppearsInAddComponentMenu, AZ_CRC("System"))
                     ->Attribute(AZ::Edit::Attributes::AutoExpand, true);
+
+                ec->Class<HermesSystemComponent>("NetworkSpawner", "[Description of functionality provided by this System Component]")
+                    ->ClassElement(AZ::Edit::ClassElements::EditorData, "")
+                    ->Attribute(AZ::Edit::Attributes::AppearsInAddComponentMenu, AZ_CRC("System"))
+                    ->Attribute(AZ::Edit::Attributes::AutoExpand, true);
             }
         }
     }
@@ -38,12 +43,16 @@ namespace Hermes
     {
         provided.push_back(AZ_CRC_CE("HermesService"));
         provided.push_back(AZ_CRC_CE("NetworkHermesService"));
+        provided.push_back(AZ_CRC_CE("SpawnerService"));
+        provided.push_back(AZ_CRC_CE("NetworkSpawnerService"));
     }
 
     void HermesSystemComponent::GetIncompatibleServices(AZ::ComponentDescriptor::DependencyArrayType& incompatible)
     {
         incompatible.push_back(AZ_CRC_CE("HermesService"));
         incompatible.push_back(AZ_CRC_CE("NetworkHermesService"));
+        incompatible.push_back(AZ_CRC_CE("SpawnerService"));
+        incompatible.push_back(AZ_CRC_CE("NetworkSpawnerService"));
     }
 
     void HermesSystemComponent::GetRequiredServices([[maybe_unused]] AZ::ComponentDescriptor::DependencyArrayType& required)
@@ -78,6 +87,8 @@ namespace Hermes
     {
         HermesRequestBus::Handler::BusConnect();
         NetworkHermesRequestBus::Handler::BusConnect();
+        SpawnerRequestBus::Handler::BusDisconnect();
+        NetworkSpawnerRequestBus::Handler::BusDisconnect();
         AZ::TickBus::Handler::BusConnect();
         // Register multiplayer components
         RegisterMultiplayerComponents();
@@ -86,6 +97,8 @@ namespace Hermes
     void HermesSystemComponent::Deactivate()
     {
         AZ::TickBus::Handler::BusDisconnect();
+        NetworkSpawnerRequestBus::Handler::BusDisconnect();
+        SpawnerRequestBus::Handler::BusDisconnect();
         NetworkHermesRequestBus::Handler::BusDisconnect();
         HermesRequestBus::Handler::BusDisconnect();
     }
