@@ -97,6 +97,13 @@ namespace Hermes
             AZ_Error("NetworkSpawnerController", false, "Spawning the specified prefab failed.");
     }
 
+    void NetworkSpawnerController::HandleDepawnPrefabTicketId(
+        [[maybe_unused]] AzNetworking::IConnection* invokingConnection, const uint32_t& prefabTicketId)
+    {
+        if (!m_spawnerObject->DepawnPrefabTicketId(prefabTicketId))
+            AZ_Error("NetworkSpawnerController", false, "Despawning %lu prefab ticketId failed.", prefabTicketId);
+    }
+
     // Event Notification methods for use in scripts
     void NetworkSpawnerController::OnNetworkTickStart(
         [[maybe_unused]] const float& deltaTime, [[maybe_unused]] const bool& server, [[maybe_unused]] const AZ::EntityId& entity)

@@ -40,6 +40,11 @@ namespace Hermes
                 ->Attribute(AZ::Script::Attributes::Module, "datarelay")
                 ->Attribute(AZ::Script::Attributes::Category, "Hermes")
                 ->Event("Spawn Prefab Name", &SpawnerComponentRequests::SpawnPrefabName)
+                ->Event("Despawn Prefab TicketId", &SpawnerComponentRequests::DepawnPrefabTicketId)
+                ->Event("Get Last Spawned TicketId", &SpawnerComponentRequests::GetLastSpawnedTicketId)
+                ->Event("Set Last Spawned TicketId", &SpawnerComponentRequests::SetLastSpawnedTicketId)
+                ->Event("Get Last Despawned TicketId", &SpawnerComponentRequests::GetLastDespawnedTicketId)
+                ->Event("Set Last Despawned TicketId", &SpawnerComponentRequests::SetLastDespawnedTicketId)
                 ->Event("Get Is Autonomous Client", &SpawnerComponentRequests::GetIsAutonomousClient)
                 ->Event("Get Is Server", &SpawnerComponentRequests::GetIsServer)
                 ->Event("Get Is Host", &SpawnerComponentRequests::GetIsHost)
@@ -280,6 +285,11 @@ namespace Hermes
                     optionalArgs.m_preInsertionCallback = AZStd::move(preSpawnCB);
                     AzFramework::SpawnableEntitiesInterface::Get()->SpawnAllEntities(*ticket, AZStd::move(optionalArgs));
 
+                    // Set the ticketId as the one which was most recently spawned, to be tracked outside this component
+                    m_lastSpawnedTicketId = ticket->GetId();
+                    if (m_networkSpawnerControllerObject != nullptr)
+                        m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
+
                     return true;
                 }
                 else
@@ -306,6 +316,48 @@ namespace Hermes
             AZ_Error("SpawnerComponent", false, "Invalid prefab asset Id.");
             return false;
         }
+    }
+    bool SpawnerComponent::DepawnPrefabTicketId(const uint32_t& prefabTicketId)
+    {
+        for (auto ticket : m_spawnTickets)
+        {
+            if (prefabTicketId == ticket->GetId())
+            {
+                AzFramework::SpawnableEntitiesInterface::Get()->DespawnAllEntities(*ticket);
+                m_spawnTickets.erase(ticket);
+                m_lastDespawnedTicketId = prefabTicketId;
+                if (m_networkSpawnerControllerObject != nullptr)
+                    m_networkSpawnerControllerObject->SetLastDespawnedTicketId(m_lastDespawnedTicketId);
+                return true;
+            }
+        }
+
+        AZ_Error("SpawnerComponent", false, "Failed to find %lu prefab ticketId for despawning.", prefabTicketId);
+        return false;
+    }
+    uint32_t SpawnerComponent::GetLastSpawnedTicketId()
+    {
+        if (m_networkSpawnerControllerObject != nullptr)
+            m_lastSpawnedTicketId = m_networkSpawnerControllerObject->GetLastSpawnedTicketId();
+        return m_lastSpawnedTicketId;
+    }
+    void SpawnerComponent::SetLastSpawnedTicketId(const uint32_t& new_lastSpawnedTicketId)
+    {
+        m_lastSpawnedTicketId = new_lastSpawnedTicketId;
+        if (m_networkSpawnerControllerObject != nullptr)
+            m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
+    }
+    uint32_t SpawnerComponent::GetLastDespawnedTicketId()
+    {
+        if (m_networkSpawnerControllerObject != nullptr)
+            m_lastDespawnedTicketId = m_networkSpawnerControllerObject->GetLastDespawnedTicketId();
+        return m_lastDespawnedTicketId;
+    }
+    void SpawnerComponent::SetLastDespawnedTicketId(const uint32_t& new_lastDespawnedTicketId)
+    {
+        m_lastDespawnedTicketId = new_lastDespawnedTicketId;
+        if (m_networkSpawnerControllerObject != nullptr)
+            m_networkSpawnerControllerObject->SetLastDespawnedTicketId(m_lastDespawnedTicketId);
     }
     bool SpawnerComponent::GetIsAutonomousClient() const
     {

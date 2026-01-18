@@ -15,10 +15,27 @@
                      Container="Object" ExposeToEditor="false"
                      ExposeToScript="true" GenerateEventBindings="true"
                      Description="Determines whether NetworkSpawner is enabled or disabled."/>
+    <NetworkProperty Type="uint32_t" Name="LastSpawnedTicketId"
+                     Init="0" ReplicateFrom="Authority"
+                     ReplicateTo="Client" IsRewindable="false"
+                     IsPredictable="false" IsPublic="true"
+                     Container="Object" ExposeToEditor="false"
+                     ExposeToScript="true" GenerateEventBindings="true"
+                     Description="The ticketId of the most recently spawned prefab."/>
+    <NetworkProperty Type="uint32_t" Name="LastDespawnedTicketId"
+                     Init="0" ReplicateFrom="Authority"
+                     ReplicateTo="Client" IsRewindable="false"
+                     IsPredictable="false" IsPublic="true"
+                     Container="Object" ExposeToEditor="false"
+                     ExposeToScript="true" GenerateEventBindings="true"
+                     Description="The ticketId of the most recently despawned prefab."/>
 
     <RemoteProcedure Name="SpawnPrefabName" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Spawn a prefab given by a autonomous client">
         <Param Type="AZStd::string" Name="PrefabName"/>
         <Param Type="AZ::Transform" Name="Transform"/>
+    </RemoteProcedure>
+    <RemoteProcedure Name="DepawnPrefabTicketId" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Despawn the prefab associated with a ticketId given by a autonomous client">
+        <Param Type="uint32_t" Name="PrefabTicketId"/>
     </RemoteProcedure>
 
 </Component>

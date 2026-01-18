@@ -40,6 +40,11 @@ namespace Hermes
 
         // SpawnerComponentRequestBus
         bool SpawnPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform) override;
+        bool DepawnPrefabTicketId(const uint32_t& prefabTicketId) override;
+        uint32_t GetLastSpawnedTicketId() override;
+        void SetLastSpawnedTicketId(const uint32_t& new_lastSpawnedTicketId) override;
+        uint32_t GetLastDespawnedTicketId() override;
+        void SetLastDespawnedTicketId(const uint32_t& new_lastDespawnedTicketId) override;
         bool GetIsAutonomousClient() const override;
         bool GetIsServer() const override;
         bool GetIsHost() const override;
@@ -74,6 +79,10 @@ namespace Hermes
         // Stores the previous NetworkSpawner tick deltaTime
         float m_prevDeltaTime = 1.f / 60.f;
         float m_prevNetworkSpawnerDeltaTime = 0.033f;
+
+        // Various data structures
+        uint32_t m_lastSpawnedTicketId = 0;
+        uint32_t m_lastDespawnedTicketId = 0;
 
         // Vector of all spawnable paths
         AZStd::vector<AZStd::string> m_spawnablePaths;

@@ -15,6 +15,11 @@ namespace Hermes
         ~SpawnerComponentRequests() override = default;
 
         virtual bool SpawnPrefabName(const AZStd::string&, const AZ::Transform&) = 0;
+        virtual bool DepawnPrefabTicketId(const uint32_t&) = 0;
+        virtual uint32_t GetLastSpawnedTicketId() = 0;
+        virtual void SetLastSpawnedTicketId(const uint32_t&) = 0;
+        virtual uint32_t GetLastDespawnedTicketId() = 0;
+        virtual void SetLastDespawnedTicketId(const uint32_t&) = 0;
         virtual bool GetIsAutonomousClient() const = 0;
         virtual bool GetIsServer() const = 0;
         virtual bool GetIsHost() const = 0;
