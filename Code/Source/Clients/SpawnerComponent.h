@@ -40,9 +40,12 @@ namespace Hermes
 
         // SpawnerComponentRequestBus
         bool SpawnPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform, const bool& makeChild = false) override;
+        bool SpawnPrefabPath(const AZStd::string& prefabPath, const AZ::Transform& transform, const bool& makeChild = false) override;
         bool DepawnPrefabTicketId(const uint32_t& prefabTicketId) override;
         uint32_t GetLastSpawnedTicketId() override;
         void SetLastSpawnedTicketId(const uint32_t& new_lastSpawnedTicketId) override;
+        AZStd::vector<AZ::u64> GetLastSpawnedEntityIds() override;
+        void SetLastSpawnedEntityIds(const AZStd::vector<AZ::u64>& new_lastSpawnedEntityIds) override;
         uint32_t GetLastDespawnedTicketId() override;
         void SetLastDespawnedTicketId(const uint32_t& new_lastDespawnedTicketId) override;
         bool GetIsAutonomousClient() const override;
@@ -82,6 +85,7 @@ namespace Hermes
 
         // Various data structures
         uint32_t m_lastSpawnedTicketId = 0;
+        AZStd::vector<AZ::u64> m_lastSpawnedEntityIds = AZStd::vector<AZ::u64>();
         uint32_t m_lastDespawnedTicketId = 0;
 
         // Vector of all spawnable paths

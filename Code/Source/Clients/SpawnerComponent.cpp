@@ -40,9 +40,12 @@ namespace Hermes
                 ->Attribute(AZ::Script::Attributes::Module, "datarelay")
                 ->Attribute(AZ::Script::Attributes::Category, "Hermes")
                 ->Event("Spawn Prefab Name", &SpawnerComponentRequests::SpawnPrefabName)
+                ->Event("Spawn Prefab Path", &SpawnerComponentRequests::SpawnPrefabPath)
                 ->Event("Despawn Prefab TicketId", &SpawnerComponentRequests::DepawnPrefabTicketId)
                 ->Event("Get Last Spawned TicketId", &SpawnerComponentRequests::GetLastSpawnedTicketId)
                 ->Event("Set Last Spawned TicketId", &SpawnerComponentRequests::SetLastSpawnedTicketId)
+                ->Event("Get Last Spawned EntityIds", &SpawnerComponentRequests::GetLastSpawnedEntityIds)
+                ->Event("Set Last Spawned EntityIds", &SpawnerComponentRequests::SetLastSpawnedEntityIds)
                 ->Event("Get Last Despawned TicketId", &SpawnerComponentRequests::GetLastDespawnedTicketId)
                 ->Event("Set Last Despawned TicketId", &SpawnerComponentRequests::SetLastDespawnedTicketId)
                 ->Event("Get Is Autonomous Client", &SpawnerComponentRequests::GetIsAutonomousClient)
@@ -265,6 +268,146 @@ namespace Hermes
                 AzFramework::EntitySpawnTicket* ticket = aznew AzFramework::EntitySpawnTicket(spawnableAsset);
                 if (ticket->IsValid())
                 {
+                    // Clear the previous list of entity Ids that were spawned
+                    m_lastSpawnedEntityIds.clear();
+
+                    // Create a callback for SpawnAllEntities that will set the transform of the root entity to
+                    // the correct translation, rotation, and scale for the spawned instance.
+                    auto preSpawnCB =
+                        [this, transform, makeChild](
+                            [[maybe_unused]] AzFramework::EntitySpawnTicket::Id ticketId, AzFramework::SpawnableEntityContainerView view)
+                    {
+                        AZ::Entity* rootEntity = *view.begin();
+
+                        for (AZ::Entity* entity : view)
+                        {
+                            m_lastSpawnedEntityIds.push_back(AZ::u64(entity->GetId()));
+                        }
+
+                        AzFramework::TransformComponent* entityTransform = rootEntity->FindComponent<AzFramework::TransformComponent>();
+
+                        AzFramework::TransformComponentConfiguration transformConfig;
+                        // Make the parent of the spawned prefab the entity with the spawner component if instructed
+                        if (makeChild)
+                        {
+                            transformConfig.m_parentId = GetEntityId();
+                            transformConfig.m_localTransform = transform;
+                        }
+                        else
+                            transformConfig.m_worldTransform = transform;
+                        entityTransform->SetConfiguration(transformConfig);
+
+                        if (entityTransform)
+                            entityTransform->SetConfiguration(transformConfig);
+                    };
+
+                    m_spawnTickets.emplace(ticket);
+
+                    AzFramework::SpawnAllEntitiesOptionalArgs optionalArgs;
+                    optionalArgs.m_preInsertionCallback = AZStd::move(preSpawnCB);
+                    AzFramework::SpawnableEntitiesInterface::Get()->SpawnAllEntities(*ticket, AZStd::move(optionalArgs));
+
+                    // Set the TicketId as the one which was most recently spawned, to be tracked outside this component
+                    m_lastSpawnedTicketId = ticket->GetId();
+                    if (m_networkSpawnerControllerObject != nullptr)
+                    {
+                        m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
+                        m_networkSpawnerControllerObject->SetLastSpawnedEntityIds(m_lastSpawnedEntityIds);
+                    }
+
+                    return true;
+                }
+                else
+                {
+                    // Something went wrong
+                    AZ_Assert(ticket->IsValid(), "Unable to instantiate spawnable asset");
+                    delete ticket;
+                    return false;
+                }
+            }
+            else
+            {
+                AZ_Error(
+                    "SpawnerComponent",
+                    false,
+                    "Asset '%s' is of type %s, but expected a Spawnable type.",
+                    prefabAssetId.ToString<AZStd::string>().c_str(),
+                    prefabAssetInfo.m_assetType.ToString<AZStd::string>().c_str());
+                return false;
+            }
+        }
+        else
+        {
+            AZ_Error("SpawnerComponent", false, "Invalid prefab asset Id.");
+            return false;
+        }
+    }
+    bool SpawnerComponent::SpawnPrefabPath(const AZStd::string& prefabPath, const AZ::Transform& transform, const bool& makeChild)
+    {
+        AZ::Data::AssetId prefabAssetId;
+        if (!prefabPath.empty())
+        {
+            // Make the prefab path that was passed in all lowercase
+            AZStd::string prefabPathLower = prefabPath;
+            std::transform(
+                prefabPathLower.begin(),
+                prefabPathLower.end(),
+                prefabPathLower.begin(),
+                [](unsigned char c)
+                {
+                    return std::tolower(c);
+                });
+
+            // Find the first spawnable asset with the name provided
+            auto pathIt = AZStd::find_if(
+                m_spawnablePaths.begin(),
+                m_spawnablePaths.end(),
+                [&](const AZStd::string& path)
+                {
+                    return path.find(prefabPathLower) != std::string::npos;
+                });
+            AZStd::string prefabPath;
+            if (pathIt != m_spawnablePaths.end())
+                prefabPath = *pathIt;
+            else
+            {
+                AZ_Error("SpawnerComponent", false, "Asset %s.spawnable not found.", prefabPath.c_str());
+                return false;
+            }
+
+            // Get the asset Id
+            AZ::Data::AssetCatalogRequestBus::BroadcastResult(
+                prefabAssetId,
+                &AZ::Data::AssetCatalogRequestBus::Events::GetAssetIdByPath,
+                prefabPath.c_str(),
+                AZ::Data::s_invalidAssetType,
+                false);
+            if (!prefabAssetId.IsValid())
+            {
+                AZ_Error("SpawnerComponent", false, "Asset '%s' is invalid.", prefabPath.c_str());
+                return false;
+            }
+        }
+        else
+        {
+            AZ_Error("SpawnerComponent", false, "No prefab path provided.");
+            return false;
+        }
+
+        if (prefabAssetId.IsValid())
+        {
+            AZ::Data::AssetInfo prefabAssetInfo;
+            AZ::Data::AssetCatalogRequestBus::BroadcastResult(
+                prefabAssetInfo, &AZ::Data::AssetCatalogRequestBus::Events::GetAssetInfoById, prefabAssetId);
+            AZ::Data::Asset<AzFramework::Spawnable> spawnableAsset;
+            if (prefabAssetInfo.m_assetType == spawnableAsset.GetType())
+            {
+                spawnableAsset.Create(prefabAssetId, false);
+                spawnableAsset.QueueLoad();
+                // AZ::Data::AssetBus::MultiHandler::BusConnect(spawnableAsset.GetId());
+                AzFramework::EntitySpawnTicket* ticket = aznew AzFramework::EntitySpawnTicket(spawnableAsset);
+                if (ticket->IsValid())
+                {
                     // Create a callback for SpawnAllEntities that will set the transform of the root entity to
                     // the correct translation, rotation, and scale for the spawned instance.
                     auto preSpawnCB =
@@ -296,7 +439,7 @@ namespace Hermes
                     optionalArgs.m_preInsertionCallback = AZStd::move(preSpawnCB);
                     AzFramework::SpawnableEntitiesInterface::Get()->SpawnAllEntities(*ticket, AZStd::move(optionalArgs));
 
-                    // Set the ticketId as the one which was most recently spawned, to be tracked outside this component
+                    // Set the TicketId as the one which was most recently spawned, to be tracked outside this component
                     m_lastSpawnedTicketId = ticket->GetId();
                     if (m_networkSpawnerControllerObject != nullptr)
                         m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
@@ -357,6 +500,18 @@ namespace Hermes
         m_lastSpawnedTicketId = new_lastSpawnedTicketId;
         if (m_networkSpawnerControllerObject != nullptr)
             m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
+    }
+    AZStd::vector<AZ::u64> SpawnerComponent::GetLastSpawnedEntityIds()
+    {
+        if (m_networkSpawnerControllerObject != nullptr)
+            m_lastSpawnedEntityIds = m_networkSpawnerControllerObject->GetLastSpawnedEntityIds();
+        return m_lastSpawnedEntityIds;
+    }
+    void SpawnerComponent::SetLastSpawnedEntityIds(const AZStd::vector<AZ::u64>& new_lastSpawnedEntityIds)
+    {
+        m_lastSpawnedEntityIds = new_lastSpawnedEntityIds;
+        if (m_networkSpawnerControllerObject != nullptr)
+            m_networkSpawnerControllerObject->SetLastSpawnedEntityIds(m_lastSpawnedEntityIds);
     }
     uint32_t SpawnerComponent::GetLastDespawnedTicketId()
     {

@@ -47,6 +47,11 @@ namespace Hermes
             const AZStd::string& prefabName,
             const AZ::Transform& transform,
             const bool& makeChild = false) override;
+        void HandleSpawnPrefabPath(
+            AzNetworking::IConnection* invokingConnection,
+            const AZStd::string& prefabPath,
+            const AZ::Transform& transform,
+            const bool& makeChild = false) override;
         void HandleDepawnPrefabTicketId(AzNetworking::IConnection* invokingConnection, const uint32_t& prefabTicketId) override;
 
     private:

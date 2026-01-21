@@ -97,7 +97,17 @@ namespace Hermes
         const bool& makeChild)
     {
         if (!m_spawnerObject->SpawnPrefabName(prefabName, transform, makeChild))
-            AZ_Error("NetworkSpawnerController", false, "Spawning the specified prefab failed.");
+            AZ_Error("NetworkSpawnerController", false, "Spawning the specified prefab name failed.");
+    }
+
+    void NetworkSpawnerController::HandleSpawnPrefabPath(
+        [[maybe_unused]] AzNetworking::IConnection* invokingConnection,
+        const AZStd::string& prefabName,
+        const AZ::Transform& transform,
+        const bool& makeChild)
+    {
+        if (!m_spawnerObject->SpawnPrefabPath(prefabName, transform, makeChild))
+            AZ_Error("NetworkSpawnerController", false, "Spawning the specified prefab path failed.");
     }
 
     void NetworkSpawnerController::HandleDepawnPrefabTicketId(

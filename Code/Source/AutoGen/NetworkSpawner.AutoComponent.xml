@@ -21,21 +21,33 @@
                      IsPredictable="false" IsPublic="true"
                      Container="Object" ExposeToEditor="false"
                      ExposeToScript="true" GenerateEventBindings="true"
-                     Description="The ticketId of the most recently spawned prefab."/>
+                     Description="The TicketId of the most recently spawned prefab using Spawner."/>
+    <NetworkProperty Type="AZStd::vector&lt;AZ::u64&gt;" Name="LastSpawnedEntityIds"
+                     Init="AZStd::vector&lt;AZ::u64&gt;()" ReplicateFrom="Authority"
+                     ReplicateTo="Client" IsRewindable="false"
+                     IsPredictable="false" IsPublic="true"
+                     Container="Object" ExposeToEditor="false"
+                     ExposeToScript="true" GenerateEventBindings="true"
+                     Description="The EntityIds of the most recently spawned prefab using Spawner."/>
     <NetworkProperty Type="uint32_t" Name="LastDespawnedTicketId"
                      Init="0" ReplicateFrom="Authority"
                      ReplicateTo="Client" IsRewindable="false"
                      IsPredictable="false" IsPublic="true"
                      Container="Object" ExposeToEditor="false"
                      ExposeToScript="true" GenerateEventBindings="true"
-                     Description="The ticketId of the most recently despawned prefab."/>
+                     Description="The TicketId of the most recently despawned prefab using Spawner."/>
 
-    <RemoteProcedure Name="SpawnPrefabName" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Spawn a prefab given by a autonomous client">
+    <RemoteProcedure Name="SpawnPrefabName" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Spawn a prefab using a name given by an autonomous client">
         <Param Type="AZStd::string" Name="PrefabName"/>
         <Param Type="AZ::Transform" Name="Transform"/>
         <Param Type="bool" Name="MakeChild"/>
     </RemoteProcedure>
-    <RemoteProcedure Name="DepawnPrefabTicketId" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Despawn the prefab associated with a ticketId given by a autonomous client">
+    <RemoteProcedure Name="SpawnPrefabPath" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Spawn a prefab using a path given by an autonomous client">
+        <Param Type="AZStd::string" Name="PrefabPath"/>
+        <Param Type="AZ::Transform" Name="Transform"/>
+        <Param Type="bool" Name="MakeChild"/>
+    </RemoteProcedure>
+    <RemoteProcedure Name="DepawnPrefabTicketId" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Despawn the prefab associated with a TicketId given by an autonomous client">
         <Param Type="uint32_t" Name="PrefabTicketId"/>
     </RemoteProcedure>
 
