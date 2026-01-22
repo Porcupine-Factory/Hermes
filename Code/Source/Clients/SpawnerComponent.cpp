@@ -42,10 +42,12 @@ namespace Hermes
                 ->Event("Spawn Prefab Name", &SpawnerComponentRequests::SpawnPrefabName)
                 ->Event("Spawn Prefab Path", &SpawnerComponentRequests::SpawnPrefabPath)
                 ->Event("Despawn Prefab TicketId", &SpawnerComponentRequests::DepawnPrefabTicketId)
+                ->Event("Get Last Spawned TicketId By EntityId", &SpawnerComponentRequests::GetLastSpawnedTicketIdByEntityId)
+                ->Event("Set Last Spawned TicketId By EntityId", &SpawnerComponentRequests::SetLastSpawnedTicketIdByEntityId)
                 ->Event("Get Last Spawned TicketId", &SpawnerComponentRequests::GetLastSpawnedTicketId)
                 ->Event("Set Last Spawned TicketId", &SpawnerComponentRequests::SetLastSpawnedTicketId)
-                ->Event("Get Last Spawned EntityIds", &SpawnerComponentRequests::GetLastSpawnedEntityIds)
-                ->Event("Set Last Spawned EntityIds", &SpawnerComponentRequests::SetLastSpawnedEntityIds)
+                ->Event("Get Last Spawned Server EntityIds", &SpawnerComponentRequests::GetLastSpawnedServerEntityIds)
+                ->Event("Set Last Spawned Server EntityIds", &SpawnerComponentRequests::SetLastSpawnedServerEntityIds)
                 ->Event("Get Last Despawned TicketId", &SpawnerComponentRequests::GetLastDespawnedTicketId)
                 ->Event("Set Last Despawned TicketId", &SpawnerComponentRequests::SetLastDespawnedTicketId)
                 ->Event("Get Is Autonomous Client", &SpawnerComponentRequests::GetIsAutonomousClient)
@@ -307,12 +309,15 @@ namespace Hermes
                     optionalArgs.m_preInsertionCallback = AZStd::move(preSpawnCB);
                     AzFramework::SpawnableEntitiesInterface::Get()->SpawnAllEntities(*ticket, AZStd::move(optionalArgs));
 
-                    // Set the TicketId as the one which was most recently spawned, to be tracked outside this component
+                    // Set the TicketId and EntityIds as the most recently spawned, to be tracked outside this component
                     m_lastSpawnedTicketId = ticket->GetId();
                     if (m_networkSpawnerControllerObject != nullptr)
                     {
                         m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
-                        m_networkSpawnerControllerObject->SetLastSpawnedEntityIds(m_lastSpawnedEntityIds);
+                        m_networkSpawnerControllerObject->SetServerEntityIdCausedLastSpawn(AZ::u64(GetEntityId()));
+                        m_lastSpawnedTicketIdByEntityId = AZStd::pair<uint32_t, AZ::u64>(m_lastSpawnedTicketId, AZ::u64(GetEntity()));
+                        m_networkSpawnerControllerObject->SetLastSpawnedTicketIdByEntityId(m_lastSpawnedTicketIdByEntityId);
+                        m_networkSpawnerControllerObject->SetLastSpawnedServerEntityIds(m_lastSpawnedEntityIds);
                     }
 
                     return true;
@@ -439,10 +444,16 @@ namespace Hermes
                     optionalArgs.m_preInsertionCallback = AZStd::move(preSpawnCB);
                     AzFramework::SpawnableEntitiesInterface::Get()->SpawnAllEntities(*ticket, AZStd::move(optionalArgs));
 
-                    // Set the TicketId as the one which was most recently spawned, to be tracked outside this component
+                    // Set the TicketId and EntityIds as the most recently spawned, to be tracked outside this component
                     m_lastSpawnedTicketId = ticket->GetId();
                     if (m_networkSpawnerControllerObject != nullptr)
+                    {
                         m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
+                        m_networkSpawnerControllerObject->SetServerEntityIdCausedLastSpawn(AZ::u64(GetEntityId()));
+                        m_lastSpawnedTicketIdByEntityId = AZStd::pair<uint32_t, AZ::u64>(m_lastSpawnedTicketId, AZ::u64(GetEntity()));
+                        m_networkSpawnerControllerObject->SetLastSpawnedTicketIdByEntityId(m_lastSpawnedTicketIdByEntityId);
+                        m_networkSpawnerControllerObject->SetLastSpawnedServerEntityIds(m_lastSpawnedEntityIds);
+                    }
 
                     return true;
                 }
@@ -489,6 +500,18 @@ namespace Hermes
         AZ_Error("SpawnerComponent", false, "Failed to find %lu prefab ticketId for despawning.", prefabTicketId);
         return false;
     }
+    AZStd::pair<uint32_t, AZ::u64> SpawnerComponent::GetLastSpawnedTicketIdByEntityId()
+    {
+        if (m_networkSpawnerControllerObject != nullptr)
+            m_lastSpawnedTicketIdByEntityId = m_networkSpawnerControllerObject->GetLastSpawnedTicketIdByEntityId();
+        return m_lastSpawnedTicketIdByEntityId;
+    }
+    void SpawnerComponent::SetLastSpawnedTicketIdByEntityId(const AZStd::pair<uint32_t, AZ::u64>& new_lastSpawnedTicketIdByEntityId)
+    {
+        m_lastSpawnedTicketIdByEntityId = new_lastSpawnedTicketIdByEntityId;
+        if (m_networkSpawnerControllerObject != nullptr)
+            m_networkSpawnerControllerObject->SetLastSpawnedTicketIdByEntityId(m_lastSpawnedTicketIdByEntityId);
+    }
     uint32_t SpawnerComponent::GetLastSpawnedTicketId()
     {
         if (m_networkSpawnerControllerObject != nullptr)
@@ -501,17 +524,17 @@ namespace Hermes
         if (m_networkSpawnerControllerObject != nullptr)
             m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
     }
-    AZStd::vector<AZ::u64> SpawnerComponent::GetLastSpawnedEntityIds()
+    AZStd::vector<AZ::u64> SpawnerComponent::GetLastSpawnedServerEntityIds()
     {
         if (m_networkSpawnerControllerObject != nullptr)
-            m_lastSpawnedEntityIds = m_networkSpawnerControllerObject->GetLastSpawnedEntityIds();
+            m_lastSpawnedEntityIds = m_networkSpawnerControllerObject->GetLastSpawnedServerEntityIds();
         return m_lastSpawnedEntityIds;
     }
-    void SpawnerComponent::SetLastSpawnedEntityIds(const AZStd::vector<AZ::u64>& new_lastSpawnedEntityIds)
+    void SpawnerComponent::SetLastSpawnedServerEntityIds(const AZStd::vector<AZ::u64>& new_lastSpawnedEntityIds)
     {
         m_lastSpawnedEntityIds = new_lastSpawnedEntityIds;
         if (m_networkSpawnerControllerObject != nullptr)
-            m_networkSpawnerControllerObject->SetLastSpawnedEntityIds(m_lastSpawnedEntityIds);
+            m_networkSpawnerControllerObject->SetLastSpawnedServerEntityIds(m_lastSpawnedEntityIds);
     }
     uint32_t SpawnerComponent::GetLastDespawnedTicketId()
     {

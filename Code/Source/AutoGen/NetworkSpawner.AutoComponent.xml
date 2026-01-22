@@ -15,6 +15,13 @@
                      Container="Object" ExposeToEditor="false"
                      ExposeToScript="true" GenerateEventBindings="true"
                      Description="Determines whether NetworkSpawner is enabled or disabled."/>
+    <NetworkProperty Type="AZStd::pair&lt;uint32_t,AZ::u64&gt;" Name="LastSpawnedTicketIdByEntityId"
+                     Init="AZStd::pair&lt;uint32_t,AZ::u64&gt;()" ReplicateFrom="Authority"
+                     ReplicateTo="Client" IsRewindable="false"
+                     IsPredictable="false" IsPublic="true"
+                     Container="Object" ExposeToEditor="false"
+                     ExposeToScript="true" GenerateEventBindings="true"
+                     Description="The TicketId of the most recently spawned prefab using Spawner and the EntityId that triggered the spawn."/>
     <NetworkProperty Type="uint32_t" Name="LastSpawnedTicketId"
                      Init="0" ReplicateFrom="Authority"
                      ReplicateTo="Client" IsRewindable="false"
@@ -22,7 +29,14 @@
                      Container="Object" ExposeToEditor="false"
                      ExposeToScript="true" GenerateEventBindings="true"
                      Description="The TicketId of the most recently spawned prefab using Spawner."/>
-    <NetworkProperty Type="AZStd::vector&lt;AZ::u64&gt;" Name="LastSpawnedEntityIds"
+    <NetworkProperty Type="AZ::u64" Name="ServerEntityIdCausedLastSpawn"
+                     Init="0" ReplicateFrom="Authority"
+                     ReplicateTo="Client" IsRewindable="false"
+                     IsPredictable="false" IsPublic="true"
+                     Container="Object" ExposeToEditor="false"
+                     ExposeToScript="true" GenerateEventBindings="true"
+                     Description="The server EntityId that caused the last spawn."/>
+    <NetworkProperty Type="AZStd::vector&lt;AZ::u64&gt;" Name="LastSpawnedServerEntityIds"
                      Init="AZStd::vector&lt;AZ::u64&gt;()" ReplicateFrom="Authority"
                      ReplicateTo="Client" IsRewindable="false"
                      IsPredictable="false" IsPublic="true"

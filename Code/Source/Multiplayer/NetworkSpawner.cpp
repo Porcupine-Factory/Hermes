@@ -90,6 +90,7 @@ namespace Hermes
             &NetworkSpawnerControllerNotificationBus::Events::OnNetworkTickFinish, deltaTime, m_spawnerObject->m_isServer, GetEntityId());
     }
 
+    // RPC methods
     void NetworkSpawnerController::HandleSpawnPrefabName(
         [[maybe_unused]] AzNetworking::IConnection* invokingConnection,
         const AZStd::string& prefabName,
