@@ -371,9 +371,9 @@ namespace Hermes
                 {
                     return path.find(prefabPathLower) != std::string::npos;
                 });
-            AZStd::string prefabPath;
+            AZStd::string foundPrefabPath;
             if (pathIt != m_spawnablePaths.end())
-                prefabPath = *pathIt;
+                foundPrefabPath = *pathIt;
             else
             {
                 AZ_Error("SpawnerComponent", false, "Asset %s.spawnable not found.", prefabPath.c_str());
@@ -384,12 +384,12 @@ namespace Hermes
             AZ::Data::AssetCatalogRequestBus::BroadcastResult(
                 prefabAssetId,
                 &AZ::Data::AssetCatalogRequestBus::Events::GetAssetIdByPath,
-                prefabPath.c_str(),
+                foundPrefabPath.c_str(),
                 AZ::Data::s_invalidAssetType,
                 false);
             if (!prefabAssetId.IsValid())
             {
-                AZ_Error("SpawnerComponent", false, "Asset '%s' is invalid.", prefabPath.c_str());
+                AZ_Error("SpawnerComponent", false, "Asset '%s' is invalid.", foundPrefabPath.c_str());
                 return false;
             }
         }
