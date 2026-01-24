@@ -38,7 +38,7 @@ namespace Hermes
             bc->EBus<SpawnerComponentRequestBus>("SpawnerComponentRequestBus")
                 ->Attribute(AZ::Script::Attributes::Scope, AZ::Script::Attributes::ScopeFlags::Common)
                 ->Attribute(AZ::Script::Attributes::Module, "datarelay")
-                ->Attribute(AZ::Script::Attributes::Category, "Hermes")
+                ->Attribute(AZ::Script::Attributes::Category, "Spawner")
                 ->Event("Spawn Prefab Name", &SpawnerComponentRequests::SpawnPrefabName)
                 ->Event("Spawn Prefab Path", &SpawnerComponentRequests::SpawnPrefabPath)
                 ->Event("Despawn Prefab TicketId", &SpawnerComponentRequests::DepawnPrefabTicketId)

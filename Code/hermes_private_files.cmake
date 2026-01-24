@@ -11,7 +11,12 @@ set(FILES
     Source/Clients/SpawnerComponent.h
     Source/Multiplayer/NetworkSpawner.cpp
     Source/Multiplayer/NetworkSpawner.h
+    Source/Clients/NPCCommsComponent.cpp
+    Source/Clients/NPCCommsComponent.h
+    Source/Multiplayer/NetworkNPCComms.cpp
+    Source/Multiplayer/NetworkNPCComms.h
 
     Source/AutoGen/NetworkHermes.AutoComponent.xml
     Source/AutoGen/NetworkSpawner.AutoComponent.xml
+    Source/AutoGen/NetworkNPCComms.AutoComponent.xml
 )

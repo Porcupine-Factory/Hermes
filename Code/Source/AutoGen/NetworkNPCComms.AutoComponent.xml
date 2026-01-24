@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<Component
+    Name="NetworkNPCComms"
+    Namespace="Hermes"
+    OverrideComponent="false"
+    OverrideController="true"
+    OverrideInclude="Multiplayer/NetworkNPCComms.h"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <NetworkProperty Type="bool" Name="EnableNetworkNPCComms"
+                     Init="true" ReplicateFrom="Authority"
+                     ReplicateTo="Client" IsRewindable="false"
+                     IsPredictable="false" IsPublic="true"
+                     Container="Object" ExposeToEditor="false"
+                     ExposeToScript="true" GenerateEventBindings="true"
+                     Description="Determines whether NetworkNPCComms is enabled or disabled."/>
+    <NetworkProperty Type="bool" Name="Aggroed"
+                     Init="false" ReplicateFrom="Authority"
+                     ReplicateTo="Client" Container="Object"
+                     IsPublic="true" IsRewindable="true"
+                     IsPredictable="false" ExposeToEditor="false"
+                     ExposeToScript="true" GenerateEventBindings="true"
+                     Description="Signals whether an NPC is aggroed or not."/>
+
+    <RemoteProcedure Name="SendAggroedRPC" InvokeFrom="Server" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Aggroed RPC">
+        <Param Type="bool" Name="deltaAggroed"/>
+    </RemoteProcedure>
+
+</Component>

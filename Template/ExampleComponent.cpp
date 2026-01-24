@@ -39,7 +39,7 @@ namespace Hermes
             bc->EBus<ExampleComponentRequestBus>("ExampleComponentRequestBus")
                 ->Attribute(AZ::Script::Attributes::Scope, AZ::Script::Attributes::ScopeFlags::Common)
                 ->Attribute(AZ::Script::Attributes::Module, "datarelay")
-                ->Attribute(AZ::Script::Attributes::Category, "Hermes")
+                ->Attribute(AZ::Script::Attributes::Category, "Example")
                 ->Event("Get ExampTemporaryVar", &ExampleComponentRequests::GetExampTemporaryVar)
                 ->Event("Set ExampTemporaryVar", &ExampleComponentRequests::SetExampTemporaryVar)
                 ->Event("Set ExampTemporaryVar RPC", &ExampleComponentRequests::SetExampTemporaryVarRPC)
