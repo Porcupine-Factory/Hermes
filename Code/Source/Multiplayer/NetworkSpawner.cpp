@@ -37,6 +37,8 @@ namespace Hermes
 
     void NetworkSpawnerController::OnDeactivate([[maybe_unused]] Multiplayer::EntityIsMigrating entityIsMigrating)
     {
+        m_enableNetworkSpawnerChangedEvent.Disconnect();
+        NetworkSpawnerControllerRequestBus::Handler::BusDisconnect();
     }
 
     void NetworkSpawnerController::GetRequiredServices(AZ::ComponentDescriptor::DependencyArrayType& required)

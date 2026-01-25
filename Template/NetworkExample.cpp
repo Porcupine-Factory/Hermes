@@ -37,6 +37,8 @@ namespace Hermes
 
     void NetworkExampleController::OnDeactivate([[maybe_unused]] Multiplayer::EntityIsMigrating entityIsMigrating)
     {
+        m_enableNetworkExampleChangedEvent.Disconnect();
+        NetworkExampleControllerRequestBus::Handler::BusDisconnect();
     }
 
     void NetworkExampleController::GetRequiredServices(AZ::ComponentDescriptor::DependencyArrayType& required)

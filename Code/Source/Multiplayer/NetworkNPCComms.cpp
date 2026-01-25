@@ -37,6 +37,8 @@ namespace Hermes
 
     void NetworkNPCCommsController::OnDeactivate([[maybe_unused]] Multiplayer::EntityIsMigrating entityIsMigrating)
     {
+        m_enableNetworkNPCCommsChangedEvent.Disconnect();
+        NetworkNPCCommsControllerRequestBus::Handler::BusDisconnect();
     }
 
     void NetworkNPCCommsController::GetRequiredServices(AZ::ComponentDescriptor::DependencyArrayType& required)

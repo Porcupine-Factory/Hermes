@@ -80,6 +80,7 @@ namespace Hermes
 
         AZ::EntityBus::Handler::BusDisconnect();
         NetworkSpawnerControllerNotificationBus::Handler::BusDisconnect();
+        SpawnerComponentRequestBus::Handler::BusDisconnect();
         AZ::TickBus::Handler::BusDisconnect();
     }
 
