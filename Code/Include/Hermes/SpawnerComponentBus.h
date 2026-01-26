@@ -2,6 +2,7 @@
 
 #include <AzCore/Component/ComponentBus.h>
 #include <AzCore/RTTI/BehaviorContext.h>
+#include <Multiplayer/MultiplayerTypes.h>
 
 #if __has_include(<FirstPersonController/FirstPersonControllerComponentBus.h>)
 #include <FirstPersonController/FirstPersonControllerComponentBus.h>
@@ -17,12 +18,12 @@ namespace Hermes
         virtual bool SpawnPrefabName(const AZStd::string&, const AZ::Transform&, const bool&) = 0;
         virtual bool SpawnPrefabPath(const AZStd::string&, const AZ::Transform&, const bool&) = 0;
         virtual bool DepawnPrefabTicketId(const uint32_t&) = 0;
-        virtual AZStd::pair<uint32_t, AZ::u64> GetLastSpawnedTicketIdByEntityId() = 0;
-        virtual void SetLastSpawnedTicketIdByEntityId(const AZStd::pair<uint32_t, AZ::u64>&) = 0;
+        virtual AZStd::pair<uint32_t, Multiplayer::NetEntityId> GetLastSpawnedTicketIdByNetEntityId() = 0;
+        virtual void SetLastSpawnedTicketIdByNetEntityId(const AZStd::pair<uint32_t, Multiplayer::NetEntityId>&) = 0;
         virtual uint32_t GetLastSpawnedTicketId() = 0;
         virtual void SetLastSpawnedTicketId(const uint32_t&) = 0;
-        virtual AZStd::vector<AZ::u64> GetLastSpawnedServerEntityIds() = 0;
-        virtual void SetLastSpawnedServerEntityIds(const AZStd::vector<AZ::u64>&) = 0;
+        virtual AZStd::vector<uint64_t> GetLastSpawnedNetEntityIds() = 0;
+        virtual void SetLastSpawnedNetEntityIds(const AZStd::vector<uint64_t>&) = 0;
         virtual uint32_t GetLastDespawnedTicketId() = 0;
         virtual void SetLastDespawnedTicketId(const uint32_t&) = 0;
         virtual bool GetIsAutonomousClient() const = 0;

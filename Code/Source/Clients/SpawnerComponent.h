@@ -42,12 +42,13 @@ namespace Hermes
         bool SpawnPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform, const bool& makeChild = false) override;
         bool SpawnPrefabPath(const AZStd::string& prefabPath, const AZ::Transform& transform, const bool& makeChild = false) override;
         bool DepawnPrefabTicketId(const uint32_t& prefabTicketId) override;
-        AZStd::pair<uint32_t, AZ::u64> GetLastSpawnedTicketIdByEntityId() override;
-        void SetLastSpawnedTicketIdByEntityId(const AZStd::pair<uint32_t, AZ::u64>& new_lastSpawnedTicketIdByEntityId) override;
+        AZStd::pair<uint32_t, Multiplayer::NetEntityId> GetLastSpawnedTicketIdByNetEntityId() override;
+        void SetLastSpawnedTicketIdByNetEntityId(
+            const AZStd::pair<uint32_t, Multiplayer::NetEntityId>& new_lastSpawnedTicketIdByNetEntityId) override;
         uint32_t GetLastSpawnedTicketId() override;
         void SetLastSpawnedTicketId(const uint32_t& new_lastSpawnedTicketId) override;
-        AZStd::vector<AZ::u64> GetLastSpawnedServerEntityIds() override;
-        void SetLastSpawnedServerEntityIds(const AZStd::vector<AZ::u64>& new_lastSpawnedEntityIds) override;
+        AZStd::vector<uint64_t> GetLastSpawnedNetEntityIds() override;
+        void SetLastSpawnedNetEntityIds(const AZStd::vector<uint64_t>& new_lastSpawnedNetEntityIds) override;
         uint32_t GetLastDespawnedTicketId() override;
         void SetLastDespawnedTicketId(const uint32_t& new_lastDespawnedTicketId) override;
         bool GetIsAutonomousClient() const override;
@@ -87,8 +88,9 @@ namespace Hermes
 
         // Various data structures
         uint32_t m_lastSpawnedTicketId = 0;
-        AZStd::pair<uint32_t, AZ::u64> m_lastSpawnedTicketIdByEntityId = AZStd::pair<uint32_t, AZ::u64>(0, 0);
-        AZStd::vector<AZ::u64> m_lastSpawnedEntityIds = AZStd::vector<AZ::u64>(0);
+        AZStd::pair<uint32_t, Multiplayer::NetEntityId> m_lastSpawnedTicketIdByNetEntityId =
+            AZStd::pair<uint32_t, Multiplayer::NetEntityId>();
+        AZStd::vector<uint64_t> m_lastSpawnedNetEntityIds = AZStd::vector<uint64_t>();
         uint32_t m_lastDespawnedTicketId = 0;
 
         // Vector of all spawnable paths

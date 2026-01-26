@@ -42,12 +42,12 @@ namespace Hermes
                 ->Event("Spawn Prefab Name", &SpawnerComponentRequests::SpawnPrefabName)
                 ->Event("Spawn Prefab Path", &SpawnerComponentRequests::SpawnPrefabPath)
                 ->Event("Despawn Prefab TicketId", &SpawnerComponentRequests::DepawnPrefabTicketId)
-                ->Event("Get Last Spawned TicketId By EntityId", &SpawnerComponentRequests::GetLastSpawnedTicketIdByEntityId)
-                ->Event("Set Last Spawned TicketId By EntityId", &SpawnerComponentRequests::SetLastSpawnedTicketIdByEntityId)
+                ->Event("Get Last Spawned TicketId By EntityId", &SpawnerComponentRequests::GetLastSpawnedTicketIdByNetEntityId)
+                ->Event("Set Last Spawned TicketId By EntityId", &SpawnerComponentRequests::SetLastSpawnedTicketIdByNetEntityId)
                 ->Event("Get Last Spawned TicketId", &SpawnerComponentRequests::GetLastSpawnedTicketId)
                 ->Event("Set Last Spawned TicketId", &SpawnerComponentRequests::SetLastSpawnedTicketId)
-                ->Event("Get Last Spawned Server EntityIds", &SpawnerComponentRequests::GetLastSpawnedServerEntityIds)
-                ->Event("Set Last Spawned Server EntityIds", &SpawnerComponentRequests::SetLastSpawnedServerEntityIds)
+                ->Event("Get Last Spawned Server EntityIds", &SpawnerComponentRequests::GetLastSpawnedNetEntityIds)
+                ->Event("Set Last Spawned Server EntityIds", &SpawnerComponentRequests::SetLastSpawnedNetEntityIds)
                 ->Event("Get Last Despawned TicketId", &SpawnerComponentRequests::GetLastDespawnedTicketId)
                 ->Event("Set Last Despawned TicketId", &SpawnerComponentRequests::SetLastDespawnedTicketId)
                 ->Event("Get Is Autonomous Client", &SpawnerComponentRequests::GetIsAutonomousClient)
@@ -272,7 +272,7 @@ namespace Hermes
                 if (ticket->IsValid())
                 {
                     // Clear the previous list of entity Ids that were spawned
-                    m_lastSpawnedEntityIds.clear();
+                    m_lastSpawnedNetEntityIds.clear();
 
                     // Create a callback for SpawnAllEntities that will set the transform of the root entity to
                     // the correct translation, rotation, and scale for the spawned instance.
@@ -284,7 +284,9 @@ namespace Hermes
 
                         for (AZ::Entity* entity : view)
                         {
-                            m_lastSpawnedEntityIds.push_back(AZ::u64(entity->GetId()));
+                            const Multiplayer::INetworkEntityManager* networkEntityManager =
+                                Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
+                            m_lastSpawnedNetEntityIds.push_back(uint64_t(networkEntityManager->GetNetEntityIdById(entity->GetId())));
                         }
 
                         AzFramework::TransformComponent* entityTransform = rootEntity->FindComponent<AzFramework::TransformComponent>();
@@ -315,10 +317,14 @@ namespace Hermes
                     if (m_networkSpawnerControllerObject != nullptr)
                     {
                         m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
-                        m_networkSpawnerControllerObject->SetServerEntityIdCausedLastSpawn(AZ::u64(GetEntityId()));
-                        m_lastSpawnedTicketIdByEntityId = AZStd::pair<uint32_t, AZ::u64>(m_lastSpawnedTicketId, AZ::u64(GetEntity()));
-                        m_networkSpawnerControllerObject->SetLastSpawnedTicketIdByEntityId(m_lastSpawnedTicketIdByEntityId);
-                        m_networkSpawnerControllerObject->SetLastSpawnedServerEntityIds(m_lastSpawnedEntityIds);
+                        const Multiplayer::INetworkEntityManager* networkEntityManager =
+                            Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
+                        m_networkSpawnerControllerObject->SetNetEntityIdCausedLastSpawn(
+                            networkEntityManager->GetNetEntityIdById(GetEntityId()));
+                        m_lastSpawnedTicketIdByNetEntityId = AZStd::pair<uint32_t, Multiplayer::NetEntityId>(
+                            m_lastSpawnedTicketId, networkEntityManager->GetNetEntityIdById(GetEntityId()));
+                        m_networkSpawnerControllerObject->SetLastSpawnedTicketIdByNetEntityId(m_lastSpawnedTicketIdByNetEntityId);
+                        m_networkSpawnerControllerObject->SetLastSpawnedNetEntityIds(m_lastSpawnedNetEntityIds);
                     }
 
                     return true;
@@ -450,10 +456,14 @@ namespace Hermes
                     if (m_networkSpawnerControllerObject != nullptr)
                     {
                         m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
-                        m_networkSpawnerControllerObject->SetServerEntityIdCausedLastSpawn(AZ::u64(GetEntityId()));
-                        m_lastSpawnedTicketIdByEntityId = AZStd::pair<uint32_t, AZ::u64>(m_lastSpawnedTicketId, AZ::u64(GetEntity()));
-                        m_networkSpawnerControllerObject->SetLastSpawnedTicketIdByEntityId(m_lastSpawnedTicketIdByEntityId);
-                        m_networkSpawnerControllerObject->SetLastSpawnedServerEntityIds(m_lastSpawnedEntityIds);
+                        const Multiplayer::INetworkEntityManager* networkEntityManager =
+                            Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
+                        m_networkSpawnerControllerObject->SetNetEntityIdCausedLastSpawn(
+                            networkEntityManager->GetNetEntityIdById(GetEntityId()));
+                        m_lastSpawnedTicketIdByNetEntityId = AZStd::pair<uint32_t, Multiplayer::NetEntityId>(
+                            m_lastSpawnedTicketId, networkEntityManager->GetNetEntityIdById(GetEntityId()));
+                        m_networkSpawnerControllerObject->SetLastSpawnedTicketIdByNetEntityId(m_lastSpawnedTicketIdByNetEntityId);
+                        m_networkSpawnerControllerObject->SetLastSpawnedNetEntityIds(m_lastSpawnedNetEntityIds);
                     }
 
                     return true;
@@ -501,17 +511,18 @@ namespace Hermes
         AZ_Error("SpawnerComponent", false, "Failed to find %lu prefab ticketId for despawning.", prefabTicketId);
         return false;
     }
-    AZStd::pair<uint32_t, AZ::u64> SpawnerComponent::GetLastSpawnedTicketIdByEntityId()
+    AZStd::pair<uint32_t, Multiplayer::NetEntityId> SpawnerComponent::GetLastSpawnedTicketIdByNetEntityId()
     {
         if (m_networkSpawnerControllerObject != nullptr)
-            m_lastSpawnedTicketIdByEntityId = m_networkSpawnerControllerObject->GetLastSpawnedTicketIdByEntityId();
-        return m_lastSpawnedTicketIdByEntityId;
+            m_lastSpawnedTicketIdByNetEntityId = m_networkSpawnerControllerObject->GetLastSpawnedTicketIdByNetEntityId();
+        return m_lastSpawnedTicketIdByNetEntityId;
     }
-    void SpawnerComponent::SetLastSpawnedTicketIdByEntityId(const AZStd::pair<uint32_t, AZ::u64>& new_lastSpawnedTicketIdByEntityId)
+    void SpawnerComponent::SetLastSpawnedTicketIdByNetEntityId(
+        const AZStd::pair<uint32_t, Multiplayer::NetEntityId>& new_lastSpawnedTicketIdByNetEntityId)
     {
-        m_lastSpawnedTicketIdByEntityId = new_lastSpawnedTicketIdByEntityId;
+        m_lastSpawnedTicketIdByNetEntityId = new_lastSpawnedTicketIdByNetEntityId;
         if (m_networkSpawnerControllerObject != nullptr)
-            m_networkSpawnerControllerObject->SetLastSpawnedTicketIdByEntityId(m_lastSpawnedTicketIdByEntityId);
+            m_networkSpawnerControllerObject->SetLastSpawnedTicketIdByNetEntityId(m_lastSpawnedTicketIdByNetEntityId);
     }
     uint32_t SpawnerComponent::GetLastSpawnedTicketId()
     {
@@ -525,17 +536,17 @@ namespace Hermes
         if (m_networkSpawnerControllerObject != nullptr)
             m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
     }
-    AZStd::vector<AZ::u64> SpawnerComponent::GetLastSpawnedServerEntityIds()
+    AZStd::vector<uint64_t> SpawnerComponent::GetLastSpawnedNetEntityIds()
     {
         if (m_networkSpawnerControllerObject != nullptr)
-            m_lastSpawnedEntityIds = m_networkSpawnerControllerObject->GetLastSpawnedServerEntityIds();
-        return m_lastSpawnedEntityIds;
+            m_lastSpawnedNetEntityIds = m_networkSpawnerControllerObject->GetLastSpawnedNetEntityIds();
+        return m_lastSpawnedNetEntityIds;
     }
-    void SpawnerComponent::SetLastSpawnedServerEntityIds(const AZStd::vector<AZ::u64>& new_lastSpawnedEntityIds)
+    void SpawnerComponent::SetLastSpawnedNetEntityIds(const AZStd::vector<uint64_t>& new_lastSpawnedNetEntityIds)
     {
-        m_lastSpawnedEntityIds = new_lastSpawnedEntityIds;
+        m_lastSpawnedNetEntityIds = new_lastSpawnedNetEntityIds;
         if (m_networkSpawnerControllerObject != nullptr)
-            m_networkSpawnerControllerObject->SetLastSpawnedServerEntityIds(m_lastSpawnedEntityIds);
+            m_networkSpawnerControllerObject->SetLastSpawnedNetEntityIds(m_lastSpawnedNetEntityIds);
     }
     uint32_t SpawnerComponent::GetLastDespawnedTicketId()
     {
