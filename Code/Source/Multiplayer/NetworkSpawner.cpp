@@ -80,6 +80,8 @@ namespace Hermes
             m_spawnerObject->NotAutonomousSoDisconnect();
             if (IsNetEntityRoleAuthority())
                 m_spawnerObject->m_isServer = true;
+            else
+                m_disabled = true;
             m_autonomousNotDetermined = false;
         }
 

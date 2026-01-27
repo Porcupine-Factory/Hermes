@@ -65,7 +65,7 @@ namespace Hermes
     {
         AZ::EntityBus::Handler::BusDisconnect();
         NetworkExampleControllerNotificationBus::Handler::BusDisconnect();
-        ExampleComponentRequestBus::Handler::BusConnect();
+        ExampleComponentRequestBus::Handler::BusDisconnect();
         AZ::TickBus::Handler::BusDisconnect();
     }
 

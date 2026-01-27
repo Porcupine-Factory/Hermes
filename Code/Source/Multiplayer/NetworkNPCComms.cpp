@@ -81,6 +81,8 @@ namespace Hermes
             m_nPCCommsObject->NotAutonomousSoDisconnect();
             if (IsNetEntityRoleAuthority())
                 m_nPCCommsObject->m_isServer = true;
+            else
+                m_disabled = true;
             m_autonomousNotDetermined = false;
         }
 
