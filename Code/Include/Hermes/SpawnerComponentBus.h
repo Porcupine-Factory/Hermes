@@ -18,12 +18,12 @@ namespace Hermes
         virtual bool SpawnPrefabName(const AZStd::string&, const AZ::Transform&, const bool&) = 0;
         virtual bool SpawnPrefabPath(const AZStd::string&, const AZ::Transform&, const bool&) = 0;
         virtual bool DepawnPrefabTicketId(const uint32_t&) = 0;
-        virtual AZStd::pair<uint32_t, Multiplayer::NetEntityId> GetLastSpawnedTicketIdByNetEntityId() = 0;
-        virtual void SetLastSpawnedTicketIdByNetEntityId(const AZStd::pair<uint32_t, Multiplayer::NetEntityId>&) = 0;
+        virtual AZStd::pair<uint32_t, AZStd::string> GetLastSpawnedTicketIdByStringNetEntityId() = 0;
+        virtual void SetLastSpawnedTicketIdByStringNetEntityId(const AZStd::pair<uint32_t, AZStd::string>&) = 0;
         virtual uint32_t GetLastSpawnedTicketId() = 0;
         virtual void SetLastSpawnedTicketId(const uint32_t&) = 0;
-        virtual AZStd::vector<uint64_t> GetLastSpawnedNetEntityIds() = 0;
-        virtual void SetLastSpawnedNetEntityIds(const AZStd::vector<uint64_t>&) = 0;
+        virtual AZStd::vector<AZStd::string> GetLastSpawnedStringNetEntityIds() = 0;
+        virtual void SetLastSpawnedStringNetEntityIds(const AZStd::vector<AZStd::string>&) = 0;
         virtual uint32_t GetLastDespawnedTicketId() = 0;
         virtual void SetLastDespawnedTicketId(const uint32_t&) = 0;
         virtual bool GetIsAutonomousClient() const = 0;
