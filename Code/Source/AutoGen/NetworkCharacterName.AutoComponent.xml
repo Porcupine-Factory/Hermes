@@ -16,21 +16,14 @@
                      ExposeToScript="true" GenerateEventBindings="true"
                      Description="Determines whether NetworkCharacterName is enabled or disabled."/>
     <NetworkProperty Type="AZStd::string" Name="Name"
-                     Init="&quot;&quot;" ReplicateFrom="Autonomous"
-                     ReplicateTo="Authority" Container="Object"
-                     IsPublic="true" IsRewindable="true"
-                     IsPredictable="true" ExposeToEditor="false"
-                     ExposeToScript="true" GenerateEventBindings="true"
-                     Description="The character's name"/>
-    <NetworkProperty Type="AZStd::string" Name="NameRelay"
                      Init="&quot;&quot;" ReplicateFrom="Authority"
                      ReplicateTo="Client" Container="Object"
                      IsPublic="true" IsRewindable="true"
                      IsPredictable="true" ExposeToEditor="false"
                      ExposeToScript="true" GenerateEventBindings="true"
-                     Description="The character's name relayed from the server to the non-autonomous clients"/>
+                     Description="The character's name"/>
 
-    <RemoteProcedure Name="SendNameRPC" InvokeFrom="Server" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Name RPC">
+    <RemoteProcedure Name="SendNameOnServerRPC" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Assign the name on the server">
         <Param Type="AZStd::string" Name="name"/>
     </RemoteProcedure>
 

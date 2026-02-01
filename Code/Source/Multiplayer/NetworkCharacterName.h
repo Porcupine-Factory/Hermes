@@ -43,7 +43,7 @@ namespace Hermes
         void SetEnabled(const bool& new_enabled) override;
 
 #if AZ_TRAIT_SERVER
-        void HandleSendNameRPC(AzNetworking::IConnection* invokingConnection, const AZStd::string& name) override;
+        void HandleSendNameOnServerRPC(AzNetworking::IConnection* invokingConnection, const AZStd::string& name) override;
 #endif
 
     private:

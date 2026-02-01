@@ -44,7 +44,6 @@ namespace Hermes
                 ->Attribute(AZ::Script::Attributes::Category, "Character Name")
                 ->Event("Get Name", &CharacterNameComponentRequests::GetName)
                 ->Event("Set Name", &CharacterNameComponentRequests::SetName)
-                ->Event("Set Name RPC", &CharacterNameComponentRequests::SetNameRPC)
                 ->Event("Get Is Autonomous Client", &CharacterNameComponentRequests::GetIsAutonomousClient)
                 ->Event("Get Is Server", &CharacterNameComponentRequests::GetIsServer)
                 ->Event("Get Is Host", &CharacterNameComponentRequests::GetIsHost)
@@ -150,26 +149,26 @@ namespace Hermes
     void CharacterNameComponent::GetNetworkCharacterNameProperties()
     {
         if (m_networkCharacterNameControllerObject != nullptr)
-            m_name = m_networkCharacterNameControllerObject->GetName();
+        {
+        }
     }
 
     void CharacterNameComponent::SetNetworkCharacterNameProperties()
     {
-        if (m_networkCharacterNameControllerObject != nullptr && m_nameOnServer != m_name)
+        if (m_networkCharacterNameControllerObject != nullptr)
         {
-            m_networkCharacterNameControllerObject->SetNameRelay(m_name);
-            m_nameOnServer = m_name;
         }
     }
 
     // Frame tick == 0, physics fixed timestep == 1 (not used in CharacterName), network tick == 2
     void CharacterNameComponent::ProcessInput([[maybe_unused]] const float& deltaTime, const AZ::u8& tickTimestepNetwork)
     {
-        if (m_isServer && tickTimestepNetwork == 2)
+        // No need to get and set the name network property every tick since it's handled with the RPC call
+        /*if (m_isServer && tickTimestepNetwork == 2)
         {
             GetNetworkCharacterNameProperties();
             SetNetworkCharacterNameProperties();
-        }
+        }*/
     }
 
     // Event Notification methods for use in scripts
@@ -192,11 +191,14 @@ namespace Hermes
     {
         m_name = new_name;
         if (m_networkCharacterNameEnabled && m_networkCharacterNameControllerObject != nullptr)
+        {
             m_networkCharacterNameControllerObject->SetName(m_name);
+            m_networkCharacterNameControllerObject->SendNameOnServerRPC(m_name);
+        }
     }
-    void CharacterNameComponent::SetNameRPC(const AZStd::string& new_name)
+    void CharacterNameComponent::SetNameOnServerRPC(const AZStd::string& name)
     {
-        m_name = new_name;
+        m_name = name;
         if (m_networkCharacterNameEnabled && m_networkCharacterNameControllerObject != nullptr)
             m_networkCharacterNameControllerObject->SetName(m_name);
     }

@@ -16,7 +16,7 @@ namespace Hermes
 
         virtual AZStd::string GetName() const = 0;
         virtual void SetName(const AZStd::string&) = 0;
-        virtual void SetNameRPC(const AZStd::string&) = 0;
+        virtual void SetNameOnServerRPC(const AZStd::string&) = 0;
         virtual bool GetIsAutonomousClient() const = 0;
         virtual bool GetIsServer() const = 0;
         virtual bool GetIsHost() const = 0;

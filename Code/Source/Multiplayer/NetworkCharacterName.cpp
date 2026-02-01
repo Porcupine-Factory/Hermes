@@ -102,10 +102,10 @@ namespace Hermes
     }
 
 #if AZ_TRAIT_SERVER
-    void NetworkCharacterNameController::HandleSendNameRPC(
+    void NetworkCharacterNameController::HandleSendNameOnServerRPC(
         [[maybe_unused]] AzNetworking::IConnection* invokingConnection, const AZStd::string& name)
     {
-        m_characterNameObject->SetNameRPC(name);
+        m_characterNameObject->SetNameOnServerRPC(name);
     }
 #endif
 

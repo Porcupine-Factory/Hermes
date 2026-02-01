@@ -40,7 +40,7 @@ namespace Hermes
         // CharacterNameComponentRequestBus
         AZStd::string GetName() const override;
         void SetName(const AZStd::string& new_name) override;
-        void SetNameRPC(const AZStd::string& new_name) override;
+        void SetNameOnServerRPC(const AZStd::string& name) override;
         bool GetIsAutonomousClient() const override;
         bool GetIsServer() const override;
         bool GetIsHost() const override;
