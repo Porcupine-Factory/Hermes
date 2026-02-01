@@ -40,7 +40,7 @@ namespace Hermes
         // ExampleComponentRequestBus
         AZ::u32 GetExampTemporaryVar() const override;
         void SetExampTemporaryVar(const AZ::u32& new_exampTemporaryVar) override;
-        void SetExampTemporaryVarRPC(const AZ::u32& new_exampTemporaryVarRPC) override;
+        void SetExampTemporaryVarRPC(const AZ::u32& new_exampTemporaryVar) override;
         bool GetIsAutonomousClient() const override;
         bool GetIsServer() const override;
         bool GetIsHost() const override;

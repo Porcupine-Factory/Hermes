@@ -20,7 +20,7 @@ namespace Hermes
             if (AZ::EditContext* ec = sc->GetEditContext())
             {
                 using namespace AZ::Edit::Attributes;
-                ec->Class<NPCCommsComponent>("NPCComms", "Transfers data between clients and server for any entity with this component")
+                ec->Class<NPCCommsComponent>("NPC Comms", "Transfers data between clients and server for any entity with this component")
                     ->ClassElement(AZ::Edit::ClassElements::EditorData, "")
                     ->Attribute(AppearsInAddComponentMenu, AZ_CRC_CE("Game"))
                     ->Attribute(Category, "Hermes")
@@ -39,7 +39,7 @@ namespace Hermes
             bc->EBus<NPCCommsComponentRequestBus>("NPCCommsComponentRequestBus")
                 ->Attribute(AZ::Script::Attributes::Scope, AZ::Script::Attributes::ScopeFlags::Common)
                 ->Attribute(AZ::Script::Attributes::Module, "datarelay")
-                ->Attribute(AZ::Script::Attributes::Category, "NPCComms")
+                ->Attribute(AZ::Script::Attributes::Category, "NPC Comms")
                 ->Event("Get Aggroed", &NPCCommsComponentRequests::GetAggroed)
                 ->Event("Set Aggroed", &NPCCommsComponentRequests::SetAggroed)
                 ->Event("Set Aggroed RPC", &NPCCommsComponentRequests::SetAggroedRPC)
@@ -190,9 +190,9 @@ namespace Hermes
         if (m_networkNPCCommsEnabled && m_networkNPCCommsControllerObject != nullptr)
             m_networkNPCCommsControllerObject->SetAggroed(m_aggroed);
     }
-    void NPCCommsComponent::SetAggroedRPC(const bool& new_aggroedRPC)
+    void NPCCommsComponent::SetAggroedRPC(const bool& new_aggroed)
     {
-        m_aggroed = new_aggroedRPC;
+        m_aggroed = new_aggroed;
         if (m_networkNPCCommsEnabled && m_networkNPCCommsControllerObject != nullptr)
             m_networkNPCCommsControllerObject->SetAggroed(m_aggroed);
     }

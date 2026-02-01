@@ -190,9 +190,9 @@ namespace Hermes
         if (m_networkExampleEnabled && m_networkExampleControllerObject != nullptr)
             m_networkExampleControllerObject->SetExampTemporaryVar(m_exampTemporaryVar);
     }
-    void ExampleComponent::SetExampTemporaryVarRPC(const AZ::u32& new_exampTemporaryVarRPC)
+    void ExampleComponent::SetExampTemporaryVarRPC(const AZ::u32& new_exampTemporaryVar)
     {
-        m_exampTemporaryVar = new_exampTemporaryVarRPC;
+        m_exampTemporaryVar = new_exampTemporaryVar;
         if (m_networkExampleEnabled && m_networkExampleControllerObject != nullptr)
             m_networkExampleControllerObject->SetExampTemporaryVar(m_exampTemporaryVar);
     }

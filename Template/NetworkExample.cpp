@@ -97,9 +97,9 @@ namespace Hermes
 
 #if AZ_TRAIT_SERVER
     void NetworkExampleController::HandleSendExampTemporaryVarRPC(
-        [[maybe_unused]] AzNetworking::IConnection* invokingConnection, const AZ::u32& exampTemporaryVarRPC)
+        [[maybe_unused]] AzNetworking::IConnection* invokingConnection, const AZ::u32& exampTemporaryVar)
     {
-        m_exampleObject->SetExampTemporaryVarRPC(exampTemporaryVarRPC);
+        m_exampleObject->SetExampTemporaryVarRPC(exampTemporaryVar);
     }
 #endif
 

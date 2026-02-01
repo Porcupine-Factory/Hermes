@@ -65,8 +65,8 @@ namespace Hermes
         void OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entity);
 
         // Various methods used to implement the Hermes functionality
-        void SetNetworkHermesProperties() const;
         void GetNetworkHermesProperties();
+        void SetNetworkHermesProperties() const;
 
         // NetworkHermes object
         NetworkHermes* m_networkHermesObject = nullptr;

@@ -40,7 +40,7 @@ namespace Hermes
         // NPCCommsComponentRequestBus
         bool GetAggroed() const override;
         void SetAggroed(const bool& new_aggroed) override;
-        void SetAggroedRPC(const bool& new_aggroedRPC) override;
+        void SetAggroedRPC(const bool& new_aggroed) override;
         bool GetIsAutonomousClient() const override;
         bool GetIsServer() const override;
         bool GetIsHost() const override;
@@ -65,8 +65,8 @@ namespace Hermes
         void OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entity);
 
         // Various methods used to implement the NPCComms functionality
-        void SetNetworkNPCCommsProperties() const;
         void GetNetworkNPCCommsProperties();
+        void SetNetworkNPCCommsProperties() const;
 
         // NetworkNPCComms object
         NetworkNPCComms* m_networkNPCCommsObject = nullptr;

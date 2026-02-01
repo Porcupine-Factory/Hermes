@@ -3,6 +3,7 @@
 #include <AzCore/Module/Module.h>
 #include <AzCore/RTTI/RTTIMacros.h>
 #include <AzCore/RTTI/TypeInfoSimple.h>
+#include <Clients/CharacterNameComponent.h>
 #include <Clients/HermesComponent.h>
 #include <Clients/NPCCommsComponent.h>
 #include <Clients/SpawnerComponent.h>

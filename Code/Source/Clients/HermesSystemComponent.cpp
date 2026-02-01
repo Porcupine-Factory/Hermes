@@ -40,6 +40,11 @@ namespace Hermes
                     ->ClassElement(AZ::Edit::ClassElements::EditorData, "")
                     ->Attribute(AZ::Edit::Attributes::AppearsInAddComponentMenu, AZ_CRC("System"))
                     ->Attribute(AZ::Edit::Attributes::AutoExpand, true);
+
+                ec->Class<HermesSystemComponent>("NetworkCharacterName", "[Description of functionality provided by this System Component]")
+                    ->ClassElement(AZ::Edit::ClassElements::EditorData, "")
+                    ->Attribute(AZ::Edit::Attributes::AppearsInAddComponentMenu, AZ_CRC("System"))
+                    ->Attribute(AZ::Edit::Attributes::AutoExpand, true);
             }
         }
     }
@@ -52,6 +57,8 @@ namespace Hermes
         provided.push_back(AZ_CRC_CE("NetworkSpawnerService"));
         provided.push_back(AZ_CRC_CE("NPCCommsService"));
         provided.push_back(AZ_CRC_CE("NetworkNPCCommsService"));
+        provided.push_back(AZ_CRC_CE("CharacterNameService"));
+        provided.push_back(AZ_CRC_CE("NetworkCharacterNameService"));
     }
 
     void HermesSystemComponent::GetIncompatibleServices(AZ::ComponentDescriptor::DependencyArrayType& incompatible)
@@ -62,6 +69,8 @@ namespace Hermes
         incompatible.push_back(AZ_CRC_CE("NetworkSpawnerService"));
         incompatible.push_back(AZ_CRC_CE("NPCCommsService"));
         incompatible.push_back(AZ_CRC_CE("NetworkNPCCommsService"));
+        incompatible.push_back(AZ_CRC_CE("CharacterNameService"));
+        incompatible.push_back(AZ_CRC_CE("NetworkCharacterNameService"));
     }
 
     void HermesSystemComponent::GetRequiredServices([[maybe_unused]] AZ::ComponentDescriptor::DependencyArrayType& required)
@@ -100,6 +109,8 @@ namespace Hermes
         NetworkSpawnerRequestBus::Handler::BusDisconnect();
         NPCCommsRequestBus::Handler::BusDisconnect();
         NetworkNPCCommsRequestBus::Handler::BusDisconnect();
+        CharacterNameRequestBus::Handler::BusDisconnect();
+        NetworkCharacterNameRequestBus::Handler::BusDisconnect();
         AZ::TickBus::Handler::BusConnect();
         // Register multiplayer components
         RegisterMultiplayerComponents();
@@ -108,6 +119,8 @@ namespace Hermes
     void HermesSystemComponent::Deactivate()
     {
         AZ::TickBus::Handler::BusDisconnect();
+        NetworkCharacterNameRequestBus::Handler::BusDisconnect();
+        CharacterNameRequestBus::Handler::BusDisconnect();
         NetworkNPCCommsRequestBus::Handler::BusDisconnect();
         NPCCommsRequestBus::Handler::BusDisconnect();
         NetworkSpawnerRequestBus::Handler::BusDisconnect();

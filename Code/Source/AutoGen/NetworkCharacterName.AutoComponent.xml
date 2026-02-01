@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<Component
+    Name="NetworkCharacterName"
+    Namespace="Hermes"
+    OverrideComponent="false"
+    OverrideController="true"
+    OverrideInclude="Multiplayer/NetworkCharacterName.h"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <NetworkProperty Type="bool" Name="EnableNetworkCharacterName"
+                     Init="true" ReplicateFrom="Authority"
+                     ReplicateTo="Client" IsRewindable="false"
+                     IsPredictable="false" IsPublic="true"
+                     Container="Object" ExposeToEditor="false"
+                     ExposeToScript="true" GenerateEventBindings="true"
+                     Description="Determines whether NetworkCharacterName is enabled or disabled."/>
+    <NetworkProperty Type="AZStd::string" Name="Name"
+                     Init="&quot;&quot;" ReplicateFrom="Autonomous"
+                     ReplicateTo="Authority" Container="Object"
+                     IsPublic="true" IsRewindable="true"
+                     IsPredictable="true" ExposeToEditor="false"
+                     ExposeToScript="true" GenerateEventBindings="true"
+                     Description="The character's name"/>
+    <NetworkProperty Type="AZStd::string" Name="NameRelay"
+                     Init="&quot;&quot;" ReplicateFrom="Authority"
+                     ReplicateTo="Client" Container="Object"
+                     IsPublic="true" IsRewindable="true"
+                     IsPredictable="true" ExposeToEditor="false"
+                     ExposeToScript="true" GenerateEventBindings="true"
+                     Description="The character's name relayed from the server to the non-autonomous clients"/>
+
+    <RemoteProcedure Name="SendNameRPC" InvokeFrom="Server" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Name RPC">
+        <Param Type="AZStd::string" Name="name"/>
+    </RemoteProcedure>
+
+</Component>

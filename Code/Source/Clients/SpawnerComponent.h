@@ -75,8 +75,8 @@ namespace Hermes
         void OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entity);
 
         // Various methods used to implement the Spawner functionality
-        void SetNetworkSpawnerProperties() const;
         void GetNetworkSpawnerProperties();
+        void SetNetworkSpawnerProperties() const;
 
         // NetworkSpawner object
         NetworkSpawner* m_networkSpawnerObject = nullptr;

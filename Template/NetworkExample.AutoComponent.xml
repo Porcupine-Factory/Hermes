@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <Component
-    Name="NetworkExample" 
+    Name="NetworkExample"
     Namespace="Hermes"
     OverrideComponent="false"
     OverrideController="true"
@@ -24,7 +24,7 @@
                      Description="ENTER A DESCRIPTION"/>
 
     <RemoteProcedure Name="SendExampTemporaryVarRPC" InvokeFrom="Server" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="ExampTemporaryVar RPC">
-        <Param Type="AZ::u32" Name="deltaExampTemporaryVar"/>
+        <Param Type="AZ::u32" Name="exampTemporaryVar"/>
     </RemoteProcedure>
 
 </Component>

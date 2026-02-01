@@ -3,8 +3,11 @@
 
 #include <AzCore/Component/Component.h>
 #include <AzCore/Component/TickBus.h>
+#include <Hermes/CharacterNameBus.h>
 #include <Hermes/HermesBus.h>
 #include <Hermes/NPCCommsBus.h>
+#include <Hermes/NetworkCharacterNameBus.h>
+#include <Hermes/NetworkCharacterNameControllerBus.h>
 #include <Hermes/NetworkHermesBus.h>
 #include <Hermes/NetworkHermesControllerBus.h>
 #include <Hermes/NetworkNPCCommsBus.h>
@@ -23,6 +26,8 @@ namespace Hermes
         , protected NetworkSpawnerRequestBus::Handler
         , protected NPCCommsRequestBus::Handler
         , protected NetworkNPCCommsRequestBus::Handler
+        , protected CharacterNameRequestBus::Handler
+        , protected NetworkCharacterNameRequestBus::Handler
         , public AZ::TickBus::Handler
     {
     public:

@@ -25,6 +25,7 @@ namespace Hermes
                 HermesComponent::CreateDescriptor(),
                 SpawnerComponent::CreateDescriptor(),
                 NPCCommsComponent::CreateDescriptor(),
+                CharacterNameComponent::CreateDescriptor(),
             });
 
         //< Register multiplayer components

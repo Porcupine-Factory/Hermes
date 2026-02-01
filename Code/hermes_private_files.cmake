@@ -15,8 +15,13 @@ set(FILES
     Source/Clients/NPCCommsComponent.h
     Source/Multiplayer/NetworkNPCComms.cpp
     Source/Multiplayer/NetworkNPCComms.h
+    Source/Clients/CharacterNameComponent.cpp
+    Source/Clients/CharacterNameComponent.h
+    Source/Multiplayer/NetworkCharacterName.cpp
+    Source/Multiplayer/NetworkCharacterName.h
 
     Source/AutoGen/NetworkHermes.AutoComponent.xml
     Source/AutoGen/NetworkSpawner.AutoComponent.xml
     Source/AutoGen/NetworkNPCComms.AutoComponent.xml
+    Source/AutoGen/NetworkCharacterName.AutoComponent.xml
 )

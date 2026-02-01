@@ -97,9 +97,9 @@ namespace Hermes
 
 #if AZ_TRAIT_SERVER
     void NetworkNPCCommsController::HandleSendAggroedRPC(
-        [[maybe_unused]] AzNetworking::IConnection* invokingConnection, const bool& aggroedRPC)
+        [[maybe_unused]] AzNetworking::IConnection* invokingConnection, const bool& aggroed)
     {
-        m_nPCCommsObject->SetAggroedRPC(aggroedRPC);
+        m_nPCCommsObject->SetAggroedRPC(aggroed);
     }
 #endif
 

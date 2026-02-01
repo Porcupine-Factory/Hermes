@@ -43,7 +43,7 @@ namespace Hermes
         void SetEnabled(const bool& new_enabled) override;
 
 #if AZ_TRAIT_SERVER
-        void HandleSendAggroedRPC(AzNetworking::IConnection* invokingConnection, const bool& aggroedRPC) override;
+        void HandleSendAggroedRPC(AzNetworking::IConnection* invokingConnection, const bool& aggroed) override;
 #endif
 
     private:

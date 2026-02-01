@@ -24,7 +24,7 @@
                      Description="Signals whether an NPC is aggroed or not."/>
 
     <RemoteProcedure Name="SendAggroedRPC" InvokeFrom="Server" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Aggroed RPC">
-        <Param Type="bool" Name="deltaAggroed"/>
+        <Param Type="bool" Name="aggroed"/>
     </RemoteProcedure>
 
 </Component>

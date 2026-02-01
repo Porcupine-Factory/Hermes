@@ -43,7 +43,7 @@ namespace Hermes
         void SetEnabled(const bool& new_enabled) override;
 
 #if AZ_TRAIT_SERVER
-        void HandleSendExampTemporaryVarRPC(AzNetworking::IConnection* invokingConnection, const AZ::u32& exampTemporaryVarRPC) override;
+        void HandleSendExampTemporaryVarRPC(AzNetworking::IConnection* invokingConnection, const AZ::u32& exampTemporaryVar) override;
 #endif
 
     private:

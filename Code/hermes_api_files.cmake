@@ -8,4 +8,6 @@ set(FILES
     Include/Hermes/SpawnerBus.h
     Include/Hermes/NPCCommsComponentBus.h
     Include/Hermes/NPCCommsBus.h
+    Include/Hermes/CharacterNameComponentBus.h
+    Include/Hermes/CharacterNameBus.h
 )
