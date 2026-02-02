@@ -161,7 +161,7 @@ namespace Hermes
     }
 
     // Frame tick == 0, physics fixed timestep == 1 (not used in CharacterName), network tick == 2
-    void CharacterNameComponent::ProcessInput([[maybe_unused]] const float& deltaTime, const AZ::u8& tickTimestepNetwork)
+    void CharacterNameComponent::ProcessInput([[maybe_unused]] const float& deltaTime, [[maybe_unused]] const AZ::u8& tickTimestepNetwork)
     {
         // No need to get and set the name network property every tick since it's handled with the RPC call
         /*if (m_isServer && tickTimestepNetwork == 2)
