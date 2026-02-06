@@ -111,11 +111,11 @@ namespace Hermes
 
     // Event Notification methods for use in scripts
     void NetworkCharacterNameController::OnNetworkTickStart(
-        [[maybe_unused]] const float& deltaTime, [[maybe_unused]] const bool& server, [[maybe_unused]] const AZ::EntityId& entity)
+        [[maybe_unused]] const float& deltaTime, [[maybe_unused]] const bool& server, [[maybe_unused]] const AZ::EntityId& entityId)
     {
     }
     void NetworkCharacterNameController::OnNetworkTickFinish(
-        [[maybe_unused]] const float& deltaTime, [[maybe_unused]] const bool& server, [[maybe_unused]] const AZ::EntityId& entity)
+        [[maybe_unused]] const float& deltaTime, [[maybe_unused]] const bool& server, [[maybe_unused]] const AZ::EntityId& entityId)
     {
     }
 

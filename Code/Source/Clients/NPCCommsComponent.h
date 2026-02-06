@@ -61,8 +61,8 @@ namespace Hermes
         void ProcessInput(const float& deltaTime, const AZ::u8& tickTimestepNetwork);
 
         // NetworkNPCCommsControllerNotificationBus
-        void OnNetworkTickStart(const float& deltaTime, const bool& server, const AZ::EntityId& entity);
-        void OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entity);
+        void OnNetworkTickStart(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
+        void OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
 
         // Various methods used to implement the NPCComms functionality
         void GetNetworkNPCCommsProperties();
