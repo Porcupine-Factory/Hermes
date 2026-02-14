@@ -320,6 +320,7 @@ namespace Hermes
                     m_lastSpawnedTicketId = ticket->GetId();
                     if (m_networkSpawnerControllerObject != nullptr)
                     {
+                        m_networkSpawnerControllerObject->SetLastSpawnedStringNetEntityIds(m_lastSpawnedStringNetEntityIds);
                         m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
                         const Multiplayer::INetworkEntityManager* networkEntityManager =
                             Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
@@ -329,7 +330,6 @@ namespace Hermes
                             m_lastSpawnedTicketId, AZStd::to_string(networkEntityManager->GetNetEntityIdById(GetEntityId())));
                         m_networkSpawnerControllerObject->SetLastSpawnedTicketIdByStringNetEntityId(
                             m_lastSpawnedTicketIdByStringNetEntityId);
-                        m_networkSpawnerControllerObject->SetLastSpawnedStringNetEntityIds(m_lastSpawnedStringNetEntityIds);
                     }
 
                     return true;
@@ -425,6 +425,9 @@ namespace Hermes
                 AzFramework::EntitySpawnTicket* ticket = aznew AzFramework::EntitySpawnTicket(spawnableAsset);
                 if (ticket->IsValid())
                 {
+                    // Clear the previous list of entity Ids that were spawned
+                    m_lastSpawnedStringNetEntityIds.clear();
+
                     // Create a callback for SpawnAllEntities that will set the transform of the root entity to
                     // the correct translation, rotation, and scale for the spawned instance.
                     auto preSpawnCB =
@@ -432,6 +435,14 @@ namespace Hermes
                             [[maybe_unused]] AzFramework::EntitySpawnTicket::Id ticketId, AzFramework::SpawnableEntityContainerView view)
                     {
                         AZ::Entity* rootEntity = *view.begin();
+
+                        for (AZ::Entity* entity : view)
+                        {
+                            const Multiplayer::INetworkEntityManager* networkEntityManager =
+                                Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
+                            m_lastSpawnedStringNetEntityIds.push_back(
+                                AZStd::to_string(networkEntityManager->GetNetEntityIdById(entity->GetId())));
+                        }
 
                         AzFramework::TransformComponent* entityTransform = rootEntity->FindComponent<AzFramework::TransformComponent>();
 
@@ -460,6 +471,7 @@ namespace Hermes
                     m_lastSpawnedTicketId = ticket->GetId();
                     if (m_networkSpawnerControllerObject != nullptr)
                     {
+                        m_networkSpawnerControllerObject->SetLastSpawnedStringNetEntityIds(m_lastSpawnedStringNetEntityIds);
                         m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
                         const Multiplayer::INetworkEntityManager* networkEntityManager =
                             Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
@@ -469,7 +481,6 @@ namespace Hermes
                             m_lastSpawnedTicketId, AZStd::to_string(networkEntityManager->GetNetEntityIdById(GetEntityId())));
                         m_networkSpawnerControllerObject->SetLastSpawnedTicketIdByStringNetEntityId(
                             m_lastSpawnedTicketIdByStringNetEntityId);
-                        m_networkSpawnerControllerObject->SetLastSpawnedStringNetEntityIds(m_lastSpawnedStringNetEntityIds);
                     }
 
                     return true;
