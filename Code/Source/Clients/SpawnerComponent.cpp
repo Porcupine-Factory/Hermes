@@ -292,6 +292,7 @@ namespace Hermes
                             m_lastSpawnedStringNetEntityIds.push_back(
                                 AZStd::to_string(networkEntityManager->GetNetEntityIdById(entity->GetId())));
                         }
+                        m_networkSpawnerControllerObject->SetLastSpawnedStringNetEntityIds(m_lastSpawnedStringNetEntityIds);
 
                         AzFramework::TransformComponent* entityTransform = rootEntity->FindComponent<AzFramework::TransformComponent>();
 
@@ -320,7 +321,6 @@ namespace Hermes
                     m_lastSpawnedTicketId = ticket->GetId();
                     if (m_networkSpawnerControllerObject != nullptr)
                     {
-                        m_networkSpawnerControllerObject->SetLastSpawnedStringNetEntityIds(m_lastSpawnedStringNetEntityIds);
                         m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
                         const Multiplayer::INetworkEntityManager* networkEntityManager =
                             Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
@@ -443,6 +443,7 @@ namespace Hermes
                             m_lastSpawnedStringNetEntityIds.push_back(
                                 AZStd::to_string(networkEntityManager->GetNetEntityIdById(entity->GetId())));
                         }
+                        m_networkSpawnerControllerObject->SetLastSpawnedStringNetEntityIds(m_lastSpawnedStringNetEntityIds);
 
                         AzFramework::TransformComponent* entityTransform = rootEntity->FindComponent<AzFramework::TransformComponent>();
 
@@ -471,7 +472,6 @@ namespace Hermes
                     m_lastSpawnedTicketId = ticket->GetId();
                     if (m_networkSpawnerControllerObject != nullptr)
                     {
-                        m_networkSpawnerControllerObject->SetLastSpawnedStringNetEntityIds(m_lastSpawnedStringNetEntityIds);
                         m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
                         const Multiplayer::INetworkEntityManager* networkEntityManager =
                             Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
