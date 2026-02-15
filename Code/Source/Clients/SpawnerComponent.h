@@ -1,6 +1,7 @@
 #pragma once
 #include <Hermes/NetworkSpawnerControllerBus.h>
 #include <Hermes/SpawnerComponentBus.h>
+#include <Multiplayer/NetworkSpawner.h>
 
 #include <AzCore/Component/Component.h>
 #include <AzCore/Component/EntityBus.h>
@@ -41,7 +42,10 @@ namespace Hermes
         // SpawnerComponentRequestBus
         bool SpawnPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform, const bool& makeChild = false) override;
         bool SpawnPrefabPath(const AZStd::string& prefabPath, const AZ::Transform& transform, const bool& makeChild = false) override;
+        bool SpawnNetPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform) override;
+        bool SpawnNetPrefabPath(const AZStd::string& prefabPath, const AZ::Transform& transform) override;
         bool DepawnPrefabTicketId(const uint32_t& prefabTicketId) override;
+        bool DepawnNetEntityIdAndChildren(const AZStd::string& netEntityId) override;
         AZStd::pair<uint32_t, AZStd::string> GetLastSpawnedTicketIdByStringNetEntityId() override;
         void SetLastSpawnedTicketIdByStringNetEntityId(
             const AZStd::pair<uint32_t, AZStd::string>& new_lastSpawnedTicketIdByStringNetEntityId) override;
@@ -97,6 +101,9 @@ namespace Hermes
 
         // A set of all spawn tickets, used to despawn at some point
         AZStd::unordered_set<AzFramework::EntitySpawnTicket*> m_spawnTickets;
+
+        // All of the spawned NetEntityHandles
+        AZStd::vector<Multiplayer::NetworkEntityHandle> m_netEntityHandles;
 
         // Networking related variables
         bool m_networkSpawnerEnabled = false;

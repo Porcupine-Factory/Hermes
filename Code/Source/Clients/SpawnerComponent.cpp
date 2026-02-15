@@ -1,12 +1,12 @@
 #include <AzCore/Math/MathStringConversions.h>
 #include <Clients/SpawnerComponent.h>
-#include <Multiplayer/NetworkSpawner.h>
 
 #include <AzCore/Asset/AssetCommon.h>
 #include <AzCore/Asset/AssetManager.h>
 #include <AzCore/Component/ComponentApplicationBus.h>
 #include <AzCore/Component/Entity.h>
 #include <AzCore/Serialization/EditContext.h>
+#include <AzCore/std/string/regex.h>
 #include <AzFramework/Asset/AssetSystemBus.h>
 #include <AzFramework/Components/TransformComponent.h>
 
@@ -42,7 +42,10 @@ namespace Hermes
                 ->Attribute(AZ::Script::Attributes::Category, "Spawner")
                 ->Event("Spawn Prefab Name", &SpawnerComponentRequests::SpawnPrefabName)
                 ->Event("Spawn Prefab Path", &SpawnerComponentRequests::SpawnPrefabPath)
+                ->Event("Spawn Net Prefab Name", &SpawnerComponentRequests::SpawnNetPrefabName)
+                ->Event("Spawn Net Prefab Path", &SpawnerComponentRequests::SpawnNetPrefabPath)
                 ->Event("Despawn Prefab TicketId", &SpawnerComponentRequests::DepawnPrefabTicketId)
+                ->Event("Despawn NetEntityId And Children", &SpawnerComponentRequests::DepawnNetEntityIdAndChildren)
                 ->Event(
                     "Get Last Spawned TicketId By NetEntityId String", &SpawnerComponentRequests::GetLastSpawnedTicketIdByStringNetEntityId)
                 ->Event(
@@ -510,6 +513,236 @@ namespace Hermes
             return false;
         }
     }
+    bool SpawnerComponent::SpawnNetPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform)
+    {
+        AZ::Data::AssetId prefabAssetId;
+        if (!prefabName.empty())
+        {
+            // Make the prefab name that was passed in all lowercase
+            AZStd::string prefabNameLower = prefabName;
+            std::transform(
+                prefabNameLower.begin(),
+                prefabNameLower.end(),
+                prefabNameLower.begin(),
+                [](unsigned char c)
+                {
+                    return std::tolower(c);
+                });
+
+            // Find the first spawnable asset with the name provided
+            auto pathIt = AZStd::find_if(
+                m_spawnablePaths.begin(),
+                m_spawnablePaths.end(),
+                [&](const AZStd::string& path)
+                {
+                    return path.find(prefabNameLower + ".spawnable") != std::string::npos;
+                });
+            AZStd::string prefabPath;
+            if (pathIt != m_spawnablePaths.end())
+                prefabPath = *pathIt;
+            else
+            {
+                AZ_Error("SpawnerComponent", false, "Asset %s.spawnable not found.", prefabName.c_str());
+                return false;
+            }
+
+            // Get the asset Id
+            AZ::Data::AssetCatalogRequestBus::BroadcastResult(
+                prefabAssetId,
+                &AZ::Data::AssetCatalogRequestBus::Events::GetAssetIdByPath,
+                prefabPath.c_str(),
+                AZ::Data::s_invalidAssetType,
+                false);
+            if (!prefabAssetId.IsValid())
+            {
+                AZ_Error("SpawnerComponent", false, "Asset '%s' is invalid.", prefabPath.c_str());
+                return false;
+            }
+        }
+        else
+        {
+            AZ_Error("SpawnerComponent", false, "No prefab name provided.");
+            return false;
+        }
+
+        if (prefabAssetId.IsValid())
+        {
+            AZ::Data::AssetInfo prefabAssetInfo;
+            AZ::Data::AssetCatalogRequestBus::BroadcastResult(
+                prefabAssetInfo, &AZ::Data::AssetCatalogRequestBus::Events::GetAssetInfoById, prefabAssetId);
+            AZ::Data::Asset<AzFramework::Spawnable> spawnableAsset;
+            if (prefabAssetInfo.m_assetType == spawnableAsset.GetType())
+            {
+                spawnableAsset.Create(prefabAssetId, false);
+                spawnableAsset.QueueLoad();
+                const Multiplayer::PrefabEntityId prefabEntityId(AZ::Name(spawnableAsset.GetHint().c_str()));
+                Multiplayer::INetworkEntityManager* networkEntityManager = Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
+                Multiplayer::INetworkEntityManager::EntityList entityList =
+                    networkEntityManager->CreateEntitiesImmediate(prefabEntityId, Multiplayer::NetEntityRole::Authority, transform);
+                m_lastSpawnedStringNetEntityIds.clear();
+                for (auto entity : entityList)
+                    m_lastSpawnedStringNetEntityIds.push_back(AZStd::to_string(entity.GetNetEntityId()));
+
+                m_netEntityHandles.push_back(entityList[0]);
+
+                // There aren't spawn tickets when using CreateEntitiesImmediate(...), so just leaving this here for reference
+                // m_lastSpawnedTicketId = entityList.front().GetEntity()->GetEntitySpawnTicketId();
+                // AzFramework::SpawnableEntitiesInterface::Get()->RetrieveTicket(
+                //    m_lastSpawnedTicketId,
+                //    [this](AzFramework::EntitySpawnTicket&& ticket)
+                //    {
+                //        m_spawnTickets.emplace(*ticket);
+                //    });
+
+                if (m_networkSpawnerControllerObject != nullptr)
+                {
+                    m_networkSpawnerControllerObject->SetLastSpawnedStringNetEntityIds(m_lastSpawnedStringNetEntityIds);
+                    const Multiplayer::INetworkEntityManager* networkEntityManager =
+                        Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
+                    m_networkSpawnerControllerObject->SetNetEntityIdStringCausedLastSpawn(
+                        AZStd::to_string(networkEntityManager->GetNetEntityIdById(GetEntityId())));
+                    // There aren't spawn tickets when using CreateEntitiesImmediate(...), so just leaving this here for reference
+                    // m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
+                    // m_lastSpawnedTicketIdByStringNetEntityId = AZStd::pair<uint32_t, AZStd::string>(
+                    //    m_lastSpawnedTicketId, AZStd::to_string(networkEntityManager->GetNetEntityIdById(GetEntityId())));
+                    // m_networkSpawnerControllerObject->SetLastSpawnedTicketIdByStringNetEntityId(
+                    //    m_lastSpawnedTicketIdByStringNetEntityId);
+                }
+                return true;
+            }
+            else
+            {
+                AZ_Error(
+                    "SpawnerComponent",
+                    false,
+                    "Asset '%s' is of type %s, but expected a Spawnable type.",
+                    prefabAssetId.ToString<AZStd::string>().c_str(),
+                    prefabAssetInfo.m_assetType.ToString<AZStd::string>().c_str());
+                return false;
+            }
+        }
+        else
+        {
+            AZ_Error("SpawnerComponent", false, "Invalid prefab asset Id.");
+            return false;
+        }
+    }
+    bool SpawnerComponent::SpawnNetPrefabPath(const AZStd::string& prefabPath, const AZ::Transform& transform)
+    {
+        AZ::Data::AssetId prefabAssetId;
+        if (!prefabPath.empty())
+        {
+            // Make the prefab path that was passed in all lowercase
+            AZStd::string prefabPathLower = prefabPath;
+            std::transform(
+                prefabPathLower.begin(),
+                prefabPathLower.end(),
+                prefabPathLower.begin(),
+                [](unsigned char c)
+                {
+                    return std::tolower(c);
+                });
+
+            // Find the first spawnable asset with the name provided
+            auto pathIt = AZStd::find_if(
+                m_spawnablePaths.begin(),
+                m_spawnablePaths.end(),
+                [&](const AZStd::string& path)
+                {
+                    return path.find(prefabPathLower) != std::string::npos;
+                });
+            AZStd::string foundPrefabPath;
+            if (pathIt != m_spawnablePaths.end())
+                foundPrefabPath = *pathIt;
+            else
+            {
+                AZ_Error("SpawnerComponent", false, "Asset %s.spawnable not found.", prefabPath.c_str());
+                return false;
+            }
+
+            foundPrefabPath = AZStd::regex_replace(foundPrefabPath, AZStd::regex("\\.spawnable"), ".network.spawnable");
+
+            // Get the asset Id
+            AZ::Data::AssetCatalogRequestBus::BroadcastResult(
+                prefabAssetId,
+                &AZ::Data::AssetCatalogRequestBus::Events::GetAssetIdByPath,
+                foundPrefabPath.c_str(),
+                AZ::Data::s_invalidAssetType,
+                false);
+            if (!prefabAssetId.IsValid())
+            {
+                AZ_Error("SpawnerComponent", false, "Asset '%s' is invalid.", foundPrefabPath.c_str());
+                return false;
+            }
+        }
+        else
+        {
+            AZ_Error("SpawnerComponent", false, "No prefab path provided.");
+            return false;
+        }
+
+        if (prefabAssetId.IsValid())
+        {
+            AZ::Data::AssetInfo prefabAssetInfo;
+            AZ::Data::AssetCatalogRequestBus::BroadcastResult(
+                prefabAssetInfo, &AZ::Data::AssetCatalogRequestBus::Events::GetAssetInfoById, prefabAssetId);
+            AZ::Data::Asset<AzFramework::Spawnable> spawnableAsset;
+            if (prefabAssetInfo.m_assetType == spawnableAsset.GetType())
+            {
+                spawnableAsset.Create(prefabAssetId, false);
+                spawnableAsset.QueueLoad();
+                const Multiplayer::PrefabEntityId prefabEntityId(AZ::Name(spawnableAsset.GetHint().c_str()));
+                Multiplayer::INetworkEntityManager* networkEntityManager = Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
+                Multiplayer::INetworkEntityManager::EntityList entityList =
+                    networkEntityManager->CreateEntitiesImmediate(prefabEntityId, Multiplayer::NetEntityRole::Authority, transform);
+                m_lastSpawnedStringNetEntityIds.clear();
+                for (auto entity : entityList)
+                    m_lastSpawnedStringNetEntityIds.push_back(AZStd::to_string(entity.GetNetEntityId()));
+
+                m_netEntityHandles.push_back(entityList[0]);
+
+                // There aren't spawn tickets when using CreateEntitiesImmediate(...), so just leaving this here for reference
+                // m_lastSpawnedTicketId = entityList.front().GetEntity()->GetEntitySpawnTicketId();
+                // AzFramework::SpawnableEntitiesInterface::Get()->RetrieveTicket(
+                //    m_lastSpawnedTicketId,
+                //    [this](AzFramework::EntitySpawnTicket&& ticket)
+                //    {
+                //        m_spawnTickets.emplace(*ticket);
+                //    });
+
+                if (m_networkSpawnerControllerObject != nullptr)
+                {
+                    m_networkSpawnerControllerObject->SetLastSpawnedStringNetEntityIds(m_lastSpawnedStringNetEntityIds);
+                    const Multiplayer::INetworkEntityManager* networkEntityManager =
+                        Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
+                    m_networkSpawnerControllerObject->SetNetEntityIdStringCausedLastSpawn(
+                        AZStd::to_string(networkEntityManager->GetNetEntityIdById(GetEntityId())));
+                    // There aren't spawn tickets when using CreateEntitiesImmediate(...), so just leaving this here for reference
+                    // m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
+                    // m_lastSpawnedTicketIdByStringNetEntityId = AZStd::pair<uint32_t, AZStd::string>(
+                    //    m_lastSpawnedTicketId, AZStd::to_string(networkEntityManager->GetNetEntityIdById(GetEntityId())));
+                    // m_networkSpawnerControllerObject->SetLastSpawnedTicketIdByStringNetEntityId(
+                    //    m_lastSpawnedTicketIdByStringNetEntityId);
+                }
+                return true;
+            }
+            else
+            {
+                AZ_Error(
+                    "SpawnerComponent",
+                    false,
+                    "Asset '%s' is of type %s, but expected a Spawnable type.",
+                    prefabAssetId.ToString<AZStd::string>().c_str(),
+                    prefabAssetInfo.m_assetType.ToString<AZStd::string>().c_str());
+                return false;
+            }
+        }
+        else
+        {
+            AZ_Error("SpawnerComponent", false, "Invalid prefab asset Id.");
+            return false;
+        }
+    }
     bool SpawnerComponent::DepawnPrefabTicketId(const uint32_t& prefabTicketId)
     {
         for (auto ticket : m_spawnTickets)
@@ -526,6 +759,27 @@ namespace Hermes
         }
 
         AZ_Error("SpawnerComponent", false, "Failed to find %lu prefab ticketId for despawning.", prefabTicketId);
+        return false;
+    }
+    bool SpawnerComponent::DepawnNetEntityIdAndChildren(const AZStd::string& netEntityId)
+    {
+        Multiplayer::INetworkEntityManager* networkEntityManager = Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
+        for (auto netEntityHandleIt = m_netEntityHandles.begin(); netEntityHandleIt != m_netEntityHandles.end(); ++netEntityHandleIt)
+        {
+            if (AZStd::to_string(netEntityHandleIt->GetNetEntityId()) == netEntityId)
+            {
+                AZStd::vector<AZ::EntityId> children;
+                AZ::TransformBus::EventResult(children, netEntityHandleIt->GetEntity()->GetId(), &AZ::TransformBus::Events::GetChildren);
+                for (auto child : children)
+                    networkEntityManager->MarkForRemoval(networkEntityManager->GetEntity(networkEntityManager->GetNetEntityIdById(child)));
+
+                networkEntityManager->MarkForRemoval(*netEntityHandleIt);
+                m_netEntityHandles.erase(netEntityHandleIt);
+                return true;
+            }
+        }
+
+        AZ_Error("SpawnerComponent", false, "Failed to find %s NetEntityId for despawning.", netEntityId.c_str());
         return false;
     }
     AZStd::pair<uint32_t, AZStd::string> SpawnerComponent::GetLastSpawnedTicketIdByStringNetEntityId()

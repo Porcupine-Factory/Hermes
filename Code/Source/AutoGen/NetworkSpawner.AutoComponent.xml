@@ -61,8 +61,19 @@
         <Param Type="AZ::Transform" Name="Transform"/>
         <Param Type="bool" Name="MakeChild"/>
     </RemoteProcedure>
+    <RemoteProcedure Name="SpawnNetPrefabName" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Spawn a prefab using a name given by an autonomous client, specifically using the associated .network.spawnable via INetworkEntityManager::CreateEntitiesImmediate(...)">
+        <Param Type="AZStd::string" Name="PrefabName"/>
+        <Param Type="AZ::Transform" Name="Transform"/>
+    </RemoteProcedure>
+    <RemoteProcedure Name="SpawnNetPrefabPath" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Spawn a prefab using a path given by an autonomous client, specifically using the associated .network.spawnable via INetworkEntityManager::CreateEntitiesImmediate(...)">
+        <Param Type="AZStd::string" Name="PrefabPath"/>
+        <Param Type="AZ::Transform" Name="Transform"/>
+    </RemoteProcedure>
     <RemoteProcedure Name="DepawnPrefabTicketId" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Despawn the prefab associated with a TicketId given by an autonomous client">
         <Param Type="uint32_t" Name="PrefabTicketId"/>
+    </RemoteProcedure>
+    <RemoteProcedure Name="DepawnNetEntityIdAndChildren" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Despawn the NetEntityId and its children, given by an autonomous client">
+        <Param Type="AZStd::string" Name="NetEntityId"/>
     </RemoteProcedure>
 
 </Component>

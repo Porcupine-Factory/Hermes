@@ -115,11 +115,32 @@ namespace Hermes
             AZ_Error("NetworkSpawnerController", false, "Spawning the specified prefab path failed.");
     }
 
+    void NetworkSpawnerController::HandleSpawnNetPrefabName(
+        [[maybe_unused]] AzNetworking::IConnection* invokingConnection, const AZStd::string& prefabName, const AZ::Transform& transform)
+    {
+        if (!m_spawnerObject->SpawnNetPrefabName(prefabName, transform))
+            AZ_Error("NetworkSpawnerController", false, "Spawning the specified (net) prefab name failed.");
+    }
+
+    void NetworkSpawnerController::HandleSpawnNetPrefabPath(
+        [[maybe_unused]] AzNetworking::IConnection* invokingConnection, const AZStd::string& prefabName, const AZ::Transform& transform)
+    {
+        if (!m_spawnerObject->SpawnNetPrefabPath(prefabName, transform))
+            AZ_Error("NetworkSpawnerController", false, "Spawning the specified (net) prefab path failed.");
+    }
+
     void NetworkSpawnerController::HandleDepawnPrefabTicketId(
         [[maybe_unused]] AzNetworking::IConnection* invokingConnection, const uint32_t& prefabTicketId)
     {
         if (!m_spawnerObject->DepawnPrefabTicketId(prefabTicketId))
             AZ_Error("NetworkSpawnerController", false, "Despawning %lu prefab ticketId failed.", prefabTicketId);
+    }
+
+    void NetworkSpawnerController::HandleDepawnNetEntityIdAndChildren(
+        [[maybe_unused]] AzNetworking::IConnection* invokingConnection, const AZStd::string& netEntityId)
+    {
+        if (!m_spawnerObject->DepawnNetEntityIdAndChildren(netEntityId))
+            AZ_Error("NetworkSpawnerController", false, "Despawning %s NetEntityId failed.", netEntityId.c_str());
     }
 
     // Event Notification methods for use in scripts

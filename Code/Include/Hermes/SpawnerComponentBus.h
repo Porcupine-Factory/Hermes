@@ -17,7 +17,10 @@ namespace Hermes
 
         virtual bool SpawnPrefabName(const AZStd::string&, const AZ::Transform&, const bool&) = 0;
         virtual bool SpawnPrefabPath(const AZStd::string&, const AZ::Transform&, const bool&) = 0;
+        virtual bool SpawnNetPrefabName(const AZStd::string&, const AZ::Transform&) = 0;
+        virtual bool SpawnNetPrefabPath(const AZStd::string&, const AZ::Transform&) = 0;
         virtual bool DepawnPrefabTicketId(const uint32_t&) = 0;
+        virtual bool DepawnNetEntityIdAndChildren(const AZStd::string&) = 0;
         virtual AZStd::pair<uint32_t, AZStd::string> GetLastSpawnedTicketIdByStringNetEntityId() = 0;
         virtual void SetLastSpawnedTicketIdByStringNetEntityId(const AZStd::pair<uint32_t, AZStd::string>&) = 0;
         virtual uint32_t GetLastSpawnedTicketId() = 0;
