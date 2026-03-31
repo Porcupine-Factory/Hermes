@@ -597,8 +597,7 @@ namespace Hermes
                 if (m_networkSpawnerControllerObject != nullptr)
                 {
                     m_networkSpawnerControllerObject->SetLastSpawnedStringNetEntityIds(m_lastSpawnedStringNetEntityIds);
-                    const Multiplayer::INetworkEntityManager* networkEntityManager =
-                        Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
+                    networkEntityManager = Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
                     m_networkSpawnerControllerObject->SetNetEntityIdStringCausedLastSpawn(
                         AZStd::to_string(networkEntityManager->GetNetEntityIdById(GetEntityId())));
                     // There aren't spawn tickets when using CreateEntitiesImmediate(...), so just leaving this here for reference
@@ -713,8 +712,7 @@ namespace Hermes
                 if (m_networkSpawnerControllerObject != nullptr)
                 {
                     m_networkSpawnerControllerObject->SetLastSpawnedStringNetEntityIds(m_lastSpawnedStringNetEntityIds);
-                    const Multiplayer::INetworkEntityManager* networkEntityManager =
-                        Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
+                    networkEntityManager = Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
                     m_networkSpawnerControllerObject->SetNetEntityIdStringCausedLastSpawn(
                         AZStd::to_string(networkEntityManager->GetNetEntityIdById(GetEntityId())));
                     // There aren't spawn tickets when using CreateEntitiesImmediate(...), so just leaving this here for reference
