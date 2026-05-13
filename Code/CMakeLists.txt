@@ -54,7 +54,7 @@ ly_add_target(
             AZ::AzFramework
             Gem::FirstPersonController
             # For autogen components
-            Gem::AMultiplayerPhysX5.Unified.Static
+            Gem::Multiplayer.Unified.Static
     AUTOGEN_RULES
         *.AutoComponent.xml,AutoComponent_Header.jinja,$path/$fileprefix.AutoComponent.h
         *.AutoComponent.xml,AutoComponent_Source.jinja,$path/$fileprefix.AutoComponent.cpp
@@ -80,7 +80,7 @@ ly_add_target(
             AZ::AzCore
             AZ::AzFramework
             # For autogen components
-            Gem::AMultiplayerPhysX5.Unified.Static
+            Gem::Multiplayer.Unified.Static
     AUTOGEN_RULES
         *.AutoComponent.xml,AutoComponent_Header.jinja,$path/$fileprefix.AutoComponent.h
         *.AutoComponent.xml,AutoComponent_Source.jinja,$path/$fileprefix.AutoComponent.cpp

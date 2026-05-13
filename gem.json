@@ -18,9 +18,10 @@
         ""
     ],
     "icon_path": "preview.png",
-    "requirements": "This gem requires the MultiplayerPhysX5 gem.",
+    "requirements": "This gem requires the Multiplayer gem.",
     "documentation_url": "https://gitlab.com/porcupine-factory/Hermes",
     "dependencies": [
+        "Multiplayer"
     ],
     "repo_uri": "",
     "compatible_engines": [
