@@ -32,9 +32,41 @@ ly_add_target(
            AZ::AzCore
 )
 
+# Determine if the FirstPersonController gem is enabled
+set(FPC_GEM_ENABLED FALSE)
+
+# Check project.json for the FirstPersonController gem
+if(NOT FPC_GEM_ENABLED AND EXISTS "${CMAKE_SOURCE_DIR}/project.json")
+    file(READ "${CMAKE_SOURCE_DIR}/project.json" _project_json_content)
+    if(_project_json_content MATCHES "\"FirstPersonController\"" OR
+       _project_json_content MATCHES "\"FirstPersonController==" OR
+       _project_json_content MATCHES "\"FirstPersonController>=" OR
+       _project_json_content MATCHES "\"FirstPersonController~=" OR
+       _project_json_content MATCHES "\"FirstPersonController>" OR
+       _project_json_content MATCHES "\"FirstPersonController<")
+        set(FPC_GEM_ENABLED TRUE)
+    endif()
+endif()
+
+# Fallback to checking enabled_gems.cmake
+if(NOT FPC_GEM_ENABLED AND EXISTS "${CMAKE_SOURCE_DIR}/Code/enabled_gems.cmake")
+    file(READ "${CMAKE_SOURCE_DIR}/Code/enabled_gems.cmake" _enabled_gems_content)
+    if(_enabled_gems_content MATCHES "\"FirstPersonController\"" OR
+       _enabled_gems_content MATCHES "[ \t\r\n]FirstPersonController[ \t\r\n]")
+        set(FPC_GEM_ENABLED TRUE)
+    endif()
+endif()
+
+# When building the engine workspace directly, check the standard gems location
+if(NOT FPC_GEM_ENABLED AND EXISTS "${CMAKE_SOURCE_DIR}/engine.json")
+    if(EXISTS "${CMAKE_SOURCE_DIR}/Gems/FirstPersonController")
+        set(FPC_GEM_ENABLED TRUE)
+    endif()
+endif()
+
 # The ${gem_name}.Private.Object target is an internal target
 # It should not be used outside of this Gems CMakeLists.txt
-if(TARGET Gem::FirstPersonController)
+if(FPC_GEM_ENABLED)
 ly_add_target(
     NAME ${gem_name}.Private.Object STATIC
     NAMESPACE Gem
