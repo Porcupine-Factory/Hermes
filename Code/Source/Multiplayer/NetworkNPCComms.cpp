@@ -105,15 +105,15 @@ namespace Hermes
 
     // Event Notification methods for use in scripts
     void NetworkNPCCommsController::OnNetworkTickStart(
-        [[maybe_unused]] const float& deltaTime, [[maybe_unused]] const bool& server, [[maybe_unused]] const AZ::EntityId& entityId)
+        [[maybe_unused]] const float deltaTime, [[maybe_unused]] const bool server, [[maybe_unused]] const AZ::EntityId& entityId)
     {
     }
     void NetworkNPCCommsController::OnNetworkTickFinish(
-        [[maybe_unused]] const float& deltaTime, [[maybe_unused]] const bool& server, [[maybe_unused]] const AZ::EntityId& entityId)
+        [[maybe_unused]] const float deltaTime, [[maybe_unused]] const bool server, [[maybe_unused]] const AZ::EntityId& entityId)
     {
     }
 
-    void NetworkNPCCommsController::OnEnableNetworkNPCCommsChanged(const bool& enable)
+    void NetworkNPCCommsController::OnEnableNetworkNPCCommsChanged(const bool enable)
     {
         m_disabled = !enable;
         m_nPCCommsObject->m_networkNPCCommsEnabled = enable;
@@ -124,7 +124,7 @@ namespace Hermes
     {
         return !m_disabled;
     }
-    void NetworkNPCCommsController::SetEnabled(const bool& new_enabled)
+    void NetworkNPCCommsController::SetEnabled(const bool new_enabled)
     {
         m_disabled = !new_enabled;
         m_nPCCommsObject->m_networkNPCCommsEnabled = new_enabled;

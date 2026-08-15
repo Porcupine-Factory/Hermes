@@ -112,7 +112,7 @@ namespace Hermes
         m_prevDeltaTime = deltaTime;
     }
 
-    void NPCCommsComponent::OnNetworkTickStart(const float& deltaTime, const bool& server, const AZ::EntityId& entityId)
+    void NPCCommsComponent::OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId)
     {
         if (!m_isAutonomousClient && !m_isServer && !m_isHost)
         {
@@ -132,7 +132,7 @@ namespace Hermes
         }
     }
 
-    void NPCCommsComponent::OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entityId)
+    void NPCCommsComponent::OnNetworkTickFinish(const float deltaTime, const bool server, const AZ::EntityId& entityId)
     {
         if ((!m_isAutonomousClient && !m_isServer && !m_isHost) || (entityId != GetEntityId()))
             return;
@@ -159,7 +159,7 @@ namespace Hermes
     }
 
     // Frame tick == 0, physics fixed timestep == 1 (not used in NPCComms), network tick == 2
-    void NPCCommsComponent::ProcessInput([[maybe_unused]] const float& deltaTime, const AZ::u8& tickTimestepNetwork)
+    void NPCCommsComponent::ProcessInput([[maybe_unused]] const float deltaTime, const AZ::u8& tickTimestepNetwork)
     {
         if (tickTimestepNetwork == 2)
         {
@@ -169,10 +169,10 @@ namespace Hermes
     }
 
     // Event Notification methods for use in scripts
-    void NPCCommsComponent::OnNetworkNPCCommsTickStart([[maybe_unused]] const float& deltaTime)
+    void NPCCommsComponent::OnNetworkNPCCommsTickStart([[maybe_unused]] const float deltaTime)
     {
     }
-    void NPCCommsComponent::OnNetworkNPCCommsTickFinish([[maybe_unused]] const float& deltaTime)
+    void NPCCommsComponent::OnNetworkNPCCommsTickFinish([[maybe_unused]] const float deltaTime)
     {
     }
 
@@ -184,13 +184,13 @@ namespace Hermes
         else
             return m_aggroed;
     }
-    void NPCCommsComponent::SetAggroed(const bool& new_aggroed)
+    void NPCCommsComponent::SetAggroed(const bool new_aggroed)
     {
         m_aggroed = new_aggroed;
         if (m_networkNPCCommsEnabled && m_networkNPCCommsControllerObject != nullptr)
             m_networkNPCCommsControllerObject->SetAggroed(m_aggroed);
     }
-    void NPCCommsComponent::SetAggroedRPC(const bool& new_aggroed)
+    void NPCCommsComponent::SetAggroedRPC(const bool new_aggroed)
     {
         m_aggroed = new_aggroed;
         if (m_networkNPCCommsEnabled && m_networkNPCCommsControllerObject != nullptr)
@@ -212,7 +212,7 @@ namespace Hermes
     {
         return m_networkNPCCommsEnabled;
     }
-    void NPCCommsComponent::SetLocallyEnableNetworkNPCComms(const bool& new_networkNPCCommsEnabled)
+    void NPCCommsComponent::SetLocallyEnableNetworkNPCComms(const bool new_networkNPCCommsEnabled)
     {
         m_networkNPCCommsEnabled = new_networkNPCCommsEnabled;
         NetworkNPCCommsControllerRequestBus::Event(

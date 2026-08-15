@@ -40,7 +40,7 @@ namespace Hermes
 
         // NetworkExampleControllerRequestBus
         bool GetEnabled() const override;
-        void SetEnabled(const bool& new_enabled) override;
+        void SetEnabled(const bool new_enabled) override;
 
 #if AZ_TRAIT_SERVER
         void HandleSendExampTemporaryVarRPC(AzNetworking::IConnection* invokingConnection, const AZ::u32& exampTemporaryVar) override;
@@ -48,8 +48,8 @@ namespace Hermes
 
     private:
         // NetworkExampleControllerNotificationBus
-        void OnNetworkTickStart(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
-        void OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
+        void OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId);
+        void OnNetworkTickFinish(const float deltaTime, const bool server, const AZ::EntityId& entityId);
 
         // Used to initialize Network Properties from initial values in the Example component
         bool m_init = true;
@@ -62,7 +62,7 @@ namespace Hermes
 
         // EnableNetworkExample Changed Event
         AZ::Event<bool>::Handler m_enableNetworkExampleChangedEvent;
-        void OnEnableNetworkExampleChanged(const bool& enable);
+        void OnEnableNetworkExampleChanged(const bool enable);
         bool m_disabled = false;
     };
 } // namespace Hermes

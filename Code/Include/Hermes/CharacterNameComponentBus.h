@@ -21,7 +21,7 @@ namespace Hermes
         virtual bool GetIsServer() const = 0;
         virtual bool GetIsHost() const = 0;
         virtual bool GetLocallyEnableNetworkCharacterName() const = 0;
-        virtual void SetLocallyEnableNetworkCharacterName(const bool& new_networkCharacterNameEnabled) = 0;
+        virtual void SetLocallyEnableNetworkCharacterName(const bool new_networkCharacterNameEnabled) = 0;
         virtual void IsAutonomousSoConnect() = 0;
         virtual void NotAutonomousSoDisconnect() = 0;
     };
@@ -31,8 +31,8 @@ namespace Hermes
     class CharacterNameComponentNotifications : public AZ::ComponentBus
     {
     public:
-        virtual void OnNetworkCharacterNameTickStart(const float&) = 0;
-        virtual void OnNetworkCharacterNameTickFinish(const float&) = 0;
+        virtual void OnNetworkCharacterNameTickStart(const float) = 0;
+        virtual void OnNetworkCharacterNameTickFinish(const float) = 0;
     };
 
     using CharacterNameComponentNotificationBus = AZ::EBus<CharacterNameComponentNotifications>;
@@ -49,11 +49,11 @@ namespace Hermes
             OnNetworkCharacterNameTickStart,
             OnNetworkCharacterNameTickFinish);
 
-        void OnNetworkCharacterNameTickStart(const float& deltaTime) override
+        void OnNetworkCharacterNameTickStart(const float deltaTime) override
         {
             Call(FN_OnNetworkCharacterNameTickStart, deltaTime);
         }
-        void OnNetworkCharacterNameTickFinish(const float& deltaTime) override
+        void OnNetworkCharacterNameTickFinish(const float deltaTime) override
         {
             Call(FN_OnNetworkCharacterNameTickFinish, deltaTime);
         }

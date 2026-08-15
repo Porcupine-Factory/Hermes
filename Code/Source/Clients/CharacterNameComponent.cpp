@@ -114,7 +114,7 @@ namespace Hermes
         m_prevDeltaTime = deltaTime;
     }
 
-    void CharacterNameComponent::OnNetworkTickStart(const float& deltaTime, const bool& server, const AZ::EntityId& entityId)
+    void CharacterNameComponent::OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId)
     {
         if (!m_isAutonomousClient && !m_isServer && !m_isHost)
         {
@@ -135,7 +135,7 @@ namespace Hermes
         }
     }
 
-    void CharacterNameComponent::OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entityId)
+    void CharacterNameComponent::OnNetworkTickFinish(const float deltaTime, const bool server, const AZ::EntityId& entityId)
     {
         if ((!m_isAutonomousClient && !m_isServer && !m_isHost) || (entityId != GetEntityId()))
             return;
@@ -161,7 +161,7 @@ namespace Hermes
     }
 
     // Frame tick == 0, physics fixed timestep == 1 (not used in CharacterName), network tick == 2
-    void CharacterNameComponent::ProcessInput([[maybe_unused]] const float& deltaTime, [[maybe_unused]] const AZ::u8& tickTimestepNetwork)
+    void CharacterNameComponent::ProcessInput([[maybe_unused]] const float deltaTime, [[maybe_unused]] const AZ::u8& tickTimestepNetwork)
     {
         // No need to get and set the name network property every tick since it's handled with the RPC call
         /*if (m_isServer && tickTimestepNetwork == 2)
@@ -210,7 +210,7 @@ namespace Hermes
     {
         return m_networkCharacterNameEnabled;
     }
-    void CharacterNameComponent::SetLocallyEnableNetworkCharacterName(const bool& new_networkCharacterNameEnabled)
+    void CharacterNameComponent::SetLocallyEnableNetworkCharacterName(const bool new_networkCharacterNameEnabled)
     {
         m_networkCharacterNameEnabled = new_networkCharacterNameEnabled;
         NetworkCharacterNameControllerRequestBus::Event(

@@ -112,7 +112,7 @@ namespace Hermes
         m_prevDeltaTime = deltaTime;
     }
 
-    void HermesComponent::OnNetworkTickStart(const float& deltaTime, const bool& server, const AZ::EntityId& entityId)
+    void HermesComponent::OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId)
     {
         if (!m_isAutonomousClient && !m_isServer && !m_isHost)
         {
@@ -132,7 +132,7 @@ namespace Hermes
         }
     }
 
-    void HermesComponent::OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entityId)
+    void HermesComponent::OnNetworkTickFinish(const float deltaTime, const bool server, const AZ::EntityId& entityId)
     {
         if ((!m_isAutonomousClient && !m_isServer && !m_isHost) || (entityId != GetEntityId()))
             return;
@@ -159,7 +159,7 @@ namespace Hermes
     }
 
     // Frame tick == 0, physics fixed timestep == 1 (not used in Hermes), network tick == 2
-    void HermesComponent::ProcessInput([[maybe_unused]] const float& deltaTime, const AZ::u8& tickTimestepNetwork)
+    void HermesComponent::ProcessInput([[maybe_unused]] const float deltaTime, const AZ::u8& tickTimestepNetwork)
     {
         if (tickTimestepNetwork == 2)
         {
@@ -212,7 +212,7 @@ namespace Hermes
     {
         return m_networkHermesEnabled;
     }
-    void HermesComponent::SetLocallyEnableNetworkHermes(const bool& new_networkHermesEnabled)
+    void HermesComponent::SetLocallyEnableNetworkHermes(const bool new_networkHermesEnabled)
     {
         m_networkHermesEnabled = new_networkHermesEnabled;
         NetworkHermesControllerRequestBus::Event(

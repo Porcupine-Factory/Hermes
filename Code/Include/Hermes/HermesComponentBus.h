@@ -21,7 +21,7 @@ namespace Hermes
         virtual bool GetIsServer() const = 0;
         virtual bool GetIsHost() const = 0;
         virtual bool GetLocallyEnableNetworkHermes() const = 0;
-        virtual void SetLocallyEnableNetworkHermes(const bool& new_networkHermesEnabled) = 0;
+        virtual void SetLocallyEnableNetworkHermes(const bool new_networkHermesEnabled) = 0;
         virtual void IsAutonomousSoConnect() = 0;
         virtual void NotAutonomousSoDisconnect() = 0;
     };
@@ -31,8 +31,8 @@ namespace Hermes
     class HermesComponentNotifications : public AZ::ComponentBus
     {
     public:
-        virtual void OnNetworkHermesTickStart(const float&) = 0;
-        virtual void OnNetworkHermesTickFinish(const float&) = 0;
+        virtual void OnNetworkHermesTickStart(const float) = 0;
+        virtual void OnNetworkHermesTickFinish(const float) = 0;
     };
 
     using HermesComponentNotificationBus = AZ::EBus<HermesComponentNotifications>;
@@ -49,11 +49,11 @@ namespace Hermes
             OnNetworkHermesTickStart,
             OnNetworkHermesTickFinish);
 
-        void OnNetworkHermesTickStart(const float& deltaTime) override
+        void OnNetworkHermesTickStart(const float deltaTime) override
         {
             Call(FN_OnNetworkHermesTickStart, deltaTime);
         }
-        void OnNetworkHermesTickFinish(const float& deltaTime) override
+        void OnNetworkHermesTickFinish(const float deltaTime) override
         {
             Call(FN_OnNetworkHermesTickFinish, deltaTime);
         }

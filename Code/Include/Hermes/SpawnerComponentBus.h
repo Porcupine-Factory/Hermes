@@ -15,25 +15,25 @@ namespace Hermes
     public:
         ~SpawnerComponentRequests() override = default;
 
-        virtual bool SpawnPrefabName(const AZStd::string&, const AZ::Transform&, const bool&) = 0;
-        virtual bool SpawnPrefabPath(const AZStd::string&, const AZ::Transform&, const bool&) = 0;
+        virtual bool SpawnPrefabName(const AZStd::string&, const AZ::Transform&, const bool) = 0;
+        virtual bool SpawnPrefabPath(const AZStd::string&, const AZ::Transform&, const bool) = 0;
         virtual bool SpawnNetPrefabName(const AZStd::string&, const AZ::Transform&) = 0;
         virtual bool SpawnNetPrefabPath(const AZStd::string&, const AZ::Transform&) = 0;
-        virtual bool DepawnPrefabTicketId(const uint32_t&) = 0;
+        virtual bool DepawnPrefabTicketId(const uint32_t) = 0;
         virtual bool DepawnNetEntityIdAndChildren(const AZStd::string&) = 0;
         virtual AZStd::pair<uint32_t, AZStd::string> GetLastSpawnedTicketIdByStringNetEntityId() = 0;
         virtual void SetLastSpawnedTicketIdByStringNetEntityId(const AZStd::pair<uint32_t, AZStd::string>&) = 0;
         virtual uint32_t GetLastSpawnedTicketId() = 0;
-        virtual void SetLastSpawnedTicketId(const uint32_t&) = 0;
+        virtual void SetLastSpawnedTicketId(const uint32_t) = 0;
         virtual AZStd::vector<AZStd::string> GetLastSpawnedStringNetEntityIds() = 0;
         virtual void SetLastSpawnedStringNetEntityIds(const AZStd::vector<AZStd::string>&) = 0;
         virtual uint32_t GetLastDespawnedTicketId() = 0;
-        virtual void SetLastDespawnedTicketId(const uint32_t&) = 0;
+        virtual void SetLastDespawnedTicketId(const uint32_t) = 0;
         virtual bool GetIsAutonomousClient() const = 0;
         virtual bool GetIsServer() const = 0;
         virtual bool GetIsHost() const = 0;
         virtual bool GetLocallyEnableNetworkSpawner() const = 0;
-        virtual void SetLocallyEnableNetworkSpawner(const bool& new_networkSpawnerEnabled) = 0;
+        virtual void SetLocallyEnableNetworkSpawner(const bool new_networkSpawnerEnabled) = 0;
         virtual void IsAutonomousSoConnect() = 0;
         virtual void NotAutonomousSoDisconnect() = 0;
     };
@@ -43,8 +43,8 @@ namespace Hermes
     class SpawnerComponentNotifications : public AZ::ComponentBus
     {
     public:
-        virtual void OnNetworkSpawnerTickStart(const float&) = 0;
-        virtual void OnNetworkSpawnerTickFinish(const float&) = 0;
+        virtual void OnNetworkSpawnerTickStart(const float) = 0;
+        virtual void OnNetworkSpawnerTickFinish(const float) = 0;
     };
 
     using SpawnerComponentNotificationBus = AZ::EBus<SpawnerComponentNotifications>;
@@ -61,11 +61,11 @@ namespace Hermes
             OnNetworkSpawnerTickStart,
             OnNetworkSpawnerTickFinish);
 
-        void OnNetworkSpawnerTickStart(const float& deltaTime) override
+        void OnNetworkSpawnerTickStart(const float deltaTime) override
         {
             Call(FN_OnNetworkSpawnerTickStart, deltaTime);
         }
-        void OnNetworkSpawnerTickFinish(const float& deltaTime) override
+        void OnNetworkSpawnerTickFinish(const float deltaTime) override
         {
             Call(FN_OnNetworkSpawnerTickFinish, deltaTime);
         }

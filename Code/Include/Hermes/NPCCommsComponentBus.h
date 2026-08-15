@@ -15,13 +15,13 @@ namespace Hermes
         ~NPCCommsComponentRequests() override = default;
 
         virtual bool GetAggroed() const = 0;
-        virtual void SetAggroed(const bool&) = 0;
-        virtual void SetAggroedRPC(const bool&) = 0;
+        virtual void SetAggroed(const bool) = 0;
+        virtual void SetAggroedRPC(const bool) = 0;
         virtual bool GetIsAutonomousClient() const = 0;
         virtual bool GetIsServer() const = 0;
         virtual bool GetIsHost() const = 0;
         virtual bool GetLocallyEnableNetworkNPCComms() const = 0;
-        virtual void SetLocallyEnableNetworkNPCComms(const bool& new_networkNPCCommsEnabled) = 0;
+        virtual void SetLocallyEnableNetworkNPCComms(const bool new_networkNPCCommsEnabled) = 0;
         virtual void IsAutonomousSoConnect() = 0;
         virtual void NotAutonomousSoDisconnect() = 0;
     };
@@ -31,8 +31,8 @@ namespace Hermes
     class NPCCommsComponentNotifications : public AZ::ComponentBus
     {
     public:
-        virtual void OnNetworkNPCCommsTickStart(const float&) = 0;
-        virtual void OnNetworkNPCCommsTickFinish(const float&) = 0;
+        virtual void OnNetworkNPCCommsTickStart(const float) = 0;
+        virtual void OnNetworkNPCCommsTickFinish(const float) = 0;
     };
 
     using NPCCommsComponentNotificationBus = AZ::EBus<NPCCommsComponentNotifications>;
@@ -49,11 +49,11 @@ namespace Hermes
             OnNetworkNPCCommsTickStart,
             OnNetworkNPCCommsTickFinish);
 
-        void OnNetworkNPCCommsTickStart(const float& deltaTime) override
+        void OnNetworkNPCCommsTickStart(const float deltaTime) override
         {
             Call(FN_OnNetworkNPCCommsTickStart, deltaTime);
         }
-        void OnNetworkNPCCommsTickFinish(const float& deltaTime) override
+        void OnNetworkNPCCommsTickFinish(const float deltaTime) override
         {
             Call(FN_OnNetworkNPCCommsTickFinish, deltaTime);
         }

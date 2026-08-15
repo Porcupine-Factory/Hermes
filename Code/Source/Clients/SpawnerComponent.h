@@ -40,26 +40,26 @@ namespace Hermes
         static void GetIncompatibleServices(AZ::ComponentDescriptor::DependencyArrayType& incompatible);
 
         // SpawnerComponentRequestBus
-        bool SpawnPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform, const bool& makeChild = false) override;
-        bool SpawnPrefabPath(const AZStd::string& prefabPath, const AZ::Transform& transform, const bool& makeChild = false) override;
+        bool SpawnPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform, const bool makeChild = false) override;
+        bool SpawnPrefabPath(const AZStd::string& prefabPath, const AZ::Transform& transform, const bool makeChild = false) override;
         bool SpawnNetPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform) override;
         bool SpawnNetPrefabPath(const AZStd::string& prefabPath, const AZ::Transform& transform) override;
-        bool DepawnPrefabTicketId(const uint32_t& prefabTicketId) override;
+        bool DepawnPrefabTicketId(const uint32_t prefabTicketId) override;
         bool DepawnNetEntityIdAndChildren(const AZStd::string& netEntityId) override;
         AZStd::pair<uint32_t, AZStd::string> GetLastSpawnedTicketIdByStringNetEntityId() override;
         void SetLastSpawnedTicketIdByStringNetEntityId(
             const AZStd::pair<uint32_t, AZStd::string>& new_lastSpawnedTicketIdByStringNetEntityId) override;
         uint32_t GetLastSpawnedTicketId() override;
-        void SetLastSpawnedTicketId(const uint32_t& new_lastSpawnedTicketId) override;
+        void SetLastSpawnedTicketId(const uint32_t new_lastSpawnedTicketId) override;
         AZStd::vector<AZStd::string> GetLastSpawnedStringNetEntityIds() override;
         void SetLastSpawnedStringNetEntityIds(const AZStd::vector<AZStd::string>& new_lastSpawnedStringNetEntityIds) override;
         uint32_t GetLastDespawnedTicketId() override;
-        void SetLastDespawnedTicketId(const uint32_t& new_lastDespawnedTicketId) override;
+        void SetLastDespawnedTicketId(const uint32_t new_lastDespawnedTicketId) override;
         bool GetIsAutonomousClient() const override;
         bool GetIsServer() const override;
         bool GetIsHost() const override;
         bool GetLocallyEnableNetworkSpawner() const override;
-        void SetLocallyEnableNetworkSpawner(const bool& new_networkSpawnerEnabled) override;
+        void SetLocallyEnableNetworkSpawner(const bool new_networkSpawnerEnabled) override;
         void IsAutonomousSoConnect() override;
         void NotAutonomousSoDisconnect() override;
 
@@ -68,11 +68,11 @@ namespace Hermes
         void OnTick(float deltaTime, AZ::ScriptTimePoint) override;
 
         // Called on each tick
-        void ProcessInput(const float& deltaTime, const AZ::u8& tickTimestepNetwork);
+        void ProcessInput(const float deltaTime, const AZ::u8& tickTimestepNetwork);
 
         // NetworkSpawnerControllerNotificationBus
-        void OnNetworkTickStart(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
-        void OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
+        void OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId);
+        void OnNetworkTickFinish(const float deltaTime, const bool server, const AZ::EntityId& entityId);
 
         // Various methods used to implement the Spawner functionality
         void GetNetworkSpawnerProperties();

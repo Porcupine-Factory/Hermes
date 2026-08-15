@@ -45,7 +45,7 @@ namespace Hermes
         bool GetIsServer() const override;
         bool GetIsHost() const override;
         bool GetLocallyEnableNetworkExample() const override;
-        void SetLocallyEnableNetworkExample(const bool& new_networkExampleEnabled) override;
+        void SetLocallyEnableNetworkExample(const bool new_networkExampleEnabled) override;
         void IsAutonomousSoConnect() override;
         void NotAutonomousSoDisconnect() override;
 
@@ -54,11 +54,11 @@ namespace Hermes
         void OnTick(float deltaTime, AZ::ScriptTimePoint) override;
 
         // Called on each tick
-        void ProcessInput(const float& deltaTime, const AZ::u8& tickTimestepNetwork);
+        void ProcessInput(const float deltaTime, const AZ::u8& tickTimestepNetwork);
 
         // NetworkExampleControllerNotificationBus
-        void OnNetworkTickStart(const float& deltaTime, const bool& server, const AZ::EntityId& entity);
-        void OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entity);
+        void OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entity);
+        void OnNetworkTickFinish(const float deltaTime, const bool server, const AZ::EntityId& entity);
 
         // Various methods used to implement the Example functionality
         void SetNetworkExampleProperties() const;

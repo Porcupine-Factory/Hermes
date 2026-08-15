@@ -45,7 +45,7 @@ namespace Hermes
         bool GetIsServer() const override;
         bool GetIsHost() const override;
         bool GetLocallyEnableNetworkCharacterName() const override;
-        void SetLocallyEnableNetworkCharacterName(const bool& new_networkCharacterNameEnabled) override;
+        void SetLocallyEnableNetworkCharacterName(const bool new_networkCharacterNameEnabled) override;
         void IsAutonomousSoConnect() override;
         void NotAutonomousSoDisconnect() override;
 
@@ -54,11 +54,11 @@ namespace Hermes
         void OnTick(float deltaTime, AZ::ScriptTimePoint) override;
 
         // Called on each tick
-        void ProcessInput(const float& deltaTime, const AZ::u8& tickTimestepNetwork);
+        void ProcessInput(const float deltaTime, const AZ::u8& tickTimestepNetwork);
 
         // NetworkCharacterNameControllerNotificationBus
-        void OnNetworkTickStart(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
-        void OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
+        void OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId);
+        void OnNetworkTickFinish(const float deltaTime, const bool server, const AZ::EntityId& entityId);
 
         // Various methods used to implement the CharacterName functionality
         void GetNetworkCharacterNameProperties();

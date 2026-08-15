@@ -40,7 +40,7 @@ namespace Hermes
 
         // NetworkCharacterNameControllerRequestBus
         bool GetEnabled() const override;
-        void SetEnabled(const bool& new_enabled) override;
+        void SetEnabled(const bool new_enabled) override;
 
 #if AZ_TRAIT_SERVER
         void HandleSendNameOnServerRPC(AzNetworking::IConnection* invokingConnection, const AZStd::string& name) override;
@@ -48,8 +48,8 @@ namespace Hermes
 
     private:
         // NetworkCharacterNameControllerNotificationBus
-        void OnNetworkTickStart(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
-        void OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
+        void OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId);
+        void OnNetworkTickFinish(const float deltaTime, const bool server, const AZ::EntityId& entityId);
 
         // Used to initialize Network Properties from initial values in the CharacterName component
         bool m_init = true;
@@ -62,7 +62,7 @@ namespace Hermes
 
         // EnableNetworkCharacterName Changed Event
         AZ::Event<bool>::Handler m_enableNetworkCharacterNameChangedEvent;
-        void OnEnableNetworkCharacterNameChanged(const bool& enable);
+        void OnEnableNetworkCharacterNameChanged(const bool enable);
         bool m_disabled = false;
     };
 } // namespace Hermes

@@ -40,7 +40,7 @@ namespace Hermes
 
         // NetworkSpawnerControllerRequestBus
         bool GetEnabled() const override;
-        void SetEnabled(const bool& new_enabled) override;
+        void SetEnabled(const bool new_enabled) override;
 
         void HandleSpawnPrefabName(
             AzNetworking::IConnection* invokingConnection,
@@ -61,8 +61,8 @@ namespace Hermes
 
     private:
         // NetworkSpawnerControllerNotificationBus
-        void OnNetworkTickStart(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
-        void OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
+        void OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId);
+        void OnNetworkTickFinish(const float deltaTime, const bool server, const AZ::EntityId& entityId);
 
         // Used to initialize Network Properties from initial values in the Spawner component
         bool m_init = true;
@@ -75,7 +75,7 @@ namespace Hermes
 
         // EnableNetworkSpawner Changed Event
         AZ::Event<bool>::Handler m_enableNetworkSpawnerChangedEvent;
-        void OnEnableNetworkSpawnerChanged(const bool& enable);
+        void OnEnableNetworkSpawnerChanged(const bool enable);
         bool m_disabled = false;
     };
 } // namespace Hermes

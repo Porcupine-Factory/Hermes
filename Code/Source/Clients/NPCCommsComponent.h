@@ -39,30 +39,30 @@ namespace Hermes
 
         // NPCCommsComponentRequestBus
         bool GetAggroed() const override;
-        void SetAggroed(const bool& new_aggroed) override;
-        void SetAggroedRPC(const bool& new_aggroed) override;
+        void SetAggroed(const bool new_aggroed) override;
+        void SetAggroedRPC(const bool new_aggroed) override;
         bool GetIsAutonomousClient() const override;
         bool GetIsServer() const override;
         bool GetIsHost() const override;
         bool GetLocallyEnableNetworkNPCComms() const override;
-        void SetLocallyEnableNetworkNPCComms(const bool& new_networkNPCCommsEnabled) override;
+        void SetLocallyEnableNetworkNPCComms(const bool new_networkNPCCommsEnabled) override;
         void IsAutonomousSoConnect() override;
         void NotAutonomousSoDisconnect() override;
 
         // NPCCommsComponentNotificationBus
-        void OnNetworkNPCCommsTickStart(const float& deltaTime);
-        void OnNetworkNPCCommsTickFinish(const float& deltaTime);
+        void OnNetworkNPCCommsTickStart(const float deltaTime);
+        void OnNetworkNPCCommsTickFinish(const float deltaTime);
 
     private:
         // TickBus interface
         void OnTick(float deltaTime, AZ::ScriptTimePoint) override;
 
         // Called on each tick
-        void ProcessInput(const float& deltaTime, const AZ::u8& tickTimestepNetwork);
+        void ProcessInput(const float deltaTime, const AZ::u8& tickTimestepNetwork);
 
         // NetworkNPCCommsControllerNotificationBus
-        void OnNetworkTickStart(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
-        void OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
+        void OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId);
+        void OnNetworkTickFinish(const float deltaTime, const bool server, const AZ::EntityId& entityId);
 
         // Various methods used to implement the NPCComms functionality
         void GetNetworkNPCCommsProperties();

@@ -145,15 +145,15 @@ namespace Hermes
 
     // Event Notification methods for use in scripts
     void NetworkSpawnerController::OnNetworkTickStart(
-        [[maybe_unused]] const float& deltaTime, [[maybe_unused]] const bool& server, [[maybe_unused]] const AZ::EntityId& entityId)
+        [[maybe_unused]] const float deltaTime, [[maybe_unused]] const bool server, [[maybe_unused]] const AZ::EntityId& entityId)
     {
     }
     void NetworkSpawnerController::OnNetworkTickFinish(
-        [[maybe_unused]] const float& deltaTime, [[maybe_unused]] const bool& server, [[maybe_unused]] const AZ::EntityId& entityId)
+        [[maybe_unused]] const float deltaTime, [[maybe_unused]] const bool server, [[maybe_unused]] const AZ::EntityId& entityId)
     {
     }
 
-    void NetworkSpawnerController::OnEnableNetworkSpawnerChanged(const bool& enable)
+    void NetworkSpawnerController::OnEnableNetworkSpawnerChanged(const bool enable)
     {
         m_disabled = !enable;
         m_spawnerObject->m_networkSpawnerEnabled = enable;
@@ -164,7 +164,7 @@ namespace Hermes
     {
         return !m_disabled;
     }
-    void NetworkSpawnerController::SetEnabled(const bool& new_enabled)
+    void NetworkSpawnerController::SetEnabled(const bool new_enabled)
     {
         m_disabled = !new_enabled;
         m_spawnerObject->m_networkSpawnerEnabled = new_enabled;

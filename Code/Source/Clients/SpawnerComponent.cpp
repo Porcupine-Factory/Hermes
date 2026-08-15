@@ -148,7 +148,7 @@ namespace Hermes
         m_prevDeltaTime = deltaTime;
     }
 
-    void SpawnerComponent::OnNetworkTickStart(const float& deltaTime, const bool& server, const AZ::EntityId& entityId)
+    void SpawnerComponent::OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId)
     {
         if (!m_isAutonomousClient && !m_isServer && !m_isHost)
         {
@@ -168,7 +168,7 @@ namespace Hermes
         }
     }
 
-    void SpawnerComponent::OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entityId)
+    void SpawnerComponent::OnNetworkTickFinish(const float deltaTime, const bool server, const AZ::EntityId& entityId)
     {
         if ((!m_isAutonomousClient && !m_isServer && !m_isHost) || (entityId != GetEntityId()))
             return;
@@ -193,7 +193,7 @@ namespace Hermes
     }
 
     // Frame tick == 0, physics fixed timestep == 1 (not used in Spawner), network tick == 2
-    void SpawnerComponent::ProcessInput([[maybe_unused]] const float& deltaTime, const AZ::u8& tickTimestepNetwork)
+    void SpawnerComponent::ProcessInput([[maybe_unused]] const float deltaTime, const AZ::u8& tickTimestepNetwork)
     {
         if (tickTimestepNetwork == 2)
         {
@@ -203,7 +203,7 @@ namespace Hermes
     }
 
     // Request Bus getter and setter methods for use in scripts
-    bool SpawnerComponent::SpawnPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform, const bool& makeChild)
+    bool SpawnerComponent::SpawnPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform, const bool makeChild)
     {
         AZ::Data::AssetId prefabAssetId;
         if (!prefabName.empty())
@@ -354,7 +354,7 @@ namespace Hermes
             return false;
         }
     }
-    bool SpawnerComponent::SpawnPrefabPath(const AZStd::string& prefabPath, const AZ::Transform& transform, const bool& makeChild)
+    bool SpawnerComponent::SpawnPrefabPath(const AZStd::string& prefabPath, const AZ::Transform& transform, const bool makeChild)
     {
         AZ::Data::AssetId prefabAssetId;
         if (!prefabPath.empty())
@@ -733,7 +733,7 @@ namespace Hermes
             return false;
         }
     }
-    bool SpawnerComponent::DepawnPrefabTicketId(const uint32_t& prefabTicketId)
+    bool SpawnerComponent::DepawnPrefabTicketId(const uint32_t prefabTicketId)
     {
         for (auto ticket : m_spawnTickets)
         {
@@ -791,7 +791,7 @@ namespace Hermes
             m_lastSpawnedTicketId = m_networkSpawnerControllerObject->GetLastSpawnedTicketId();
         return m_lastSpawnedTicketId;
     }
-    void SpawnerComponent::SetLastSpawnedTicketId(const uint32_t& new_lastSpawnedTicketId)
+    void SpawnerComponent::SetLastSpawnedTicketId(const uint32_t new_lastSpawnedTicketId)
     {
         m_lastSpawnedTicketId = new_lastSpawnedTicketId;
         if (m_networkSpawnerControllerObject != nullptr)
@@ -815,7 +815,7 @@ namespace Hermes
             m_lastDespawnedTicketId = m_networkSpawnerControllerObject->GetLastDespawnedTicketId();
         return m_lastDespawnedTicketId;
     }
-    void SpawnerComponent::SetLastDespawnedTicketId(const uint32_t& new_lastDespawnedTicketId)
+    void SpawnerComponent::SetLastDespawnedTicketId(const uint32_t new_lastDespawnedTicketId)
     {
         m_lastDespawnedTicketId = new_lastDespawnedTicketId;
         if (m_networkSpawnerControllerObject != nullptr)
@@ -837,7 +837,7 @@ namespace Hermes
     {
         return m_networkSpawnerEnabled;
     }
-    void SpawnerComponent::SetLocallyEnableNetworkSpawner(const bool& new_networkSpawnerEnabled)
+    void SpawnerComponent::SetLocallyEnableNetworkSpawner(const bool new_networkSpawnerEnabled)
     {
         m_networkSpawnerEnabled = new_networkSpawnerEnabled;
         NetworkSpawnerControllerRequestBus::Event(

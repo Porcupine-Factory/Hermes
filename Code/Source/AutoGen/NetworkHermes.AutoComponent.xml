@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <Component
-    Name="NetworkHermes" 
+    Name="NetworkHermes"
     Namespace="Hermes"
     OverrideComponent="false"
     OverrideController="true"

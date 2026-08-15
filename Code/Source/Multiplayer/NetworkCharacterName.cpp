@@ -111,15 +111,15 @@ namespace Hermes
 
     // Event Notification methods for use in scripts
     void NetworkCharacterNameController::OnNetworkTickStart(
-        [[maybe_unused]] const float& deltaTime, [[maybe_unused]] const bool& server, [[maybe_unused]] const AZ::EntityId& entityId)
+        [[maybe_unused]] const float deltaTime, [[maybe_unused]] const bool server, [[maybe_unused]] const AZ::EntityId& entityId)
     {
     }
     void NetworkCharacterNameController::OnNetworkTickFinish(
-        [[maybe_unused]] const float& deltaTime, [[maybe_unused]] const bool& server, [[maybe_unused]] const AZ::EntityId& entityId)
+        [[maybe_unused]] const float deltaTime, [[maybe_unused]] const bool server, [[maybe_unused]] const AZ::EntityId& entityId)
     {
     }
 
-    void NetworkCharacterNameController::OnEnableNetworkCharacterNameChanged(const bool& enable)
+    void NetworkCharacterNameController::OnEnableNetworkCharacterNameChanged(const bool enable)
     {
         m_disabled = !enable;
         m_characterNameObject->m_networkCharacterNameEnabled = enable;
@@ -130,7 +130,7 @@ namespace Hermes
     {
         return !m_disabled;
     }
-    void NetworkCharacterNameController::SetEnabled(const bool& new_enabled)
+    void NetworkCharacterNameController::SetEnabled(const bool new_enabled)
     {
         m_disabled = !new_enabled;
         m_characterNameObject->m_networkCharacterNameEnabled = new_enabled;

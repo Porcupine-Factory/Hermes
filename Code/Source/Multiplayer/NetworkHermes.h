@@ -40,7 +40,7 @@ namespace Hermes
 
         // NetworkHermesControllerRequestBus
         bool GetEnabled() const override;
-        void SetEnabled(const bool& new_enabled) override;
+        void SetEnabled(const bool new_enabled) override;
 
 #if AZ_TRAIT_SERVER
         void HandleSendNumberDelta(AzNetworking::IConnection* invokingConnection, const AZ::s64& numberDelta) override;
@@ -48,8 +48,8 @@ namespace Hermes
 
     private:
         // NetworkHermesControllerNotificationBus
-        void OnNetworkTickStart(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
-        void OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entityId);
+        void OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId);
+        void OnNetworkTickFinish(const float deltaTime, const bool server, const AZ::EntityId& entityId);
 
         // Used to initialize Network Properties from initial values in the Hermes component
         bool m_init = true;
@@ -62,7 +62,7 @@ namespace Hermes
 
         // EnableNetworkHermes Changed Event
         AZ::Event<bool>::Handler m_enableNetworkHermesChangedEvent;
-        void OnEnableNetworkHermesChanged(const bool& enable);
+        void OnEnableNetworkHermesChanged(const bool enable);
         bool m_disabled = false;
     };
 } // namespace Hermes

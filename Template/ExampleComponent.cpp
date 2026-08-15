@@ -112,7 +112,7 @@ namespace Hermes
         m_prevDeltaTime = deltaTime;
     }
 
-    void ExampleComponent::OnNetworkTickStart(const float& deltaTime, const bool& server, const AZ::EntityId& entityId)
+    void ExampleComponent::OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId)
     {
         if (!m_isAutonomousClient && !m_isServer && !m_isHost)
         {
@@ -132,7 +132,7 @@ namespace Hermes
         }
     }
 
-    void ExampleComponent::OnNetworkTickFinish(const float& deltaTime, const bool& server, const AZ::EntityId& entityId)
+    void ExampleComponent::OnNetworkTickFinish(const float deltaTime, const bool server, const AZ::EntityId& entityId)
     {
         if ((!m_isAutonomousClient && !m_isServer && !m_isHost) || (entityId != GetEntityId()))
             return;
@@ -159,7 +159,7 @@ namespace Hermes
     }
 
     // Frame tick == 0, physics fixed timestep == 1 (not used in Example), network tick == 2
-    void ExampleComponent::ProcessInput([[maybe_unused]] const float& deltaTime, const AZ::u8& tickTimestepNetwork)
+    void ExampleComponent::ProcessInput([[maybe_unused]] const float deltaTime, const AZ::u8& tickTimestepNetwork)
     {
         if (tickTimestepNetwork == 2)
         {
@@ -204,7 +204,7 @@ namespace Hermes
     {
         return m_networkExampleEnabled;
     }
-    void ExampleComponent::SetLocallyEnableNetworkExample(const bool& new_networkExampleEnabled)
+    void ExampleComponent::SetLocallyEnableNetworkExample(const bool new_networkExampleEnabled)
     {
         m_networkExampleEnabled = new_networkExampleEnabled;
         NetworkExampleControllerRequestBus::Event(

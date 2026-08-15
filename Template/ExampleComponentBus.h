@@ -21,7 +21,7 @@ namespace Hermes
         virtual bool GetIsServer() const = 0;
         virtual bool GetIsHost() const = 0;
         virtual bool GetLocallyEnableNetworkExample() const = 0;
-        virtual void SetLocallyEnableNetworkExample(const bool& new_networkExampleEnabled) = 0;
+        virtual void SetLocallyEnableNetworkExample(const bool new_networkExampleEnabled) = 0;
         virtual void IsAutonomousSoConnect() = 0;
         virtual void NotAutonomousSoDisconnect() = 0;
     };
@@ -31,8 +31,8 @@ namespace Hermes
     class ExampleComponentNotifications : public AZ::ComponentBus
     {
     public:
-        virtual void OnNetworkExampleTickStart(const float&) = 0;
-        virtual void OnNetworkExampleTickFinish(const float&) = 0;
+        virtual void OnNetworkExampleTickStart(const float) = 0;
+        virtual void OnNetworkExampleTickFinish(const float) = 0;
     };
 
     using ExampleComponentNotificationBus = AZ::EBus<ExampleComponentNotifications>;
@@ -49,11 +49,11 @@ namespace Hermes
             OnNetworkExampleTickStart,
             OnNetworkExampleTickFinish);
 
-        void OnNetworkExampleTickStart(const float& deltaTime) override
+        void OnNetworkExampleTickStart(const float deltaTime) override
         {
             Call(FN_OnNetworkExampleTickStart, deltaTime);
         }
-        void OnNetworkExampleTickFinish(const float& deltaTime) override
+        void OnNetworkExampleTickFinish(const float deltaTime) override
         {
             Call(FN_OnNetworkExampleTickFinish, deltaTime);
         }
