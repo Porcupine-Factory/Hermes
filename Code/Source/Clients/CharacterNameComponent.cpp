@@ -171,14 +171,6 @@ namespace Hermes
         }*/
     }
 
-    // Event Notification methods for use in scripts
-    void CharacterNameComponent::OnNetworkCharacterNameTickStart([[maybe_unused]] const float& deltaTime)
-    {
-    }
-    void CharacterNameComponent::OnNetworkCharacterNameTickFinish([[maybe_unused]] const float& deltaTime)
-    {
-    }
-
     // Request Bus getter and setter methods for use in scripts
     AZStd::string CharacterNameComponent::GetName() const
     {

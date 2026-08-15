@@ -49,10 +49,6 @@ namespace Hermes
         void IsAutonomousSoConnect() override;
         void NotAutonomousSoDisconnect() override;
 
-        // CharacterNameComponentNotificationBus
-        void OnNetworkCharacterNameTickStart(const float& deltaTime);
-        void OnNetworkCharacterNameTickFinish(const float& deltaTime);
-
     private:
         // TickBus interface
         void OnTick(float deltaTime, AZ::ScriptTimePoint) override;

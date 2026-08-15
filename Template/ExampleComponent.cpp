@@ -168,14 +168,6 @@ namespace Hermes
         }
     }
 
-    // Event Notification methods for use in scripts
-    void ExampleComponent::OnNetworkExampleTickStart([[maybe_unused]] const float& deltaTime)
-    {
-    }
-    void ExampleComponent::OnNetworkExampleTickFinish([[maybe_unused]] const float& deltaTime)
-    {
-    }
-
     // Request Bus getter and setter methods for use in scripts
     AZ::u32 ExampleComponent::GetExampTemporaryVar() const
     {

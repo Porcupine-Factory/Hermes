@@ -63,10 +63,6 @@ namespace Hermes
         void IsAutonomousSoConnect() override;
         void NotAutonomousSoDisconnect() override;
 
-        // SpawnerComponentNotificationBus
-        void OnNetworkSpawnerTickStart(const float& deltaTime);
-        void OnNetworkSpawnerTickFinish(const float& deltaTime);
-
     private:
         // TickBus interface
         void OnTick(float deltaTime, AZ::ScriptTimePoint) override;

@@ -168,14 +168,6 @@ namespace Hermes
         }
     }
 
-    // Event Notification methods for use in scripts
-    void HermesComponent::OnNetworkHermesTickStart([[maybe_unused]] const float& deltaTime)
-    {
-    }
-    void HermesComponent::OnNetworkHermesTickFinish([[maybe_unused]] const float& deltaTime)
-    {
-    }
-
     // Request Bus getter and setter methods for use in scripts
     AZ::u32 HermesComponent::GetNumber() const
     {

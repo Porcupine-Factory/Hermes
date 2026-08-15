@@ -202,14 +202,6 @@ namespace Hermes
         }
     }
 
-    // Event Notification methods for use in scripts
-    void SpawnerComponent::OnNetworkSpawnerTickStart([[maybe_unused]] const float& deltaTime)
-    {
-    }
-    void SpawnerComponent::OnNetworkSpawnerTickFinish([[maybe_unused]] const float& deltaTime)
-    {
-    }
-
     // Request Bus getter and setter methods for use in scripts
     bool SpawnerComponent::SpawnPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform, const bool& makeChild)
     {
