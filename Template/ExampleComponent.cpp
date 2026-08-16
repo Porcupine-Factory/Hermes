@@ -108,8 +108,7 @@ namespace Hermes
 
     void ExampleComponent::OnTick(float deltaTime, AZ::ScriptTimePoint)
     {
-        ProcessInput(((deltaTime + m_prevDeltaTime) / 2.f), 0);
-        m_prevDeltaTime = deltaTime;
+        ProcessInput(deltaTime, 0);
     }
 
     void ExampleComponent::OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId)
@@ -123,12 +122,11 @@ namespace Hermes
             return;
         if (!((m_isHost && server) || (m_isServer && !server)))
         {
-            ExampleComponentNotificationBus::Broadcast(
-                &ExampleComponentNotificationBus::Events::OnNetworkExampleTickStart, (deltaTime + m_prevNetworkExampleDeltaTime) / 2.f);
+            ExampleComponentNotificationBus::Broadcast(&ExampleComponentNotificationBus::Events::OnNetworkExampleTickStart, deltaTime);
             if (!m_networkExampleEnabled)
                 NetworkExampleControllerRequestBus::BroadcastResult(
                     m_networkExampleEnabled, &NetworkExampleControllerRequestBus::Events::GetEnabled);
-            ProcessInput(((deltaTime + m_prevNetworkExampleDeltaTime) / 2.f), 2);
+            ProcessInput(deltaTime, 2);
         }
     }
 
@@ -137,9 +135,7 @@ namespace Hermes
         if ((!m_isAutonomousClient && !m_isServer && !m_isHost) || (entityId != GetEntityId()))
             return;
         if (!((m_isHost && server) || (m_isServer && !server)))
-            ExampleComponentNotificationBus::Broadcast(
-                &ExampleComponentNotificationBus::Events::OnNetworkExampleTickFinish, (deltaTime + m_prevNetworkExampleDeltaTime) / 2.f);
-        m_prevNetworkExampleDeltaTime = deltaTime;
+            ExampleComponentNotificationBus::Broadcast(&ExampleComponentNotificationBus::Events::OnNetworkExampleTickFinish, deltaTime);
     }
 
     void ExampleComponent::GetNetworkExampleProperties()

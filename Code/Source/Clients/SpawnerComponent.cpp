@@ -144,8 +144,7 @@ namespace Hermes
 
     void SpawnerComponent::OnTick(float deltaTime, AZ::ScriptTimePoint)
     {
-        ProcessInput(((deltaTime + m_prevDeltaTime) / 2.f), 0);
-        m_prevDeltaTime = deltaTime;
+        ProcessInput(deltaTime, 0);
     }
 
     void SpawnerComponent::OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId)
@@ -159,12 +158,11 @@ namespace Hermes
             return;
         if (!((m_isHost && server) || (m_isServer && !server)))
         {
-            SpawnerComponentNotificationBus::Broadcast(
-                &SpawnerComponentNotificationBus::Events::OnNetworkSpawnerTickStart, (deltaTime + m_prevNetworkSpawnerDeltaTime) / 2.f);
+            SpawnerComponentNotificationBus::Broadcast(&SpawnerComponentNotificationBus::Events::OnNetworkSpawnerTickStart, deltaTime);
             if (!m_networkSpawnerEnabled)
                 NetworkSpawnerControllerRequestBus::BroadcastResult(
                     m_networkSpawnerEnabled, &NetworkSpawnerControllerRequestBus::Events::GetEnabled);
-            ProcessInput(((deltaTime + m_prevNetworkSpawnerDeltaTime) / 2.f), 2);
+            ProcessInput(deltaTime, 2);
         }
     }
 
@@ -173,9 +171,7 @@ namespace Hermes
         if ((!m_isAutonomousClient && !m_isServer && !m_isHost) || (entityId != GetEntityId()))
             return;
         if (!((m_isHost && server) || (m_isServer && !server)))
-            SpawnerComponentNotificationBus::Broadcast(
-                &SpawnerComponentNotificationBus::Events::OnNetworkSpawnerTickFinish, (deltaTime + m_prevNetworkSpawnerDeltaTime) / 2.f);
-        m_prevNetworkSpawnerDeltaTime = deltaTime;
+            SpawnerComponentNotificationBus::Broadcast(&SpawnerComponentNotificationBus::Events::OnNetworkSpawnerTickFinish, deltaTime);
     }
 
     void SpawnerComponent::GetNetworkSpawnerProperties()

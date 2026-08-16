@@ -82,10 +82,6 @@ namespace Hermes
         NetworkSpawner* m_networkSpawnerObject = nullptr;
         NetworkSpawnerController* m_networkSpawnerControllerObject = nullptr;
 
-        // Stores the previous NetworkSpawner tick deltaTime
-        float m_prevDeltaTime = 1.f / 60.f;
-        float m_prevNetworkSpawnerDeltaTime = 0.033f;
-
         // Various data structures
         uint32_t m_lastSpawnedTicketId = 0;
         AZStd::pair<uint32_t, AZStd::string> m_lastSpawnedTicketIdByStringNetEntityId = AZStd::pair<uint32_t, AZStd::string>();

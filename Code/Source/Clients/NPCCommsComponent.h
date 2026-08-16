@@ -72,10 +72,6 @@ namespace Hermes
         NetworkNPCComms* m_networkNPCCommsObject = nullptr;
         NetworkNPCCommsController* m_networkNPCCommsControllerObject = nullptr;
 
-        // Stores the previous NetworkNPCComms tick deltaTime
-        float m_prevDeltaTime = 1.f / 60.f;
-        float m_prevNetworkNPCCommsDeltaTime = 0.033f;
-
         // Various data structures
         bool m_aggroed = false;
 

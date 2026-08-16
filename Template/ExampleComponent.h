@@ -68,10 +68,6 @@ namespace Hermes
         NetworkExample* m_networkExampleObject = nullptr;
         NetworkExampleController* m_networkExampleControllerObject = nullptr;
 
-        // Stores the previous NetworkExample tick deltaTime
-        float m_prevDeltaTime = 1.f / 60.f;
-        float m_prevNetworkExampleDeltaTime = 0.033f;
-
         // Various data structures
         AZ::u32 m_exampTemporaryVar = 0;
 

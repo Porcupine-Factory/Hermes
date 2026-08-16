@@ -68,10 +68,6 @@ namespace Hermes
         NetworkHermes* m_networkHermesObject = nullptr;
         NetworkHermesController* m_networkHermesControllerObject = nullptr;
 
-        // Stores the previous NetworkHermes tick deltaTime
-        float m_prevDeltaTime = 1.f / 60.f;
-        float m_prevNetworkHermesDeltaTime = 0.033f;
-
         // Various data structures
         AZ::u32 m_number = 0;
 

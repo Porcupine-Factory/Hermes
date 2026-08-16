@@ -68,10 +68,6 @@ namespace Hermes
         NetworkCharacterName* m_networkCharacterNameObject = nullptr;
         NetworkCharacterNameController* m_networkCharacterNameControllerObject = nullptr;
 
-        // Stores the previous NetworkCharacterName tick deltaTime
-        float m_prevDeltaTime = 1.f / 60.f;
-        float m_prevNetworkCharacterNameDeltaTime = 0.033f;
-
         // Various data structures
         AZStd::string m_name = "";
         AZStd::string m_nameOnServer = "";

@@ -108,8 +108,7 @@ namespace Hermes
 
     void NPCCommsComponent::OnTick(float deltaTime, AZ::ScriptTimePoint)
     {
-        ProcessInput(((deltaTime + m_prevDeltaTime) / 2.f), 0);
-        m_prevDeltaTime = deltaTime;
+        ProcessInput(deltaTime, 0);
     }
 
     void NPCCommsComponent::OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId)
@@ -123,12 +122,11 @@ namespace Hermes
             return;
         if (!((m_isHost && server) || (m_isServer && !server)))
         {
-            NPCCommsComponentNotificationBus::Broadcast(
-                &NPCCommsComponentNotificationBus::Events::OnNetworkNPCCommsTickStart, (deltaTime + m_prevNetworkNPCCommsDeltaTime) / 2.f);
+            NPCCommsComponentNotificationBus::Broadcast(&NPCCommsComponentNotificationBus::Events::OnNetworkNPCCommsTickStart, deltaTime);
             if (!m_networkNPCCommsEnabled)
                 NetworkNPCCommsControllerRequestBus::BroadcastResult(
                     m_networkNPCCommsEnabled, &NetworkNPCCommsControllerRequestBus::Events::GetEnabled);
-            ProcessInput(((deltaTime + m_prevNetworkNPCCommsDeltaTime) / 2.f), 2);
+            ProcessInput(deltaTime, 2);
         }
     }
 
@@ -137,9 +135,7 @@ namespace Hermes
         if ((!m_isAutonomousClient && !m_isServer && !m_isHost) || (entityId != GetEntityId()))
             return;
         if (!((m_isHost && server) || (m_isServer && !server)))
-            NPCCommsComponentNotificationBus::Broadcast(
-                &NPCCommsComponentNotificationBus::Events::OnNetworkNPCCommsTickFinish, (deltaTime + m_prevNetworkNPCCommsDeltaTime) / 2.f);
-        m_prevNetworkNPCCommsDeltaTime = deltaTime;
+            NPCCommsComponentNotificationBus::Broadcast(&NPCCommsComponentNotificationBus::Events::OnNetworkNPCCommsTickFinish, deltaTime);
     }
 
     void NPCCommsComponent::GetNetworkNPCCommsProperties()
