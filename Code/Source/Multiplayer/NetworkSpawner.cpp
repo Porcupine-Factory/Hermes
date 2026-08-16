@@ -164,9 +164,9 @@ namespace Hermes
     {
         return !m_disabled;
     }
-    void NetworkSpawnerController::SetEnabled(const bool new_enabled)
+    void NetworkSpawnerController::SetEnabled(const bool enabled)
     {
-        m_disabled = !new_enabled;
-        m_spawnerObject->m_networkSpawnerEnabled = new_enabled;
+        m_disabled = !enabled;
+        m_spawnerObject->m_networkSpawnerEnabled = enabled;
     }
 } // namespace Hermes

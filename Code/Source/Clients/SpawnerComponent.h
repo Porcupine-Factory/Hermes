@@ -48,18 +48,18 @@ namespace Hermes
         bool DepawnNetEntityIdAndChildren(const AZStd::string& netEntityId) override;
         AZStd::pair<uint32_t, AZStd::string> GetLastSpawnedTicketIdByStringNetEntityId() override;
         void SetLastSpawnedTicketIdByStringNetEntityId(
-            const AZStd::pair<uint32_t, AZStd::string>& new_lastSpawnedTicketIdByStringNetEntityId) override;
+            const AZStd::pair<uint32_t, AZStd::string>& lastSpawnedTicketIdByStringNetEntityId) override;
         uint32_t GetLastSpawnedTicketId() override;
-        void SetLastSpawnedTicketId(const uint32_t new_lastSpawnedTicketId) override;
+        void SetLastSpawnedTicketId(const uint32_t lastSpawnedTicketId) override;
         AZStd::vector<AZStd::string> GetLastSpawnedStringNetEntityIds() override;
-        void SetLastSpawnedStringNetEntityIds(const AZStd::vector<AZStd::string>& new_lastSpawnedStringNetEntityIds) override;
+        void SetLastSpawnedStringNetEntityIds(const AZStd::vector<AZStd::string>& lastSpawnedStringNetEntityIds) override;
         uint32_t GetLastDespawnedTicketId() override;
-        void SetLastDespawnedTicketId(const uint32_t new_lastDespawnedTicketId) override;
+        void SetLastDespawnedTicketId(const uint32_t lastDespawnedTicketId) override;
         bool GetIsAutonomousClient() const override;
         bool GetIsServer() const override;
         bool GetIsHost() const override;
         bool GetLocallyEnableNetworkSpawner() const override;
-        void SetLocallyEnableNetworkSpawner(const bool new_networkSpawnerEnabled) override;
+        void SetLocallyEnableNetworkSpawner(const bool networkSpawnerEnabled) override;
         void IsAutonomousSoConnect() override;
         void NotAutonomousSoDisconnect() override;
 

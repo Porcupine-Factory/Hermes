@@ -124,9 +124,9 @@ namespace Hermes
     {
         return !m_disabled;
     }
-    void NetworkNPCCommsController::SetEnabled(const bool new_enabled)
+    void NetworkNPCCommsController::SetEnabled(const bool enabled)
     {
-        m_disabled = !new_enabled;
-        m_nPCCommsObject->m_networkNPCCommsEnabled = new_enabled;
+        m_disabled = !enabled;
+        m_nPCCommsObject->m_networkNPCCommsEnabled = enabled;
     }
 } // namespace Hermes

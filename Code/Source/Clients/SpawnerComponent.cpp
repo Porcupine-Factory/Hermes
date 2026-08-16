@@ -775,9 +775,9 @@ namespace Hermes
         return m_lastSpawnedTicketIdByStringNetEntityId;
     }
     void SpawnerComponent::SetLastSpawnedTicketIdByStringNetEntityId(
-        const AZStd::pair<uint32_t, AZStd::string>& new_lastSpawnedTicketIdByStringNetEntityId)
+        const AZStd::pair<uint32_t, AZStd::string>& lastSpawnedTicketIdByStringNetEntityId)
     {
-        m_lastSpawnedTicketIdByStringNetEntityId = new_lastSpawnedTicketIdByStringNetEntityId;
+        m_lastSpawnedTicketIdByStringNetEntityId = lastSpawnedTicketIdByStringNetEntityId;
         if (m_networkSpawnerControllerObject != nullptr)
             m_networkSpawnerControllerObject->SetLastSpawnedTicketIdByStringNetEntityId(m_lastSpawnedTicketIdByStringNetEntityId);
     }
@@ -787,9 +787,9 @@ namespace Hermes
             m_lastSpawnedTicketId = m_networkSpawnerControllerObject->GetLastSpawnedTicketId();
         return m_lastSpawnedTicketId;
     }
-    void SpawnerComponent::SetLastSpawnedTicketId(const uint32_t new_lastSpawnedTicketId)
+    void SpawnerComponent::SetLastSpawnedTicketId(const uint32_t lastSpawnedTicketId)
     {
-        m_lastSpawnedTicketId = new_lastSpawnedTicketId;
+        m_lastSpawnedTicketId = lastSpawnedTicketId;
         if (m_networkSpawnerControllerObject != nullptr)
             m_networkSpawnerControllerObject->SetLastSpawnedTicketId(m_lastSpawnedTicketId);
     }
@@ -799,9 +799,9 @@ namespace Hermes
             m_lastSpawnedStringNetEntityIds = m_networkSpawnerControllerObject->GetLastSpawnedStringNetEntityIds();
         return m_lastSpawnedStringNetEntityIds;
     }
-    void SpawnerComponent::SetLastSpawnedStringNetEntityIds(const AZStd::vector<AZStd::string>& new_lastSpawnedStringNetEntityIds)
+    void SpawnerComponent::SetLastSpawnedStringNetEntityIds(const AZStd::vector<AZStd::string>& lastSpawnedStringNetEntityIds)
     {
-        m_lastSpawnedStringNetEntityIds = new_lastSpawnedStringNetEntityIds;
+        m_lastSpawnedStringNetEntityIds = lastSpawnedStringNetEntityIds;
         if (m_networkSpawnerControllerObject != nullptr)
             m_networkSpawnerControllerObject->SetLastSpawnedStringNetEntityIds(m_lastSpawnedStringNetEntityIds);
     }
@@ -811,9 +811,9 @@ namespace Hermes
             m_lastDespawnedTicketId = m_networkSpawnerControllerObject->GetLastDespawnedTicketId();
         return m_lastDespawnedTicketId;
     }
-    void SpawnerComponent::SetLastDespawnedTicketId(const uint32_t new_lastDespawnedTicketId)
+    void SpawnerComponent::SetLastDespawnedTicketId(const uint32_t lastDespawnedTicketId)
     {
-        m_lastDespawnedTicketId = new_lastDespawnedTicketId;
+        m_lastDespawnedTicketId = lastDespawnedTicketId;
         if (m_networkSpawnerControllerObject != nullptr)
             m_networkSpawnerControllerObject->SetLastDespawnedTicketId(m_lastDespawnedTicketId);
     }
@@ -833,9 +833,9 @@ namespace Hermes
     {
         return m_networkSpawnerEnabled;
     }
-    void SpawnerComponent::SetLocallyEnableNetworkSpawner(const bool new_networkSpawnerEnabled)
+    void SpawnerComponent::SetLocallyEnableNetworkSpawner(const bool networkSpawnerEnabled)
     {
-        m_networkSpawnerEnabled = new_networkSpawnerEnabled;
+        m_networkSpawnerEnabled = networkSpawnerEnabled;
         NetworkSpawnerControllerRequestBus::Event(
             GetEntityId(), &NetworkSpawnerControllerRequestBus::Events::SetEnabled, m_networkSpawnerEnabled);
     }

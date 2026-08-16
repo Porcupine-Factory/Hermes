@@ -21,7 +21,7 @@ namespace Hermes
         virtual bool GetIsServer() const = 0;
         virtual bool GetIsHost() const = 0;
         virtual bool GetLocallyEnableNetworkCharacterName() const = 0;
-        virtual void SetLocallyEnableNetworkCharacterName(const bool new_networkCharacterNameEnabled) = 0;
+        virtual void SetLocallyEnableNetworkCharacterName(const bool networkCharacterNameEnabled) = 0;
         virtual void IsAutonomousSoConnect() = 0;
         virtual void NotAutonomousSoDisconnect() = 0;
     };

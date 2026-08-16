@@ -39,13 +39,13 @@ namespace Hermes
 
         // CharacterNameComponentRequestBus
         AZStd::string GetName() const override;
-        void SetName(const AZStd::string& new_name) override;
+        void SetName(const AZStd::string& name) override;
         void SetNameOnServerRPC(const AZStd::string& name) override;
         bool GetIsAutonomousClient() const override;
         bool GetIsServer() const override;
         bool GetIsHost() const override;
         bool GetLocallyEnableNetworkCharacterName() const override;
-        void SetLocallyEnableNetworkCharacterName(const bool new_networkCharacterNameEnabled) override;
+        void SetLocallyEnableNetworkCharacterName(const bool networkCharacterNameEnabled) override;
         void IsAutonomousSoConnect() override;
         void NotAutonomousSoDisconnect() override;
 

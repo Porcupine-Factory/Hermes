@@ -40,7 +40,7 @@ namespace Hermes
 
         // NetworkCharacterNameControllerRequestBus
         bool GetEnabled() const override;
-        void SetEnabled(const bool new_enabled) override;
+        void SetEnabled(const bool enabled) override;
 
 #if AZ_TRAIT_SERVER
         void HandleSendNameOnServerRPC(AzNetworking::IConnection* invokingConnection, const AZStd::string& name) override;

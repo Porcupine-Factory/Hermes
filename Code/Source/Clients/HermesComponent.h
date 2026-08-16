@@ -39,13 +39,13 @@ namespace Hermes
 
         // HermesComponentRequestBus
         AZ::u32 GetNumber() const override;
-        void SetNumber(const AZ::u32& new_number) override;
-        void SetNumberDelta(const AZ::s64& new_numberDelta) override;
+        void SetNumber(const AZ::u32& number) override;
+        void SetNumberDelta(const AZ::s64& numberDelta) override;
         bool GetIsAutonomousClient() const override;
         bool GetIsServer() const override;
         bool GetIsHost() const override;
         bool GetLocallyEnableNetworkHermes() const override;
-        void SetLocallyEnableNetworkHermes(const bool new_networkHermesEnabled) override;
+        void SetLocallyEnableNetworkHermes(const bool networkHermesEnabled) override;
         void IsAutonomousSoConnect() override;
         void NotAutonomousSoDisconnect() override;
 

@@ -172,15 +172,15 @@ namespace Hermes
         else
             return m_exampTemporaryVar;
     }
-    void ExampleComponent::SetExampTemporaryVar(const AZ::u32& new_exampTemporaryVar)
+    void ExampleComponent::SetExampTemporaryVar(const AZ::u32& exampTemporaryVar)
     {
-        m_exampTemporaryVar = new_exampTemporaryVar;
+        m_exampTemporaryVar = exampTemporaryVar;
         if (m_networkExampleEnabled && m_networkExampleControllerObject != nullptr)
             m_networkExampleControllerObject->SetExampTemporaryVar(m_exampTemporaryVar);
     }
-    void ExampleComponent::SetExampTemporaryVarRPC(const AZ::u32& new_exampTemporaryVar)
+    void ExampleComponent::SetExampTemporaryVarRPC(const AZ::u32& exampTemporaryVar)
     {
-        m_exampTemporaryVar = new_exampTemporaryVar;
+        m_exampTemporaryVar = exampTemporaryVar;
         if (m_networkExampleEnabled && m_networkExampleControllerObject != nullptr)
             m_networkExampleControllerObject->SetExampTemporaryVar(m_exampTemporaryVar);
     }
@@ -200,9 +200,9 @@ namespace Hermes
     {
         return m_networkExampleEnabled;
     }
-    void ExampleComponent::SetLocallyEnableNetworkExample(const bool new_networkExampleEnabled)
+    void ExampleComponent::SetLocallyEnableNetworkExample(const bool networkExampleEnabled)
     {
-        m_networkExampleEnabled = new_networkExampleEnabled;
+        m_networkExampleEnabled = networkExampleEnabled;
         NetworkExampleControllerRequestBus::Event(
             GetEntityId(), &NetworkExampleControllerRequestBus::Events::SetEnabled, m_networkExampleEnabled);
     }

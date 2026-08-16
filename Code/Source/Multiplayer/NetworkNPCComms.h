@@ -40,7 +40,7 @@ namespace Hermes
 
         // NetworkNPCCommsControllerRequestBus
         bool GetEnabled() const override;
-        void SetEnabled(const bool new_enabled) override;
+        void SetEnabled(const bool enabled) override;
 
 #if AZ_TRAIT_SERVER
         void HandleSendAggroedRPC(AzNetworking::IConnection* invokingConnection, const bool& aggroed) override;

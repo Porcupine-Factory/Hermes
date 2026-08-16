@@ -130,9 +130,9 @@ namespace Hermes
     {
         return !m_disabled;
     }
-    void NetworkCharacterNameController::SetEnabled(const bool new_enabled)
+    void NetworkCharacterNameController::SetEnabled(const bool enabled)
     {
-        m_disabled = !new_enabled;
-        m_characterNameObject->m_networkCharacterNameEnabled = new_enabled;
+        m_disabled = !enabled;
+        m_characterNameObject->m_networkCharacterNameEnabled = enabled;
     }
 } // namespace Hermes

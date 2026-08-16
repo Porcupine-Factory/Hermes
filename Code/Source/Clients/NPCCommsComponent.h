@@ -39,13 +39,13 @@ namespace Hermes
 
         // NPCCommsComponentRequestBus
         bool GetAggroed() const override;
-        void SetAggroed(const bool new_aggroed) override;
-        void SetAggroedRPC(const bool new_aggroed) override;
+        void SetAggroed(const bool aggroed) override;
+        void SetAggroedRPC(const bool aggroed) override;
         bool GetIsAutonomousClient() const override;
         bool GetIsServer() const override;
         bool GetIsHost() const override;
         bool GetLocallyEnableNetworkNPCComms() const override;
-        void SetLocallyEnableNetworkNPCComms(const bool new_networkNPCCommsEnabled) override;
+        void SetLocallyEnableNetworkNPCComms(const bool networkNPCCommsEnabled) override;
         void IsAutonomousSoConnect() override;
         void NotAutonomousSoDisconnect() override;
 

@@ -175,9 +175,9 @@ namespace Hermes
         else
             return m_name;
     }
-    void CharacterNameComponent::SetName(const AZStd::string& new_name)
+    void CharacterNameComponent::SetName(const AZStd::string& name)
     {
-        m_name = new_name;
+        m_name = name;
         if (m_networkCharacterNameEnabled && m_networkCharacterNameControllerObject != nullptr)
         {
             m_networkCharacterNameControllerObject->SetName(m_name);
@@ -206,9 +206,9 @@ namespace Hermes
     {
         return m_networkCharacterNameEnabled;
     }
-    void CharacterNameComponent::SetLocallyEnableNetworkCharacterName(const bool new_networkCharacterNameEnabled)
+    void CharacterNameComponent::SetLocallyEnableNetworkCharacterName(const bool networkCharacterNameEnabled)
     {
-        m_networkCharacterNameEnabled = new_networkCharacterNameEnabled;
+        m_networkCharacterNameEnabled = networkCharacterNameEnabled;
         NetworkCharacterNameControllerRequestBus::Event(
             GetEntityId(), &NetworkCharacterNameControllerRequestBus::Events::SetEnabled, m_networkCharacterNameEnabled);
     }

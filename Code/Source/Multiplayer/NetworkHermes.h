@@ -40,7 +40,7 @@ namespace Hermes
 
         // NetworkHermesControllerRequestBus
         bool GetEnabled() const override;
-        void SetEnabled(const bool new_enabled) override;
+        void SetEnabled(const bool enabled) override;
 
 #if AZ_TRAIT_SERVER
         void HandleSendNumberDelta(AzNetworking::IConnection* invokingConnection, const AZ::s64& numberDelta) override;

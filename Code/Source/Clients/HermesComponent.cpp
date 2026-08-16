@@ -172,21 +172,21 @@ namespace Hermes
         else
             return m_number;
     }
-    void HermesComponent::SetNumber(const AZ::u32& new_number)
+    void HermesComponent::SetNumber(const AZ::u32& number)
     {
-        m_number = new_number;
+        m_number = number;
         if (m_networkHermesEnabled && m_networkHermesControllerObject != nullptr)
             m_networkHermesControllerObject->SetNumber(m_number);
     }
-    void HermesComponent::SetNumberDelta(const AZ::s64& new_numberDelta)
+    void HermesComponent::SetNumberDelta(const AZ::s64& numberDelta)
     {
-        if (new_numberDelta > 0 && new_numberDelta > AZStd::numeric_limits<AZ::u32>::max() - m_number)
+        if (numberDelta > 0 && numberDelta > AZStd::numeric_limits<AZ::u32>::max() - m_number)
             m_number = AZStd::numeric_limits<AZ::u32>::max();
         else
         {
             const AZ::s64 currentNumber = static_cast<AZ::s64>(m_number);
             const AZ::s64 newNumber =
-                AZStd::clamp(currentNumber + new_numberDelta, 0LL, static_cast<AZ::s64>(AZStd::numeric_limits<AZ::u32>::max()));
+                AZStd::clamp(currentNumber + numberDelta, 0LL, static_cast<AZ::s64>(AZStd::numeric_limits<AZ::u32>::max()));
             m_number = static_cast<AZ::u32>(newNumber);
         }
         if (m_networkHermesEnabled && m_networkHermesControllerObject != nullptr)
@@ -208,9 +208,9 @@ namespace Hermes
     {
         return m_networkHermesEnabled;
     }
-    void HermesComponent::SetLocallyEnableNetworkHermes(const bool new_networkHermesEnabled)
+    void HermesComponent::SetLocallyEnableNetworkHermes(const bool networkHermesEnabled)
     {
-        m_networkHermesEnabled = new_networkHermesEnabled;
+        m_networkHermesEnabled = networkHermesEnabled;
         NetworkHermesControllerRequestBus::Event(
             GetEntityId(), &NetworkHermesControllerRequestBus::Events::SetEnabled, m_networkHermesEnabled);
     }

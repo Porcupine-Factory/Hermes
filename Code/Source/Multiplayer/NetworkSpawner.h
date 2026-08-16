@@ -40,7 +40,7 @@ namespace Hermes
 
         // NetworkSpawnerControllerRequestBus
         bool GetEnabled() const override;
-        void SetEnabled(const bool new_enabled) override;
+        void SetEnabled(const bool enabled) override;
 
         void HandleSpawnPrefabName(
             AzNetworking::IConnection* invokingConnection,

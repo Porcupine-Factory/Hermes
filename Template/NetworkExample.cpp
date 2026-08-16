@@ -124,9 +124,9 @@ namespace Hermes
     {
         return !m_disabled;
     }
-    void NetworkExampleController::SetEnabled(const bool new_enabled)
+    void NetworkExampleController::SetEnabled(const bool enabled)
     {
-        m_disabled = !new_enabled;
-        m_exampleObject->m_networkExampleEnabled = new_enabled;
+        m_disabled = !enabled;
+        m_exampleObject->m_networkExampleEnabled = enabled;
     }
 } // namespace Hermes

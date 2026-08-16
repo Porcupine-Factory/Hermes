@@ -21,7 +21,7 @@ namespace Hermes
         virtual bool GetIsServer() const = 0;
         virtual bool GetIsHost() const = 0;
         virtual bool GetLocallyEnableNetworkHermes() const = 0;
-        virtual void SetLocallyEnableNetworkHermes(const bool new_networkHermesEnabled) = 0;
+        virtual void SetLocallyEnableNetworkHermes(const bool networkHermesEnabled) = 0;
         virtual void IsAutonomousSoConnect() = 0;
         virtual void NotAutonomousSoDisconnect() = 0;
     };

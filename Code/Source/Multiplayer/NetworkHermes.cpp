@@ -124,9 +124,9 @@ namespace Hermes
     {
         return !m_disabled;
     }
-    void NetworkHermesController::SetEnabled(const bool new_enabled)
+    void NetworkHermesController::SetEnabled(const bool enabled)
     {
-        m_disabled = !new_enabled;
-        m_hermesObject->m_networkHermesEnabled = new_enabled;
+        m_disabled = !enabled;
+        m_hermesObject->m_networkHermesEnabled = enabled;
     }
 } // namespace Hermes

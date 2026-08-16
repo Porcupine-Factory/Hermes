@@ -33,7 +33,7 @@ namespace Hermes
         virtual bool GetIsServer() const = 0;
         virtual bool GetIsHost() const = 0;
         virtual bool GetLocallyEnableNetworkSpawner() const = 0;
-        virtual void SetLocallyEnableNetworkSpawner(const bool new_networkSpawnerEnabled) = 0;
+        virtual void SetLocallyEnableNetworkSpawner(const bool networkSpawnerEnabled) = 0;
         virtual void IsAutonomousSoConnect() = 0;
         virtual void NotAutonomousSoDisconnect() = 0;
     };

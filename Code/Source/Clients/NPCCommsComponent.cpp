@@ -180,15 +180,15 @@ namespace Hermes
         else
             return m_aggroed;
     }
-    void NPCCommsComponent::SetAggroed(const bool new_aggroed)
+    void NPCCommsComponent::SetAggroed(const bool aggroed)
     {
-        m_aggroed = new_aggroed;
+        m_aggroed = aggroed;
         if (m_networkNPCCommsEnabled && m_networkNPCCommsControllerObject != nullptr)
             m_networkNPCCommsControllerObject->SetAggroed(m_aggroed);
     }
-    void NPCCommsComponent::SetAggroedRPC(const bool new_aggroed)
+    void NPCCommsComponent::SetAggroedRPC(const bool aggroed)
     {
-        m_aggroed = new_aggroed;
+        m_aggroed = aggroed;
         if (m_networkNPCCommsEnabled && m_networkNPCCommsControllerObject != nullptr)
             m_networkNPCCommsControllerObject->SetAggroed(m_aggroed);
     }
@@ -208,9 +208,9 @@ namespace Hermes
     {
         return m_networkNPCCommsEnabled;
     }
-    void NPCCommsComponent::SetLocallyEnableNetworkNPCComms(const bool new_networkNPCCommsEnabled)
+    void NPCCommsComponent::SetLocallyEnableNetworkNPCComms(const bool networkNPCCommsEnabled)
     {
-        m_networkNPCCommsEnabled = new_networkNPCCommsEnabled;
+        m_networkNPCCommsEnabled = networkNPCCommsEnabled;
         NetworkNPCCommsControllerRequestBus::Event(
             GetEntityId(), &NetworkNPCCommsControllerRequestBus::Events::SetEnabled, m_networkNPCCommsEnabled);
     }
