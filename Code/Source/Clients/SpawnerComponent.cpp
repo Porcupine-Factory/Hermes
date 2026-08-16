@@ -189,7 +189,7 @@ namespace Hermes
     }
 
     // Frame tick == 0, physics fixed timestep == 1 (not used in Spawner), network tick == 2
-    void SpawnerComponent::ProcessInput([[maybe_unused]] const float deltaTime, const AZ::u8& tickTimestepNetwork)
+    void SpawnerComponent::ProcessInput([[maybe_unused]] const float deltaTime, const AZ::u8 tickTimestepNetwork)
     {
         if (tickTimestepNetwork == 2)
         {

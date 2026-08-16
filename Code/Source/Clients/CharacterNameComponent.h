@@ -54,7 +54,7 @@ namespace Hermes
         void OnTick(float deltaTime, AZ::ScriptTimePoint) override;
 
         // Called on each tick
-        void ProcessInput(const float deltaTime, const AZ::u8& tickTimestepNetwork);
+        void ProcessInput(const float deltaTime, const AZ::u8 tickTimestepNetwork);
 
         // NetworkCharacterNameControllerNotificationBus
         void OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId);
