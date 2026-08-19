@@ -44,8 +44,8 @@ namespace Hermes
         bool SpawnPrefabPath(const AZStd::string& prefabPath, const AZ::Transform& transform, const bool makeChild = false) override;
         bool SpawnNetPrefabName(const AZStd::string& prefabName, const AZ::Transform& transform) override;
         bool SpawnNetPrefabPath(const AZStd::string& prefabPath, const AZ::Transform& transform) override;
-        bool DepawnPrefabTicketId(const uint32_t prefabTicketId) override;
-        bool DepawnNetEntityIdAndChildren(const AZStd::string& netEntityId) override;
+        bool DespawnPrefabTicketId(const uint32_t prefabTicketId) override;
+        bool DespawnNetEntityIdAndChildren(const AZStd::string& netEntityId) override;
         AZStd::pair<uint32_t, AZStd::string> GetLastSpawnedTicketIdByStringNetEntityId() override;
         void SetLastSpawnedTicketIdByStringNetEntityId(
             const AZStd::pair<uint32_t, AZStd::string>& lastSpawnedTicketIdByStringNetEntityId) override;

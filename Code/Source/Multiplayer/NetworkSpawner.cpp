@@ -129,17 +129,17 @@ namespace Hermes
             AZ_Error("NetworkSpawnerController", false, "Spawning the specified (net) prefab path failed.");
     }
 
-    void NetworkSpawnerController::HandleDepawnPrefabTicketId(
+    void NetworkSpawnerController::HandleDespawnPrefabTicketId(
         [[maybe_unused]] AzNetworking::IConnection* invokingConnection, const uint32_t& prefabTicketId)
     {
-        if (!m_spawnerObject->DepawnPrefabTicketId(prefabTicketId))
+        if (!m_spawnerObject->DespawnPrefabTicketId(prefabTicketId))
             AZ_Error("NetworkSpawnerController", false, "Despawning %lu prefab ticketId failed.", prefabTicketId);
     }
 
-    void NetworkSpawnerController::HandleDepawnNetEntityIdAndChildren(
+    void NetworkSpawnerController::HandleDespawnNetEntityIdAndChildren(
         [[maybe_unused]] AzNetworking::IConnection* invokingConnection, const AZStd::string& netEntityId)
     {
-        if (!m_spawnerObject->DepawnNetEntityIdAndChildren(netEntityId))
+        if (!m_spawnerObject->DespawnNetEntityIdAndChildren(netEntityId))
             AZ_Error("NetworkSpawnerController", false, "Despawning %s NetEntityId failed.", netEntityId.c_str());
     }
 

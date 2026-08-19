@@ -44,8 +44,8 @@ namespace Hermes
                 ->Event("Spawn Prefab Path", &SpawnerComponentRequests::SpawnPrefabPath)
                 ->Event("Spawn Net Prefab Name", &SpawnerComponentRequests::SpawnNetPrefabName)
                 ->Event("Spawn Net Prefab Path", &SpawnerComponentRequests::SpawnNetPrefabPath)
-                ->Event("Despawn Prefab TicketId", &SpawnerComponentRequests::DepawnPrefabTicketId)
-                ->Event("Despawn NetEntityId And Children", &SpawnerComponentRequests::DepawnNetEntityIdAndChildren)
+                ->Event("Despawn Prefab TicketId", &SpawnerComponentRequests::DespawnPrefabTicketId)
+                ->Event("Despawn NetEntityId And Children", &SpawnerComponentRequests::DespawnNetEntityIdAndChildren)
                 ->Event(
                     "Get Last Spawned TicketId By NetEntityId String", &SpawnerComponentRequests::GetLastSpawnedTicketIdByStringNetEntityId)
                 ->Event(
@@ -729,7 +729,7 @@ namespace Hermes
             return false;
         }
     }
-    bool SpawnerComponent::DepawnPrefabTicketId(const uint32_t prefabTicketId)
+    bool SpawnerComponent::DespawnPrefabTicketId(const uint32_t prefabTicketId)
     {
         for (auto ticket : m_spawnTickets)
         {
@@ -747,7 +747,7 @@ namespace Hermes
         AZ_Error("SpawnerComponent", false, "Failed to find %lu prefab ticketId for despawning.", prefabTicketId);
         return false;
     }
-    bool SpawnerComponent::DepawnNetEntityIdAndChildren(const AZStd::string& netEntityId)
+    bool SpawnerComponent::DespawnNetEntityIdAndChildren(const AZStd::string& netEntityId)
     {
         Multiplayer::INetworkEntityManager* networkEntityManager = Multiplayer::GetMultiplayer()->GetNetworkEntityManager();
         for (auto netEntityHandleIt = m_netEntityHandles.begin(); netEntityHandleIt != m_netEntityHandles.end(); ++netEntityHandleIt)

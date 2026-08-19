@@ -56,8 +56,8 @@ namespace Hermes
             AzNetworking::IConnection* invokingConnection, const AZStd::string& prefabName, const AZ::Transform& transform) override;
         void HandleSpawnNetPrefabPath(
             AzNetworking::IConnection* invokingConnection, const AZStd::string& prefabPath, const AZ::Transform& transform) override;
-        void HandleDepawnPrefabTicketId(AzNetworking::IConnection* invokingConnection, const uint32_t& prefabTicketId) override;
-        void HandleDepawnNetEntityIdAndChildren(AzNetworking::IConnection* invokingConnection, const AZStd::string& netEntityId) override;
+        void HandleDespawnPrefabTicketId(AzNetworking::IConnection* invokingConnection, const uint32_t& prefabTicketId) override;
+        void HandleDespawnNetEntityIdAndChildren(AzNetworking::IConnection* invokingConnection, const AZStd::string& netEntityId) override;
 
     private:
         // NetworkSpawnerControllerNotificationBus

@@ -69,10 +69,10 @@
         <Param Type="AZStd::string" Name="PrefabPath"/>
         <Param Type="AZ::Transform" Name="Transform"/>
     </RemoteProcedure>
-    <RemoteProcedure Name="DepawnPrefabTicketId" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Despawn the prefab associated with a TicketId given by an autonomous client">
+    <RemoteProcedure Name="DespawnPrefabTicketId" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Despawn the prefab associated with a TicketId given by an autonomous client">
         <Param Type="uint32_t" Name="PrefabTicketId"/>
     </RemoteProcedure>
-    <RemoteProcedure Name="DepawnNetEntityIdAndChildren" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Despawn the NetEntityId and its children, given by an autonomous client">
+    <RemoteProcedure Name="DespawnNetEntityIdAndChildren" InvokeFrom="Autonomous" HandleOn="Authority" IsPublic="true" IsReliable="true" GenerateEventBindings="true" Description="Despawn the NetEntityId and its children, given by an autonomous client">
         <Param Type="AZStd::string" Name="NetEntityId"/>
     </RemoteProcedure>
 
