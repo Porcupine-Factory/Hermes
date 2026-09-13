@@ -39,8 +39,8 @@ namespace Hermes
 
         // HermesComponentRequestBus
         AZ::u32 GetNumber() const override;
-        void SetNumber(const AZ::u32& number) override;
-        void SetNumberDelta(const AZ::s64& numberDelta) override;
+        void SetNumber(const AZ::u32 number) override;
+        void SetNumberDelta(const AZ::s64 numberDelta) override;
         bool GetIsAutonomousClient() const override;
         bool GetIsServer() const override;
         bool GetIsHost() const override;

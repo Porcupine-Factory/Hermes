@@ -172,13 +172,13 @@ namespace Hermes
         else
             return m_exampTemporaryVar;
     }
-    void ExampleComponent::SetExampTemporaryVar(const AZ::u32& exampTemporaryVar)
+    void ExampleComponent::SetExampTemporaryVar(const AZ::u32 exampTemporaryVar)
     {
         m_exampTemporaryVar = exampTemporaryVar;
         if (m_networkExampleEnabled && m_networkExampleControllerObject != nullptr)
             m_networkExampleControllerObject->SetExampTemporaryVar(m_exampTemporaryVar);
     }
-    void ExampleComponent::SetExampTemporaryVarRPC(const AZ::u32& exampTemporaryVar)
+    void ExampleComponent::SetExampTemporaryVarRPC(const AZ::u32 exampTemporaryVar)
     {
         m_exampTemporaryVar = exampTemporaryVar;
         if (m_networkExampleEnabled && m_networkExampleControllerObject != nullptr)

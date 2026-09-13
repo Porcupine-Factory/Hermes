@@ -15,8 +15,8 @@ namespace Hermes
         ~ExampleComponentRequests() override = default;
 
         virtual AZ::u32 GetExampTemporaryVar() const = 0;
-        virtual void SetExampTemporaryVar(const AZ::u32&) = 0;
-        virtual void SetExampTemporaryVarRPC(const AZ::u32&) = 0;
+        virtual void SetExampTemporaryVar(const AZ::u32) = 0;
+        virtual void SetExampTemporaryVarRPC(const AZ::u32) = 0;
         virtual bool GetIsAutonomousClient() const = 0;
         virtual bool GetIsServer() const = 0;
         virtual bool GetIsHost() const = 0;

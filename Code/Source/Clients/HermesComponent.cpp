@@ -172,13 +172,13 @@ namespace Hermes
         else
             return m_number;
     }
-    void HermesComponent::SetNumber(const AZ::u32& number)
+    void HermesComponent::SetNumber(const AZ::u32 number)
     {
         m_number = number;
         if (m_networkHermesEnabled && m_networkHermesControllerObject != nullptr)
             m_networkHermesControllerObject->SetNumber(m_number);
     }
-    void HermesComponent::SetNumberDelta(const AZ::s64& numberDelta)
+    void HermesComponent::SetNumberDelta(const AZ::s64 numberDelta)
     {
         if (numberDelta > 0 && numberDelta > AZStd::numeric_limits<AZ::u32>::max() - m_number)
             m_number = AZStd::numeric_limits<AZ::u32>::max();

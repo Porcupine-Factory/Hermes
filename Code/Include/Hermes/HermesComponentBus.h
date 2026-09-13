@@ -15,8 +15,8 @@ namespace Hermes
         ~HermesComponentRequests() override = default;
 
         virtual AZ::u32 GetNumber() const = 0;
-        virtual void SetNumber(const AZ::u32&) = 0;
-        virtual void SetNumberDelta(const AZ::s64&) = 0;
+        virtual void SetNumber(const AZ::u32) = 0;
+        virtual void SetNumberDelta(const AZ::s64) = 0;
         virtual bool GetIsAutonomousClient() const = 0;
         virtual bool GetIsServer() const = 0;
         virtual bool GetIsHost() const = 0;
