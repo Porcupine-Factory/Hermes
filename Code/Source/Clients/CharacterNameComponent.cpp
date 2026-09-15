@@ -100,6 +100,7 @@ namespace Hermes
     void CharacterNameComponent::GetProvidedServices(AZ::ComponentDescriptor::DependencyArrayType& provided)
     {
         provided.push_back(AZ_CRC_CE("CharacterNameService"));
+        provided.push_back(AZ_CRC_CE("CharacterNameComponent"));
     }
 
     void CharacterNameComponent::GetIncompatibleServices(AZ::ComponentDescriptor::DependencyArrayType& incompatible)

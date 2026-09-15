@@ -8,6 +8,8 @@
     OverrideInclude="Multiplayer/NetworkNPCComms.h"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+    <ComponentRelation Constraint="Required" HasController="false" Name="NPCCommsComponent" Namespace="Hermes" Include="Clients/NPCCommsComponent.h" />
+
     <NetworkProperty Type="bool" Name="EnableNetworkNPCComms"
                      Init="true" ReplicateFrom="Authority"
                      ReplicateTo="Client" IsRewindable="false"

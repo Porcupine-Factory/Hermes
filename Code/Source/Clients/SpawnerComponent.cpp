@@ -134,6 +134,7 @@ namespace Hermes
     void SpawnerComponent::GetProvidedServices(AZ::ComponentDescriptor::DependencyArrayType& provided)
     {
         provided.push_back(AZ_CRC_CE("SpawnerService"));
+        provided.push_back(AZ_CRC_CE("SpawnerComponent"));
     }
 
     void SpawnerComponent::GetIncompatibleServices(AZ::ComponentDescriptor::DependencyArrayType& incompatible)

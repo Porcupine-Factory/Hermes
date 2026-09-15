@@ -98,6 +98,7 @@ namespace Hermes
     void HermesComponent::GetProvidedServices(AZ::ComponentDescriptor::DependencyArrayType& provided)
     {
         provided.push_back(AZ_CRC_CE("HermesService"));
+        provided.push_back(AZ_CRC_CE("HermesComponent"));
     }
 
     void HermesComponent::GetIncompatibleServices(AZ::ComponentDescriptor::DependencyArrayType& incompatible)

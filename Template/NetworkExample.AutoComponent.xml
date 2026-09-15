@@ -8,6 +8,8 @@
     OverrideInclude="Multiplayer/NetworkExample.h"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+    <ComponentRelation Constraint="Required" HasController="false" Name="ExampleComponent" Namespace="Hermes" Include="Clients/ExampleComponent.h" />
+
     <NetworkProperty Type="bool" Name="EnableNetworkExample"
                      Init="true" ReplicateFrom="Authority"
                      ReplicateTo="Client" IsRewindable="false"

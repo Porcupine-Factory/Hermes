@@ -8,6 +8,8 @@
     OverrideInclude="Multiplayer/NetworkCharacterName.h"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+    <ComponentRelation Constraint="Required" HasController="false" Name="CharacterNameComponent" Namespace="Hermes" Include="Clients/CharacterNameComponent.h" />
+
     <NetworkProperty Type="bool" Name="EnableNetworkCharacterName"
                      Init="true" ReplicateFrom="Authority"
                      ReplicateTo="Client" IsRewindable="false"

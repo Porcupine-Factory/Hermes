@@ -98,6 +98,7 @@ namespace Hermes
     void NPCCommsComponent::GetProvidedServices(AZ::ComponentDescriptor::DependencyArrayType& provided)
     {
         provided.push_back(AZ_CRC_CE("NPCCommsService"));
+        provided.push_back(AZ_CRC_CE("NPCCommsComponent"));
     }
 
     void NPCCommsComponent::GetIncompatibleServices(AZ::ComponentDescriptor::DependencyArrayType& incompatible)

@@ -8,6 +8,8 @@
     OverrideInclude="Multiplayer/NetworkSpawner.h"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+    <ComponentRelation Constraint="Required" HasController="false" Name="SpawnerComponent" Namespace="Hermes" Include="Clients/SpawnerComponent.h" />
+
     <NetworkProperty Type="bool" Name="EnableNetworkSpawner"
                      Init="true" ReplicateFrom="Authority"
                      ReplicateTo="Client" IsRewindable="false"
