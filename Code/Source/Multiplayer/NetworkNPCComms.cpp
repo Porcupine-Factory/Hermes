@@ -69,12 +69,6 @@ namespace Hermes
         if (m_disabled)
             return;
 
-        if (m_init)
-        {
-            m_init = false;
-            SetAggroed(m_nPCCommsObject->m_aggroed);
-        }
-
         // Disconnect from various buses when the NetworkNPCCommsController is not autonomous, and only do this once
         if (m_autonomousNotDetermined)
         {
@@ -84,6 +78,12 @@ namespace Hermes
             else
                 m_disabled = true;
             m_autonomousNotDetermined = false;
+        }
+
+        if (m_init && (m_nPCCommsObject->m_isServer || m_nPCCommsObject->m_isHost))
+        {
+            m_init = false;
+            SetAggroed(m_nPCCommsObject->m_aggroed);
         }
 
         NetworkNPCCommsControllerNotificationBus::Broadcast(

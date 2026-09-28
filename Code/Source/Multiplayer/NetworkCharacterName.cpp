@@ -69,12 +69,6 @@ namespace Hermes
         if (m_disabled)
             return;
 
-        if (m_init)
-        {
-            m_init = false;
-            SetName(m_characterNameObject->m_name);
-        }
-
         // Disconnect from various buses when the NetworkCharacterNameController is not autonomous, and only do this once
         if (m_autonomousNotDetermined)
         {
@@ -84,6 +78,12 @@ namespace Hermes
             else
                 m_disabled = true;
             m_autonomousNotDetermined = false;
+        }
+
+        if (m_init && (m_characterNameObject->m_isServer || m_characterNameObject->m_isHost))
+        {
+            m_init = false;
+            SetName(m_characterNameObject->m_name);
         }
 
         NetworkCharacterNameControllerNotificationBus::Broadcast(

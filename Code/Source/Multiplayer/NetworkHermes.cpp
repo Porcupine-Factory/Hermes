@@ -69,12 +69,6 @@ namespace Hermes
         if (m_disabled)
             return;
 
-        if (m_init)
-        {
-            m_init = false;
-            SetNumber(m_hermesObject->m_number);
-        }
-
         // Disconnect from various buses when the NetworkHermesController is not autonomous, and only do this once
         if (m_autonomousNotDetermined)
         {
@@ -84,6 +78,12 @@ namespace Hermes
             else
                 m_disabled = true;
             m_autonomousNotDetermined = false;
+        }
+
+        if (m_init && (m_hermesObject->m_isServer || m_hermesObject->m_isHost))
+        {
+            m_init = false;
+            SetNumber(m_hermesObject->m_number);
         }
 
         NetworkHermesControllerNotificationBus::Broadcast(

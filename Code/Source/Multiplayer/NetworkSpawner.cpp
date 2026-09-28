@@ -69,11 +69,6 @@ namespace Hermes
         if (m_disabled)
             return;
 
-        if (m_init)
-        {
-            m_init = false;
-        }
-
         // Disconnect from various buses when the NetworkSpawnerController is not autonomous, and only do this once
         if (m_autonomousNotDetermined)
         {
@@ -83,6 +78,11 @@ namespace Hermes
             else
                 m_disabled = true;
             m_autonomousNotDetermined = false;
+        }
+
+        if (m_init && (m_spawnerObject->m_isServer || m_spawnerObject->m_isHost))
+        {
+            m_init = false;
         }
 
         NetworkSpawnerControllerNotificationBus::Broadcast(
