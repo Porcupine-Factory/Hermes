@@ -143,16 +143,6 @@ namespace Hermes
             AZ_Error("NetworkSpawnerController", false, "Despawning %s NetEntityId failed.", netEntityId.c_str());
     }
 
-    // Event Notification methods for use in scripts
-    void NetworkSpawnerController::OnNetworkTickStart(
-        [[maybe_unused]] const float deltaTime, [[maybe_unused]] const bool server, [[maybe_unused]] const AZ::EntityId& entityId)
-    {
-    }
-    void NetworkSpawnerController::OnNetworkTickFinish(
-        [[maybe_unused]] const float deltaTime, [[maybe_unused]] const bool server, [[maybe_unused]] const AZ::EntityId& entityId)
-    {
-    }
-
     void NetworkSpawnerController::OnEnableNetworkSpawnerChanged(const bool enable)
     {
         m_disabled = !enable;

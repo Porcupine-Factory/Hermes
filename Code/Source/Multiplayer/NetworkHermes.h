@@ -47,10 +47,6 @@ namespace Hermes
 #endif
 
     private:
-        // NetworkHermesControllerNotificationBus
-        void OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId);
-        void OnNetworkTickFinish(const float deltaTime, const bool server, const AZ::EntityId& entityId);
-
         // Used to initialize Network Properties from initial values in the Hermes component
         bool m_init = true;
 

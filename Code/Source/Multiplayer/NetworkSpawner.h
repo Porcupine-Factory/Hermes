@@ -60,10 +60,6 @@ namespace Hermes
         void HandleDespawnNetEntityIdAndChildren(AzNetworking::IConnection* invokingConnection, const AZStd::string& netEntityId) override;
 
     private:
-        // NetworkSpawnerControllerNotificationBus
-        void OnNetworkTickStart(const float deltaTime, const bool server, const AZ::EntityId& entityId);
-        void OnNetworkTickFinish(const float deltaTime, const bool server, const AZ::EntityId& entityId);
-
         // Used to initialize Network Properties from initial values in the Spawner component
         bool m_init = true;
 

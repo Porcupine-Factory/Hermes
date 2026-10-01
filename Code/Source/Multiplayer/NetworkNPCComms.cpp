@@ -103,16 +103,6 @@ namespace Hermes
     }
 #endif
 
-    // Event Notification methods for use in scripts
-    void NetworkNPCCommsController::OnNetworkTickStart(
-        [[maybe_unused]] const float deltaTime, [[maybe_unused]] const bool server, [[maybe_unused]] const AZ::EntityId& entityId)
-    {
-    }
-    void NetworkNPCCommsController::OnNetworkTickFinish(
-        [[maybe_unused]] const float deltaTime, [[maybe_unused]] const bool server, [[maybe_unused]] const AZ::EntityId& entityId)
-    {
-    }
-
     void NetworkNPCCommsController::OnEnableNetworkNPCCommsChanged(const bool enable)
     {
         m_disabled = !enable;
