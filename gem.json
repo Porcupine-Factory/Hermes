@@ -2,10 +2,10 @@
     "gem_name": "Hermes",
     "version": "1.0.0",
     "display_name": "Hermes",
-    "license": "TBD",
-    "license_url": "https://gitlab.com/porcupine-factory/Hermes",
+    "license": "MIT",
+    "license_url": "https://gitlab.com/porcupine-factory/Hermes/blob/main/LICENSE.txt",
     "origin": "Porcupine Factory",
-    "origin_url": "https://gitlab.com/porcupine-factory/Hermes",
+    "origin_uri": "https://gitlab.com/porcupine-factory/Hermes.git",
     "type": "Code",
     "summary": "The Hermes Gem handles sending arbitrary data between clients and server.",
     "canonical_tags": [
