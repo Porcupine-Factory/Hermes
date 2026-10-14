@@ -122,7 +122,6 @@ namespace Hermes
             return;
         if (!((m_isHost && server) || (m_isServer && !server)))
         {
-            NPCCommsComponentNotificationBus::Broadcast(&NPCCommsComponentNotificationBus::Events::OnNetworkNPCCommsTickStart, deltaTime);
             if (!m_networkNPCCommsEnabled)
                 NetworkNPCCommsControllerRequestBus::BroadcastResult(
                     m_networkNPCCommsEnabled, &NetworkNPCCommsControllerRequestBus::Events::GetEnabled);
@@ -134,8 +133,6 @@ namespace Hermes
     {
         if ((!m_isAutonomousClient && !m_isServer && !m_isHost) || (entityId != GetEntityId()))
             return;
-        if (!((m_isHost && server) || (m_isServer && !server)))
-            NPCCommsComponentNotificationBus::Broadcast(&NPCCommsComponentNotificationBus::Events::OnNetworkNPCCommsTickFinish, deltaTime);
     }
 
     void NPCCommsComponent::GetNetworkNPCCommsProperties()

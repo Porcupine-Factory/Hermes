@@ -31,8 +31,7 @@ namespace Hermes
     class NPCCommsComponentNotifications : public AZ::ComponentBus
     {
     public:
-        virtual void OnNetworkNPCCommsTickStart(const float) = 0;
-        virtual void OnNetworkNPCCommsTickFinish(const float) = 0;
+        virtual void OnPlaceholder() {};
     };
 
     using NPCCommsComponentNotificationBus = AZ::EBus<NPCCommsComponentNotifications>;
@@ -46,16 +45,11 @@ namespace Hermes
             NPCCommsComponentNotificationHandler,
             "{a4d69e55-47e4-4e33-8dbf-53ad325e5157}",
             AZ::SystemAllocator,
-            OnNetworkNPCCommsTickStart,
-            OnNetworkNPCCommsTickFinish);
+            OnPlaceholder);
 
-        void OnNetworkNPCCommsTickStart(const float deltaTime) override
-        {
-            Call(FN_OnNetworkNPCCommsTickStart, deltaTime);
-        }
-        void OnNetworkNPCCommsTickFinish(const float deltaTime) override
-        {
-            Call(FN_OnNetworkNPCCommsTickFinish, deltaTime);
-        }
+        //void OnPlaceholder() override
+        //{
+        //    Call(FN_OnPlaceholder);
+        //}
     };
 } // namespace Hermes
